@@ -1,0 +1,100 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "globals": {
+    "route": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "plugins": ["eslint-plugin-import-order-alphabetical"],
+  "rules": {
+    "array-callback-return": ["error"],
+    "arrow-body-style": ["error", "as-needed"],
+    "camelcase": ["off"],
+    // "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    // "prettier/prettier": [
+    //   "error",
+    //   {
+    //     "trailingComma": "none",
+    //     "printWidth": 130,
+    //     "tabWidth": 2,
+    //     "useTabs": false,
+    //     "semi": false,
+    //     "singleQuote": true,
+    //     "bracketSpacing": true,
+    //     "jsxBracketSameLine": false,
+    //     "arrowParens": "always"
+    //   }
+    // ],
+    "comma-dangle": "off",
+    "comma-spacing": "error",
+    "default-case": "error",
+    "eol-last": "error",
+    "eqeqeq": "error",
+    "func-style": ["error", "expression"],
+    "import-order-alphabetical/order": "warn",
+    // "import-order-alphabetical/order": "error",
+    "max-len": ["error", { "code": 130, "ignorePattern": "^import*" }],
+    //TODO: add next condition later
+    //"no-console": "warn",
+    "no-else-return": "error",
+    "no-invalid-this": "error",
+    "no-unused-vars": ["error", { "args": "after-used", "ignoreRestSiblings": false, "vars": "all" }],
+    "no-useless-constructor": "error",
+    "no-var": "error",
+    "object-shorthand": "error",
+    "prefer-arrow-callback": "error",
+    "prefer-const": "error",
+    "prefer-destructuring": "warn",
+    "prefer-template": "error",
+    "react/boolean-prop-naming": [
+      "error",
+      {
+        "rule": "^(is|has)[A-Z]([A-Za-z0-9]?)+|anyTouched|dirty|disableBackdropClick|disableEscapeKeyDown|expanded|required|multiple|submitting|valid|pristine|globalCheck|fullWidth|disabled|shrink|initialized|showColumnHeader"
+      }
+    ],
+    "react/default-props-match-prop-types": "warn",
+    "react/display-name": "off",
+    "react/forbid-prop-types": ["error", { "forbid": ["any"] }],
+    "react/jsx-sort-default-props": "error",
+    "react/jsx-sort-props": [
+      "warn",
+      {
+        "callbacksLast": true,
+        "ignoreCase": true,
+        "noSortAlphabetically": false,
+        "shorthandFirst": true
+      }
+    ],
+    "react/no-access-state-in-setstate": "error",
+    "react/no-deprecated": "error",
+    "react/no-find-dom-node": "off",
+    "react/no-unsafe": "error",
+    "react/prefer-stateless-function": "error",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/sort-prop-types": "error",
+    "require-await": "warn",
+    "yoda": ["error", "always"]
+  },
+  "settings": {
+    "linkComponents": [
+      // Components used as alternatives to <a> for linking, eg. <Link to={ url } />
+      "Hyperlink",
+      { "linkAttribute": "to", "name": "Link" }
+    ],
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}
