@@ -6,7 +6,7 @@
 - `yarn dev`
 - Link: `http://localhost:5173`
 ## BE
-- `cd frontend`
+- `cd backend`
 - `cp .env.example .env`
 - `yarn`
 - `yarn dev`
