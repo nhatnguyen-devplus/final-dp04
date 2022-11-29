@@ -5,16 +5,16 @@
     "jest": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "@babel/core"],
   "globals": {
     "route": true
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module"
   },
-  "plugins": ["eslint-plugin-import-order-alphabetical"],
+  "plugins": [],
   "rules": {
     "array-callback-return": ["error"],
     "arrow-body-style": ["error", "as-needed"],

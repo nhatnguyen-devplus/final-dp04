@@ -5,4 +5,4 @@ router.get('/', (req, res, next) => {
   res.send('This is user page')
 })
 
-module.exports = router
+export default router

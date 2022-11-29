@@ -4,8 +4,6 @@ services:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
-    volumes:
-      - ./backend:/app
     ports:
       - 8080:8080
 
@@ -13,8 +11,6 @@ services:
     build:
       context: ./frontend
       dockerfile: ./Dockerfile
-    volumes:
-      - ./frontend:/app
     ports:
       - 80:80
     depends_on:

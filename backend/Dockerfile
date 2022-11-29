@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install -g yarn
+RUN set -eux; apk add --update yarn
 
 RUN yarn
 
@@ -16,4 +16,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD [ "yarn", "dev" ]
+CMD [ "yarn", "prod" ]

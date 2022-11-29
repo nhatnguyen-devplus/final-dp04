@@ -2,7 +2,7 @@
 FROM node:16-alpine as build-stage
 WORKDIR /app
 COPY . .
-RUN npm install -g yarn
+RUN set -eux; apk add --update yarn
 RUN yarn
 RUN yarn build
 
