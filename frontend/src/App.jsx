@@ -4,14 +4,16 @@ import Layout from '@app/components/Layout/Layout'
 import NotFound from '@app/components/NotFound/NotFound'
 import { Routes, Route } from 'react-router-dom'
 
-const App = () => (
-  <Layout>
-    <Routes>
-      <Route element={<>Home</>} path="/" />
-      <Route element={<Dashboard />} path="dashboard" />
-      <Route element={<NotFound />} path="*" />
-    </Routes>
-  </Layout>
-)
+const App = () => {
+  return (
+    <Layout>
+      <Routes>
+        <Route element={<>Home</>} path="/" />
+        <Route element={<Dashboard />} path="dashboard" />
+        <Route element={<NotFound />} path="*" />
+      </Routes>
+    </Layout>
+  )
+}
 
 export default App

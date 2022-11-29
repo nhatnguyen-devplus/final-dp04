@@ -5,7 +5,9 @@
   "main": "./app.js",
   "scripts": {
     "dev": "nodemon --exec babel-node app.js",
-    "format": "prettier --write ."
+    "start": "npm run prod",
+    "build": "webpack",
+    "prod": "npm run build && node dist/app.js"
   },
   "dependencies": {
     "@slack/events-api": "^3.0.1",
@@ -16,21 +18,23 @@
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
-    "mongoose": "^6.7.3"
+    "mongoose": "^6.7.3",
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.20.5",
+    "@babel/eslint-parser": "^7.19.1",
     "@babel/node": "^7.20.5",
+    "@babel/parser": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
-    "babel-eslint": "^10.1.0",
+    "babel-loader": "^9.1.0",
     "eslint": "^7.0.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-import-order-alphabetical": "^1.0.1",
-    "eslint-plugin-react": "^7.28.0",
+    "node-loader": "^2.0.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.5.1",
-    "prettier-plugin-sort-json": "^0.0.3"
+    "prettier-plugin-sort-json": "^0.0.3",
+    "webpack-cli": "^5.0.0"
   },
   "license": "ISC"
 }
