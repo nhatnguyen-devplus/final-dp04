@@ -1,3 +1,1 @@
-const demoService = ''
-
-export { demoService }
+export * from './authService'

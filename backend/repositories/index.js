@@ -1,3 +1,1 @@
-const demoRepository = ''
-
-export { demoRepository }
+export * from './authRepositories'

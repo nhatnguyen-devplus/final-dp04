@@ -7,17 +7,20 @@
     "dev": "nodemon --exec babel-node app.js",
     "start": "npm run prod",
     "build": "webpack",
-    "prod": "npm run build && node dist/app.js"
+    "prod": "npm run build && node dist/app.js",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@slack/events-api": "^3.0.1",
     "@slack/web-api": "^6.8.0",
+    "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.0.3",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "joi": "^17.7.0",
     "mongoose": "^6.7.3",
     "webpack": "^5.75.0"
   },
