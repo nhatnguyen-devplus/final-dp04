@@ -29,4 +29,9 @@ export default {
     status: '400',
     message: 'EXISTED_PHONE',
   },
+
+  INCORRECT_PASSWORD: {
+    status: '401',
+    message: 'INCORRECT_PASSWORD',
+  },
 }
