@@ -1,8 +1,9 @@
-const express = require('express')
-const router = express.Router()
+import express from 'express'
+import AuthRouter from './authRouter'
+import UserRouter from './usersRouter'
+const Routes = express.Router()
 
-router.get('/', (req, res, next) => {
-  res.send('This is index.')
-})
+Routes.use('/api/users', UserRouter)
+Routes.use('/api/auth', AuthRouter)
 
-export default router
+export default Routes

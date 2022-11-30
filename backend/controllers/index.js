@@ -1,3 +1,1 @@
-const demoController = ''
-
-export { demoController }
+export * from './authController'
