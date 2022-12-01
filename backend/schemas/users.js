@@ -37,6 +37,10 @@ const UserSchema = new Schema(
       enum: Object.values(Role),
       default: Role.STAFF,
     },
+
+    refreshToken: {
+      type: String,
+    },
   },
   {
     timestamps: true,

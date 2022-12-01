@@ -3,6 +3,8 @@ import { User } from '../schemas/users'
 import { authService } from '../services/authService'
 import { errors } from '../constants'
 import { authValidation } from '../validations/authValidation'
+import { bcryptService } from '../generals/bcrypt'
+import { jwtService } from '../generals/jwt'
 
 const register = async (req, res) => {
   const userCreateReq = req.body
@@ -33,6 +35,29 @@ const register = async (req, res) => {
   }
 }
 
+const login = async (req, res) => {
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email: email })
+
+  if (!user) return res.json(errors.NOT_FOUND)
+
+  const correctPassword = await bcryptService.compare(password, user.password)
+
+  if (!correctPassword) return res.json(errors.INCORRECT_PASSWORD)
+
+  const refreshToken = jwtService.generateToken({ id: user._id, role: user.role }, process.env.REFRESH_TOKEN_EXPIRE)
+
+  await User.findByIdAndUpdate(user._id, { refreshToken: refreshToken })
+
+  const newToken = {
+    token: `${jwtService.generateToken({ id: user._id, role: user.role }, process.env.TOKEN_EXPIRE)}`,
+    refreshToken,
+  }
+  return ResponseBase.responseJsonHandler(newToken, res, 'Login')
+}
+
 export const authController = {
   register,
+  login,
 }
