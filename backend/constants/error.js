@@ -34,4 +34,14 @@ export default {
     status: '401',
     message: 'INCORRECT_PASSWORD',
   },
+
+  UNAUTHORIZE: {
+    status: '401',
+    message: 'UNAUTHORIZE',
+  },
+
+  FORBIDDEN: {
+    status: '403',
+    message: 'FORBIDDEN',
+  },
 }
