@@ -1,7 +1,9 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Layout } from 'antd'
+import { Layout, Input, Space } from 'antd'
 import React from 'react'
+import NavBarUser from '../NavBarUser'
 const { Header: HeaderAntd } = Layout
+const Search = Input
 
 const Header = ({ collapsed, setCollapsed }) => (
   <HeaderAntd
@@ -14,6 +16,7 @@ const Header = ({ collapsed, setCollapsed }) => (
       className: 'trigger',
       onClick: () => setCollapsed(!collapsed),
     })}
+    <NavBarUser />
   </HeaderAntd>
 )
 
