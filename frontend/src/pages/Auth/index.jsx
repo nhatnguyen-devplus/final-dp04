@@ -7,7 +7,6 @@ const Auth = () => {
     <Routes>
       <Route element={<LoginPage />} path="login" />
       <Route element={<>Register</>} path="register" />
-      
     </Routes>
   )
 }

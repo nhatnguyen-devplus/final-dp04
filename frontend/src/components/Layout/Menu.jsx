@@ -1,6 +1,5 @@
 import { navigations } from '@app/pages/Admin/navigations'
 import React, { useState } from 'react'
-import { AppstoreOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { Menu } from 'antd'
 
