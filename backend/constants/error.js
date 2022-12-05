@@ -21,12 +21,12 @@ export default {
   },
 
   EXISTED_EMAIL: {
-    status: '400',
+    status: '422',
     message: 'EXISTED_MAIL',
   },
 
   EXISTED_PHONE: {
-    status: '400',
+    status: '422',
     message: 'EXISTED_PHONE',
   },
 

@@ -9,13 +9,13 @@ export const isAdmin = (req, res, next) => {
     try {
       const decoded = jwtService.decodeToken(token.split(' ')[1])
       if (decoded.data.role !== Role.ADMIN) {
-        return res.json(errors.FORBIDDEN)
+        return res.status(403).json(errors.FORBIDDEN)
       }
 
       return next()
     } catch {
-      return res.json(errors.UNAUTHORIZE)
+      return res.status(401).json(errors.UNAUTHORIZE)
     }
   }
-  return res.json(errors.INVALID_TOKEN)
+  return res.status(403).json(errors.INVALID_TOKEN)
 }

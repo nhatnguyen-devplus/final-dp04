@@ -19,6 +19,31 @@ const register = async (userCreateReq) => {
   }
 }
 
+const findByEmail = async (email) => {
+  try {
+    return await authRepositories.findByEmail(email)
+  } catch (error) {
+    throw error
+  }
+}
+
+const createByGG = async (infoUser) => {
+  try {
+    const newUser = {
+      email: infoUser.email,
+      name: infoUser.name,
+      avatar: infoUser.picture,
+    }
+
+    const createdUser = await authRepositories.register(newUser)
+    return createdUser
+  } catch (error) {
+    throw error
+  }
+}
+
 export const authService = {
   register,
+  findByEmail,
+  createByGG,
 }
