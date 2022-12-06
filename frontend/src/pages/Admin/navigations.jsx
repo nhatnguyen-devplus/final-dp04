@@ -28,7 +28,7 @@ export const navigations = [
     children: [
       {
         key: 'mng1',
-        label: <Link to="member">Member</Link>,
+        label: <Link to="members">Members</Link>,
       },
       {
         key: 'mng2',

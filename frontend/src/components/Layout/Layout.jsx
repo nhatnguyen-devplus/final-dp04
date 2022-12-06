@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import Header from './Header'
 import LogoTitle from '../LogoTitle/LogoTitle'
 import MenuBar from './Menu'
-// import ViewHeader from '../ViewHeader'
+
 const { Sider, Content } = LayoutAntd
 const Layout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
@@ -15,13 +15,12 @@ const Layout = ({ children }) => {
     >
       <Sider collapsible collapsed={collapsed} trigger={null}>
         <div className="logo">
-          <LogoTitle />
+          <LogoTitle collapsed={collapsed} />
         </div>
         <MenuBar />
       </Sider>
       <LayoutAntd className="site-layout">
         <Header collapsed={collapsed} setCollapsed={setCollapsed} />
-        {/* <ViewHeader/> */}
         <Content
           className="site-layout-background"
           style={{
