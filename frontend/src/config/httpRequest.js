@@ -2,11 +2,14 @@ import axios from 'axios'
 
 const base = import.meta.env.VITE_APP_URL
 
-const getHeaders = () => ({
-  Accept: '*/*',
-  'content-type': 'application/json',
-  // Authorization: `Bearer`,
-})
+const getHeaders = () => {
+  const idToken = localStorage.getItem('token')
+  return {
+    Accept: '*/*',
+    'content-type': 'application/json',
+    Authorization: `Bearer ${idToken}`,
+  }
+}
 
 axios.interceptors.request.use(
   (config) => {

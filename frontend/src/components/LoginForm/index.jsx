@@ -1,8 +1,11 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 import { Link } from 'react-router-dom'
-const LoginForm = () => {
-  const onFinish = (values) => {}
+
+const LoginForm = ({handleLogin}) => {
+  const onFinish = (values) => {
+    handleLogin(values)
+  }
   return (
     <Form
       name="normal_login"
