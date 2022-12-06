@@ -1,9 +1,19 @@
 import { Table,  Button, Avatar} from 'antd'
 import { Link } from 'react-router-dom'
 import ViewHeader from '@app/components/ViewHeader'
-import { data } from './Members.data'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAllUsers } from '@app/redux/members/actions'
+import { useCallback, useEffect } from 'react'
 
 const Members = () => {
+  const members = useSelector((state) => state.members.data)
+
+  const dispatch = useDispatch()
+  const getAllMembers = useCallback(() => dispatch(getAllUsers()), [dispatch])
+
+  useEffect(() => {
+    getAllMembers()
+  }, [])
   const breadcrumbs = {
     data: [
       {
@@ -73,8 +83,8 @@ const Members = () => {
             </Link>
           </>
         )}
-        dataSource={data}
-        rowKey={'id'}
+        dataSource={members.data}
+        rowKey={'_id'}
       />
     </>
   )
