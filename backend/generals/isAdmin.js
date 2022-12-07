@@ -8,9 +8,10 @@ export const isAdmin = (req, res, next) => {
   if (token) {
     try {
       const decoded = jwtService.decodeToken(token.split(' ')[1])
-      if (decoded.data.role !== Role.ADMIN) {
-        return res.status(403).json(errors.FORBIDDEN)
-      }
+
+      if (!decoded) return res.status(401).json(errors.UNAUTHORIZE)
+
+      if (decoded.data.role !== Role.ADMIN) return res.status(403).json(errors.FORBIDDEN)
 
       return next()
     } catch {
