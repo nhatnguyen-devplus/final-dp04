@@ -9,6 +9,7 @@ import LogOffForm from '@app/components/LogOff'
 import Groups from '@app/components/Groups'
 import Members from '@app/components/Members'
 import CreateMember from '@app/components/Members/create'
+import DetailsMember from '@app/components/Members/details'
 import './style.scss'
 const Index = () => {
   return (
@@ -22,6 +23,7 @@ const Index = () => {
           <Route element={<Groups />} path="groups" />
           <Route element={<Members />} path="members" />
           <Route element={<CreateMember />} path="members/create" />
+          <Route element={<DetailsMember />} path="members/details/:id" />
           {/* <Route element={<NotFound />} path="*" /> */}
         </Routes>
       </Layout>

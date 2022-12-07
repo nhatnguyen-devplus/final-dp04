@@ -1,11 +1,13 @@
-import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
+import { Card, Row, Col, Button, Form, Input, Select, Timeline, Typography, Space } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import { data } from '@app/components/Requests/Requests.data'
 import '@app/components/Requests/Requests.scss'
 import ViewHeader from '@app/components/ViewHeader'
+import Histories from '@app/components/Histories'
 
 const DetailsRequest = () => {
   const { TextArea } = Input
+  const { Title, Text } = Typography
   const params = useParams()
   const details = data.find((item) => item.key == params.id)
   const [form] = Form.useForm()
@@ -22,55 +24,77 @@ const DetailsRequest = () => {
     spread: '/',
   }
   const switchColor = (status) => {
-   switch(status){
-    case '0': 
-      return 's-pending'
-    case '1':
-      return 's-approve'
-    case '2':
-      return 's-reject'
-    case '3':
-      return 's-waitupdate'
-    case '4':
-      return 's-cancel'
-    default: 
-      return null
-   }
+    switch (status) {
+      case '0':
+        return 's-pending'
+      case '1':
+        return 's-approve'
+      case '2':
+        return 's-reject'
+      case '3':
+        return 's-waitupdate'
+      case '4':
+        return 's-cancel'
+      default:
+        return null
+    }
   }
   return (
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
-        <Row>
-          <Col offset={0} span={24}>
-            <Card
-              title="Log Off Details"
-              bordered={true}
-              style={{
-                width: '100%',
-              }}
-              className="card-boxshadow"
-            >
+        <Card
+          title="Log Off Details"
+          bordered={true}
+          style={{
+            width: '100%',
+          }}
+          className="card-boxshadow"
+        >
+          <Row>
+            <Col span={12}>
               <Row>
-                <Col span={8}>
-                  <p>Name: {details.user}</p>
-                  <p>Email: {details.mail}</p>
-                  <p>Day Off: {details.dayoff}</p>
+                <Col span={10}>
+                  <Space direction="vertical">
+                    <Text>
+                      <Text strong>Name:</Text> {details.user}
+                    </Text>
+                    <Text>
+                      <Text strong>Email:</Text> {details.mail}
+                    </Text>
+                    <Text>
+                      <Text strong>Day Off:</Text> {details.dayoff}
+                    </Text>
+                    <Text>
+                      <Text strong>Time:</Text> {details.time}
+                    </Text>
+                  </Space>
                 </Col>
-                <Col span={8}>
-                  <p>Group: {details.group}</p>
-                  <p>Phone: {details.phone}</p>
-                  <p>Quantity: {details.qty}</p>
+                <Col span={10}>
+                  <Space direction="vertical">
+                    <Text>
+                      <Text strong>Group:</Text> {details.group}
+                    </Text>
+                    <Text>
+                      <Text strong>Phone:</Text> {details.phone}
+                    </Text>
+                    <Text>
+                      <Text strong>Quantity:</Text> {details.qty}
+                    </Text>
+                  </Space>
                 </Col>
               </Row>
               <Row>
-                <Col span={12}>
-                  <p>Reason: {details.reason}</p>
-                  <p className="status-details">
-                    Status:
-                    <span className={switchColor(details.status)}> {details.status}</span>
-                  </p>
-
+                <Col span={20}>
+                  <Space direction="vertical">
+                    <Text>
+                      <Text strong>Reason:</Text> {details.reason}
+                    </Text>
+                    <Text>
+                      <Text strong>Status:</Text>
+                      <Text className={switchColor(details.status)}> {details.status}</Text>
+                    </Text>
+                  </Space>
                   <Form form={form} layout="vertical" name="form_in_modal">
                     <Form.Item
                       name="status"
@@ -92,6 +116,7 @@ const DetailsRequest = () => {
                         <Option value="0">Pending</Option>
                         <Option value="1">Approve</Option>
                         <Option value="2">Reject</Option>
+                        <Option value="2">Request Change</Option>
                       </Select>
                     </Form.Item>
                     <Form.Item name="description" label="Description:">
@@ -115,9 +140,10 @@ const DetailsRequest = () => {
                   </Form>
                 </Col>
               </Row>
-            </Card>
-          </Col>
-        </Row>
+            </Col>
+            <Histories />
+          </Row>
+        </Card>
       </div>
     </>
   )

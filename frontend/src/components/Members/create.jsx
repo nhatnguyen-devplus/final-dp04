@@ -1,4 +1,4 @@
-import { Card, Row, Col, Button, Form, Input, Radio, } from 'antd'
+import { Card, Row, Col, Button, Form, Input, Radio } from 'antd'
 import { useState } from 'react'
 import ViewHeader from '@app/components/ViewHeader'
 const validateMessages = {
@@ -11,13 +11,25 @@ const validateMessages = {
   },
 }
 const CreateMember = () => {
+  const breadcrumbs = {
+    data: [
+      {
+        title: 'Members ',
+        path: '/admin/members',
+      },
+      {
+        title: 'Details '
+      },
+    ],
+    spread: '/',
+  }
   const { TextArea } = Input
   const onFinish = (values) => {
     console.log('Received values of form: ', values)
   }
   return (
     <>
-      <ViewHeader title={'Log Off / Create'} />
+      <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
           title="Create Member"
@@ -47,18 +59,37 @@ const CreateMember = () => {
                     <Radio value={'Admin'}>Admin</Radio>
                   </Radio.Group>
                 </Form.Item>
-                <Form.Item
-                  name={['name']}
-                  label="Name"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please type name!',
-                    },
-                  ]}
-                >
-                  <Input placeholder={'Name'} />
-                </Form.Item>
+                <Row>
+                  <Col span={12}>
+                    <Form.Item
+                      name={['firstname']}
+                      label="First Name"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please type first name!',
+                        },
+                      ]}
+                    >
+                      <Input style={{ width: '90%' }} placeholder={'First Name'} />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      name={['lastname']}
+                      label="Last Name"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please type last name!',
+                        },
+                      ]}
+                    >
+                      <Input placeholder={'Last Name'} />
+                    </Form.Item>
+                  </Col>
+                </Row>
+
                 <Form.Item
                   name={['email']}
                   label="Email"

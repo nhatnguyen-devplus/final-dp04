@@ -10,7 +10,6 @@ const layout = {
   },
 }
 
-/* eslint-disable no-template-curly-in-string */
 const validateMessages = {
   required: '${label} is required!',
   types: {
@@ -34,6 +33,9 @@ const LogOffForm = () => {
     ],
     spread: '/',
   }
+  const initialValues = {
+    type: 1,
+  }
   return (
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
@@ -48,7 +50,12 @@ const LogOffForm = () => {
         >
           <Row>
             <Col span={8}>
-              <Form layout={'vertical'} onFinish={onFinish} validateMessages={validateMessages}>
+              <Form
+                layout={'vertical'}
+                onFinish={onFinish}
+                validateMessages={validateMessages}
+                initialValues={initialValues}
+              >
                 <Form.Item
                   name={['type']}
                   label="Type of Log off"
