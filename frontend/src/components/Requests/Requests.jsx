@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 import ViewHeader from '@app/components/ViewHeader'
 
 const Requests = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modaldata, setmodaldata] = useState([])
   const [form] = Form.useForm()
   const { Option } = Select
   const breadcrumbs = {
@@ -19,6 +17,10 @@ const Requests = () => {
     spread: '/',
   }
   const columns = [
+    {
+      title: '#',
+      render: (text, record, index) => index + 1,
+    },
     {
       title: 'Day Off',
       dataIndex: 'dayoff',

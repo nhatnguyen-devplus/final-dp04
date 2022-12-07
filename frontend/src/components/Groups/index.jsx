@@ -2,6 +2,7 @@ import { Button, Table } from 'antd'
 import { Link } from 'react-router-dom'
 import ViewHeader from '@app/components/ViewHeader'
 import { data } from './Groups.data'
+import { PlusOutlined } from '@ant-design/icons'
 
 const Groups = () => {
   const breadcrumbs = {
@@ -39,7 +40,9 @@ const Groups = () => {
             </Button>
           </Link>
           <Link to={`delete/${record.id}`}>
-            <Button>Delete</Button>
+            <Button type="primary" danger>
+              Delete
+            </Button>
           </Link>
         </>
       ),
@@ -55,7 +58,11 @@ const Groups = () => {
         title={() => (
           <>
             <span>List of Groups</span>
-            <Button style={{ float: 'right', marginRight: 12 }}>Create</Button>
+            <Link to="create">
+              <Button className="btn-create" icon={<PlusOutlined />}>
+                Create
+              </Button>
+            </Link>
           </>
         )}
         dataSource={data}
