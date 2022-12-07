@@ -1,0 +1,14 @@
+tuchoihieu.tk {
+	header X-Frame-Options "SAMEORIGIN"
+	header X-Content-Type-Options "nosniff"
+
+  encode zstd gzip
+	handle /api/* {
+    	reverse_proxy backend:8080
+   	}
+	handle {
+    	file_server
+
+		reverse_proxy frontend:80
+   	}
+}
