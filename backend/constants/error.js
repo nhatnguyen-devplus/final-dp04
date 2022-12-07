@@ -4,7 +4,7 @@ export default {
     message: 'NOT FOUND',
   },
   INVALID_TOKEN: {
-    status: '403',
+    status: '401',
     message: 'INVALID_TOKEN',
   },
   ERROR_INPUT: {
