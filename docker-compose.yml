@@ -1,17 +1,39 @@
 version: '3'
 services:
+  proxy:
+    image: caddy:2.4.5-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+    networks:
+      - global
+    depends_on:
+      - backend
+      - frontend
+  
   backend:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
-    ports:
-      - 8080:8080
+    networks:
+      - global
 
   frontend:
     build:
       context: ./frontend
       dockerfile: ./Dockerfile
-    ports:
-      - 80:80
-    depends_on:
-      - backend
+    networks:
+      - global
+
+networks:
+  global:
+    external: true
+
+volumes:
+  caddy_data: null
+  caddy_config: null
