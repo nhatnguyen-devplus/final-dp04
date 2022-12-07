@@ -24,8 +24,12 @@ const createUserGroup = async (userGroupCreateReq) => {
 
     return createdUserGroup
   } catch (error) {
-    return error
+    throw error
   }
+}
+
+const deleteUserGroup = async (userGroupId) => {
+  return await userGroupRepositories.deleteUserGroup(userGroupId)
 }
 
 export const userGroupService = {
@@ -33,4 +37,5 @@ export const userGroupService = {
   getList,
   findByName,
   createUserGroup,
+  deleteUserGroup,
 }

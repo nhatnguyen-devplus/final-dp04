@@ -1,6 +1,6 @@
 import express from 'express'
 import AuthRouter from './authRouter'
-import UserGroupRouter from './userGroupController'
+import UserGroupRouter from './userGroupRouter'
 import UserRouter from './usersRouter'
 const Routes = express.Router()
 

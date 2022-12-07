@@ -10,6 +10,8 @@ UserGroupRouter.get('/:_id', CheckAuth, userGroupController.getOne)
 
 UserGroupRouter.get('/', isAdmin, userGroupController.getList)
 
-UserGroupRouter.post('/', multer().none(), userGroupController.createUserGroup)
+UserGroupRouter.post('/', multer().none(), isAdmin, userGroupController.createUserGroup)
+
+UserGroupRouter.delete('/:_id', isAdmin, userGroupController.deleteUserGroup)
 
 export default UserGroupRouter
