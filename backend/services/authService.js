@@ -69,9 +69,19 @@ const login = async (password, user) => {
   }
 }
 
+const updateRefreshToken = async (userId, refreshToken) => {
+  try {
+    const newRefreshToken = await authRepositories.updateToken(userId, refreshToken)
+    return newRefreshToken
+  } catch (error) {
+    throw error
+  }
+}
+
 export const authService = {
   register,
   findByEmail,
   createByGG,
   login,
+  updateRefreshToken,
 }

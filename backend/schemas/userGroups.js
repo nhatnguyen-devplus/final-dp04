@@ -8,16 +8,16 @@ const UserGroupSchema = new Schema(
       length: 255,
     },
 
-    staff: [
+    staffs: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
       },
     ],
 
-    master: [
+    masters: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
       },
     ],
