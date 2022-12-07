@@ -3,14 +3,17 @@ export default {
     status: '404',
     message: 'NOT FOUND',
   },
+  
   INVALID_TOKEN: {
     status: '401',
     message: 'INVALID_TOKEN',
   },
+
   ERROR_INPUT: {
-    status: '400',
+    status: '422',
     message: 'ERROR_INPUT',
   },
+
   EXCEPTION: {
     status: '500',
     message: 'EXCEPTION',
@@ -30,9 +33,9 @@ export default {
     message: 'EXISTED_PHONE',
   },
 
-  EXISTED_PHONE: {
+  EXISTED_GROUP: {
     status: '422',
-    message: 'EXISTED_PHONE',
+    message: 'EXISTED_GROUP',
   },
 
   INCORRECT_PASSWORD: {
