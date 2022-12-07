@@ -39,7 +39,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body
-    if (!email || !password) return res.status(400).json(errors.ERROR_INPUT)
+    if (!email || !password) return res.status(422).json(errors.ERROR_INPUT)
 
     const user = await User.findOne({ email: email })
 
@@ -54,12 +54,16 @@ const login = async (req, res) => {
 }
 
 const loginGG = async (req, res) => {
-  const tokenID = req.headers.authorization.split(' ')[1]
-
+  const tokenID = req.headers.authorization
+  if (!tokenID) return res.status(200).json(errors.INVALID_TOKEN)
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: tokenID,
-    })
+    try {
+      var ticket = await client.verifyIdToken({
+        idToken: tokenID.split(' ')[1],
+      })
+    } catch (error) {
+      return res.status(200).json(errors.INVALID_TOKEN)
+    }
 
     const infoUser = ticket.getPayload()
 
@@ -68,10 +72,9 @@ const loginGG = async (req, res) => {
     if (!user) {
       user = await authService.createByGG(infoUser)
     }
-
     const refreshToken = jwtService.generateToken({ id: user._id, role: user.role }, process.env.REFRESH_TOKEN_EXPIRE)
 
-    await authService.updateRefreshToken(user._id, { refreshToken: refreshToken })
+    await authService.updateRefreshToken(user._id, refreshToken)
 
     const newToken = {
       token: `${jwtService.generateToken({ id: user._id, role: user.role }, process.env.TOKEN_EXPIRE)}`,
