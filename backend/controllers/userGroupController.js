@@ -53,8 +53,25 @@ const createUserGroup = async (req, res) => {
   }
 }
 
+const deleteUserGroup = async (req, res) => {
+  try {
+    const userGroupId = req.params._id
+
+    const userGroup = await userGroupService.getOne(userGroupId)
+
+    if (!userGroup) return res.status(404).json(errors.NOT_FOUND)
+
+    await userGroupService.deleteUserGroup(userGroupId)
+
+    return ResponseBase.responseJsonHandler(userGroup, res, 'Delete user group')
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
 export const userGroupController = {
   getList,
   getOne,
   createUserGroup,
+  deleteUserGroup,
 }
