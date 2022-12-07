@@ -14,7 +14,7 @@ const getOne = async (req, res) => {
     return ResponseBase.responseJsonHandler(user, res, 'Get user')
   }
 
-  return res.json(errors.INVALID_TOKEN)
+  return res.status(401).json(errors.INVALID_TOKEN)
 }
 
 const getList = async (req, res) => {
@@ -32,7 +32,7 @@ const deleteUser = async (req, res) => {
     const userId = req.body._id
     const user = await userService.getOne(userId)
 
-    if (!user) return res.json(errors.NOT_FOUND)
+    if (!user) return res.status(404).json(errors.NOT_FOUND)
 
     await userService.deleteUser(userId)
 
@@ -50,15 +50,15 @@ const updateUser = async (req, res) => {
   try {
     const user = await userService.getOne(userId)
 
-    if (!user) return res.json(errors.NOT_FOUND)
+    if (!user) return res.status(404).json(errors.NOT_FOUND)
   } catch (error) {
-    return res.json(errors.NOT_FOUND)
+    return res.status(404).json(errors.NOT_FOUND)
   }
 
   try {
     await userValidation.checkUpdateReq.validateAsync(userUpdateReq)
   } catch (err) {
-    return res.json({
+    return res.status(400).json({
       status: 400,
       message: err.details[0].message,
     })
@@ -70,13 +70,13 @@ const updateUser = async (req, res) => {
 
       if (decode.data.id === userId) {
         const updatedUser = await userService.updateUser(userId, userUpdateReq)
-        
+
         return ResponseBase.responseJsonHandler(updatedUser, res, 'Update User')
       } else {
-        return res.json(errors.FORBIDDEN)
+        return res.status(403).json(errors.FORBIDDEN)
       }
     }
-    return res.json(errors.INVALID_TOKEN)
+    return res.status(401).json(errors.INVALID_TOKEN)
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)
   }

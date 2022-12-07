@@ -4,7 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import createError from 'http-errors'
-import mongoose from 'mongoose'
+import { mongoose, Error } from 'mongoose'
 import Routes from './routes/index'
 
 dotenv.config()
@@ -21,11 +21,21 @@ app.use(Routes)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404))
+  const error = new Error('Page Not Found')
+  error.status = 404
+  next(error)
 })
 
 // error handler
-app.use((err, req, res, next) => {})
+if (app.get('env')) {
+  app.use(function (error, req, res, next) {
+    res.status(error.status || 500)
+    res.send({
+      message: error.message,
+      status: error.status,
+    })
+  })
+}
 
 const start = async () => {
   try {
