@@ -9,8 +9,8 @@ const ViewHeader = ({ breadcrumbs }) => {
         <h4>
           {breadcrumbs.data &&
             breadcrumbs.data.map((item, index) => (
-              <span key={index}>    
-                {index===0 ? '': <>{breadcrumbs.spread} </>}
+              <span key={index}>
+                {index === 0 ? '' : <>{breadcrumbs.spread} </>}
                 {item.path ? <Link to={item.path}>{item.title}</Link> : <>{item.title}</>}
               </span>
             ))}

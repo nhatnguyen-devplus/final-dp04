@@ -3,7 +3,7 @@ import axios from 'axios'
 const base = import.meta.env.VITE_APP_URL
 
 const getHeaders = () => {
-  const idToken = localStorage.getItem('token')
+  const idToken = localStorage.getItem('token') || ''
   return {
     Accept: '*/*',
     'content-type': 'application/json',

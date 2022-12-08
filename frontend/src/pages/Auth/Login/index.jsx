@@ -1,7 +1,7 @@
-import { Col, Divider, Row } from 'antd'
-import { useCallback, useEffect } from 'react'
 import LoginForm from '@app/components/LoginForm'
 import LogoLogin from '@app/components/LoginLogo'
+import { Col, Row } from 'antd'
+import { useCallback, useEffect } from 'react'
 import GoogleLogin from 'react-google-login'
 import './Login.scss'
 import { gapi } from 'gapi-script'
@@ -10,13 +10,11 @@ import { getUserLogin, getUserByToken } from '@app/redux/login/actions'
 
 const LoginPage = () => {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn)
-  const idToken = useSelector((state) => state.login.idToken)
-
   const dispatch = useDispatch()
   const userLogin = useCallback((values) => dispatch(getUserLogin(values)), [dispatch])
   const userByToken = useCallback(() => dispatch(getUserByToken()), [dispatch])
   const responseGoogle = (res) => {
-    // console.log(res)
+    console.log(res)
   }
   useEffect(() => {
     const start = () => {
@@ -29,10 +27,10 @@ const LoginPage = () => {
   }, [])
   useEffect(() => {
     userByToken()
-  }, [isLoggedIn === true])
+  }, [true === isLoggedIn])
   const handleLogin = async (data) => {
     userLogin({
-      data: data,
+      data,
     })
   }
   return (
@@ -45,15 +43,15 @@ const LoginPage = () => {
         <p></p>
       </Row>
       <Row justify="center">
-        <Col sm={18} xs={20} md={6} className="login-parrent">
+        <Col className="login-parrent" md={6} sm={18} xs={20}>
           <h2>Login</h2>
           <LoginForm handleLogin={(data) => handleLogin(data)} />
           <GoogleLogin
-            clientId={import.meta.env.VITE_CLIENT_ID}
             buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
+            clientId={import.meta.env.VITE_CLIENT_ID}
             cookiePolicy={'single_host_origin'}
+            onFailure={responseGoogle}
+            onSuccess={responseGoogle}
           />
         </Col>
       </Row>
