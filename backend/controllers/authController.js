@@ -5,6 +5,7 @@ import { errors } from '../constants'
 import { authValidation } from '../validations/authValidation'
 import { jwtService } from '../generals/jwt'
 import { OAuth2Client } from 'google-auth-library'
+import { emailValidation } from '../validations'
 
 const client = new OAuth2Client(process.env.CLIENT_ID)
 const register = async (req, res) => {
@@ -57,15 +58,24 @@ const loginGG = async (req, res) => {
   const tokenID = req.headers.authorization
   if (!tokenID) return res.status(200).json(errors.INVALID_TOKEN)
   try {
-    try {
-      var ticket = await client.verifyIdToken({
-        idToken: tokenID.split(' ')[1],
-      })
-    } catch (error) {
-      return res.status(200).json(errors.INVALID_TOKEN)
-    }
+      try {
+        var ticket = await client.verifyIdToken({
+          idToken: tokenID.split(' ')[1],
+        })
+      } catch (error) {
+        return res.status(200).json(errors.INVALID_TOKEN)
+      }
 
-    const infoUser = ticket.getPayload()
+      const infoUser = ticket.getPayload()
+
+    try {
+      await emailValidation.checkEmail.validateAsync(infoUser)
+    } catch (err) {
+      return res.status(400).json({
+        status: 400,
+        message: err.details[0].message,
+      })
+    }
 
     let user = await authService.findByEmail(infoUser.email)
 
