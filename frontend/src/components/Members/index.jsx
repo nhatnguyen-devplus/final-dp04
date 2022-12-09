@@ -1,23 +1,21 @@
-import { Table, Button, Avatar, Modal } from 'antd'
-import { Link } from 'react-router-dom'
+import { PlusOutlined } from '@ant-design/icons'
 import ViewHeader from '@app/components/ViewHeader'
-import { useSelector, useDispatch } from 'react-redux'
 import { getAllUsers } from '@app/redux/members/actions'
+import { Table, Button, Avatar, Modal } from 'antd'
 import { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import { PlusOutlined } from '@ant-design/icons'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Members = () => {
   const members = useSelector((state) => state.members.data)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [del, setDel] = useState(null)
   const dispatch = useDispatch()
   const getAllMembers = useCallback(() => dispatch(getAllUsers()), [dispatch])
 
   useEffect(() => {
     getAllMembers()
   }, [])
-
 
   const showModal = () => {
     setIsModalOpen(!isModalOpen)
@@ -91,8 +89,10 @@ const Members = () => {
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
       <Table
-        columns={columns}
         bordered
+        columns={columns}
+        dataSource={members.data}
+        rowKey={'_id'}
         title={() => (
           <>
             <span>List of Members</span>
@@ -103,16 +103,8 @@ const Members = () => {
             </Link>
           </>
         )}
-        dataSource={members.data}
-        rowKey={'_id'}
       />
       <Modal
-        title="Delete?"
-        style={{
-          top: 250,
-        }}
-        open={isModalOpen}
-        onCancel={showModal}
         footer={[
           <>
             <Button onClick={showModal}>Cancel</Button>
@@ -121,6 +113,12 @@ const Members = () => {
             </Button>
           </>,
         ]}
+        open={isModalOpen}
+        style={{
+          top: 250,
+        }}
+        title="Delete?"
+        onCancel={showModal}
       >
         <p>Do you want to delete this member? </p>
       </Modal>

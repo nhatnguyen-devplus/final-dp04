@@ -1,9 +1,7 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
 const Login = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values)
-  }
+  const onFinish = () => {}
   return (
     <Form
       className="login-form"

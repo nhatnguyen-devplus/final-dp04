@@ -1,6 +1,7 @@
-import { Card, Row, Col, Button, Form, Input, Radio } from 'antd'
-import { useState } from 'react'
+/* eslint-disable no-unused-vars */
 import ViewHeader from '@app/components/ViewHeader'
+import { Card, Row, Col, Button, Form, Input, Radio } from 'antd'
+import axios from 'axios'
 const validateMessages = {
   required: '${label} is required!',
   types: {
@@ -18,33 +19,31 @@ const CreateMember = () => {
         path: '/admin/members',
       },
       {
-        title: 'Details '
+        title: 'Details ',
       },
     ],
     spread: '/',
   }
-  const { TextArea } = Input
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values)
-  }
+  // const { TextArea } = Input
+  const onFinish = async (values) => {}
   return (
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
-          title="Create Member"
           bordered={true}
+          className="card-boxshadow"
           style={{
             width: '100%',
           }}
-          className="card-boxshadow"
+          title="Create Member"
         >
           <Row>
             <Col span={8}>
-              <Form layout={'vertical'} onFinish={onFinish} validateMessages={validateMessages}>
+              <Form layout={'vertical'} validateMessages={validateMessages} onFinish={onFinish}>
                 <Form.Item
-                  name={['type']}
                   label="Member's role"
+                  name={['type']}
                   rules={[
                     {
                       required: true,
@@ -62,8 +61,8 @@ const CreateMember = () => {
                 <Row>
                   <Col span={12}>
                     <Form.Item
-                      name={['firstname']}
                       label="First Name"
+                      name={['firstname']}
                       rules={[
                         {
                           required: true,
@@ -71,13 +70,13 @@ const CreateMember = () => {
                         },
                       ]}
                     >
-                      <Input style={{ width: '90%' }} placeholder={'First Name'} />
+                      <Input placeholder={'First Name'} style={{ width: '90%' }} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item
-                      name={['lastname']}
                       label="Last Name"
+                      name={['lastname']}
                       rules={[
                         {
                           required: true,
@@ -91,8 +90,8 @@ const CreateMember = () => {
                 </Row>
 
                 <Form.Item
-                  name={['email']}
                   label="Email"
+                  name={['email']}
                   rules={[
                     {
                       required: true,
@@ -103,8 +102,8 @@ const CreateMember = () => {
                   <Input placeholder={'Email'} />
                 </Form.Item>
                 <Form.Item
-                  name={['phone']}
                   label="Phone"
+                  name={['phone']}
                   rules={[
                     {
                       min: 10,
@@ -112,10 +111,10 @@ const CreateMember = () => {
                     },
                   ]}
                 >
-                  <Input type="number" placeholder={'Phone number'} />
+                  <Input placeholder={'Phone number'} type="number" />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button htmlType="submit" type="primary">
                     Submit
                   </Button>
                 </Form.Item>

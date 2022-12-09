@@ -5,6 +5,7 @@ import {
   GET_USER_BY_TOKEN,
   GET_USER_BY_TOKEN_SUCCESS,
   GET_USER_BY_TOKEN_FAILURE,
+  USER_LOG_OUT,
 } from './constant'
 
 const INITIAL_STATE = {
@@ -12,6 +13,7 @@ const INITIAL_STATE = {
   loading: true,
   isLoggedIn: false,
   idToken: null,
+  error: null,
 }
 
 const loginReducer = (state = INITIAL_STATE, action) => {
@@ -28,7 +30,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         isLoggedIn: true,
-        idToken: localStorage.getItem('token'),
+        idToken: localStorage.getItem('token') || '',
       }
 
     case GET_USER_LOGIN_FAILURE:
@@ -50,6 +52,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         data: action.payload.data,
+        isLoggedIn: true,
+        idToken: localStorage.getItem('token') || '',
       }
 
     case GET_USER_BY_TOKEN_FAILURE:
@@ -57,8 +61,15 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: action.payload,
         loading: false,
+        isLoggedIn: false,
       }
 
+    case USER_LOG_OUT: {
+      return {
+        ...state,
+        isLoggedIn: false,
+      }
+    }
     default:
       return state
   }
