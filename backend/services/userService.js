@@ -20,7 +20,7 @@ const updateUser = async (userId, userUpdateReq) => {
   }
   try {
     await userRepositories.updateUser(userId, updateUser)
-    
+
     return updateUser
   } catch (error) {
     throw error
