@@ -13,8 +13,8 @@ const LoginPage = () => {
   const dispatch = useDispatch()
   const userLogin = useCallback((values) => dispatch(getUserLogin(values)), [dispatch])
   const userByToken = useCallback(() => dispatch(getUserByToken()), [dispatch])
-  const responseGoogle = (res) => {
-    console.log(res)
+  const responseGoogle = () => {
+    // console.log(res)
   }
   useEffect(() => {
     const start = () => {

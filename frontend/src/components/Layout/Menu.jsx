@@ -1,29 +1,25 @@
 import { navigations } from '@app/pages/Admin/navigations'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Menu } from 'antd'
+import React, { useState } from 'react'
 
 const MenuBar = () => {
-  const [theme, setTheme] = useState('dark')
+  const theme = 'dark'
   const [current, setCurrent] = useState('1')
-  const changeTheme = (value) => {
-    setTheme(value ? 'dark' : 'light')
-  }
   const onClick = (e) => {
     setCurrent(e.key)
   }
   return (
     <>
       <Menu
-        theme={theme}
-        onClick={onClick}
+        defaultOpenKeys={['acc', 'mng']}
+        items={navigations}
+        mode="inline"
+        selectedKeys={[current]}
         style={{
           width: '100%',
         }}
-        defaultOpenKeys={['acc', 'mng']}
-        selectedKeys={[current]}
-        mode="inline"
-        items={navigations}
+        theme={theme}
+        onClick={onClick}
       />
     </>
   )

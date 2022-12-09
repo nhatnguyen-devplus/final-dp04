@@ -1,8 +1,4 @@
-import {
-  GET_ALL_USERS,
-  GET_ALL_USERS_SUCCESS,
-  GET_ALL_USERS_FAILURE,
-} from './constant'
+import { GET_ALL_USERS, GET_ALL_USERS_SUCCESS, GET_ALL_USERS_FAILURE } from './constant'
 
 const INITIAL_STATE = {
   data: [],

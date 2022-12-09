@@ -1,12 +1,12 @@
-import { Card, Row, Col, Image, Typography, Space } from 'antd'
-import { useParams } from 'react-router-dom'
 import { data } from '@app/components/Members/Members.data'
 import ViewHeader from '@app/components/ViewHeader'
+import { Card, Row, Col, Image, Typography, Space } from 'antd'
+import { useParams } from 'react-router-dom'
 import '@app/components/Members/Member.scss'
 
 const DetailsMember = () => {
   const params = useParams()
-  const details = data.find((item) => item.id == params.id)
+  const details = data.find((item) => item.id === params.id)
   const { Text } = Typography
   const breadcrumbs = {
     data: [
@@ -33,17 +33,17 @@ const DetailsMember = () => {
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
-          title="Member Details"
           bordered={true}
+          className="card-boxshadow"
           style={{
             width: '100%',
           }}
-          className="card-boxshadow"
+          title="Member Details"
         >
           <Row>
             <Col span={8}>
               <Space className="datails-member" direction="vertical">
-                {details.image && <Image width={200} src={details.image} />}
+                {details.image && <Image src={details.image} width={200} />}
                 <Text>
                   <Text strong>First Name:</Text> {name.firstName}
                 </Text>

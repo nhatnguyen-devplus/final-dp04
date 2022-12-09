@@ -8,13 +8,13 @@ const LoginForm = ({ handleLogin }) => {
   }
   return (
     <Form
-      name="normal_login"
       className="login-form"
       initialValues={{
         remember: true,
       }}
-      onFinish={onFinish}
+      name="normal_login"
       size={'large'}
+      onFinish={onFinish}
     >
       <Form.Item
         name="email"
@@ -29,7 +29,7 @@ const LoginForm = ({ handleLogin }) => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+        <Input placeholder="Email" prefix={<UserOutlined className="site-form-item-icon" />} />
       </Form.Item>
       <Form.Item
         name="password"
@@ -40,10 +40,10 @@ const LoginForm = ({ handleLogin }) => {
           },
         ]}
       >
-        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+        <Input placeholder="Password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+        <Form.Item noStyle name="remember" valuePropName="checked">
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
@@ -53,7 +53,7 @@ const LoginForm = ({ handleLogin }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button className="login-form-button" htmlType="submit" type="primary">
           Log in
         </Button>{' '}
         Or <Link to="">register now!</Link>

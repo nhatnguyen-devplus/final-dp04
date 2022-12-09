@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 const Members = () => {
   const members = useSelector((state) => state.members.data)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [del, setDel] = useState()
   const dispatch = useDispatch()
   const getAllMembers = useCallback(() => dispatch(getAllUsers()), [dispatch])
 

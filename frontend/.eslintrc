@@ -9,7 +9,7 @@
   "globals": {
     "route": true
   },
-  "parser": "@babel/eslint-parser",
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module"
@@ -34,12 +34,13 @@
     //     "arrowParens": "always"
     //   }
     // ],
+    "no-sparse-arrays": "off",
     "comma-dangle": "off",
     "comma-spacing": "error",
     "default-case": "error",
     "eol-last": "error",
     "eqeqeq": "error",
-    "func-style": ["error", "expression"],
+    // "func-style": ["error", "expression"],
     "import-order-alphabetical/order": "warn",
     // "import-order-alphabetical/order": "error",
     "max-len": ["error", { "code": 130, "ignorePattern": "^import*" }],

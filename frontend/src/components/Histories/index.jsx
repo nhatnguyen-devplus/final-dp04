@@ -1,10 +1,10 @@
-import { Timeline, Row, Col, Typography } from 'antd'
 import { ArrowRightOutlined } from '@ant-design/icons'
+import { Timeline, Row, Col, Typography } from 'antd'
 import '@app/components/Histories/Histories.scss'
 const Histories = () => {
   const { Title, Text } = Typography
   return (
-    <Col span={12} className="histories">
+    <Col className="histories" span={12}>
       <Timeline>
         <Timeline.Item>
           <Title level={5}>Request</Title>

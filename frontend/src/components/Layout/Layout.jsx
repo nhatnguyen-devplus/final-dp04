@@ -1,7 +1,7 @@
-import { Layout as LayoutAntd, Menu } from 'antd'
+import { Layout as LayoutAntd } from 'antd'
 import React, { useState } from 'react'
-import Header from './Header'
 import LogoTitle from '../LogoTitle/LogoTitle'
+import Header from './Header'
 import MenuBar from './Menu'
 
 const { Sider, Content } = LayoutAntd

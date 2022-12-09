@@ -1,12 +1,10 @@
-import { data } from './Requests.data'
-import { Button, Form, Select, Table } from 'antd'
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import ViewHeader from '@app/components/ViewHeader'
+import { Button, Table } from 'antd'
+// import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { data } from './Requests.data'
 
 const Requests = () => {
-  const [form] = Form.useForm()
-  const { Option } = Select
   const breadcrumbs = {
     data: [
       {
@@ -61,11 +59,11 @@ const Requests = () => {
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
       <Table
+        bordered
         columns={columns}
         dataSource={data}
-        bordered
-        title={() => 'List of requests for for leave'}
         footer={() => 'Click button to view details'}
+        title={() => 'List of requests for for leave'}
       />
     </>
   )

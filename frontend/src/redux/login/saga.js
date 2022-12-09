@@ -1,4 +1,3 @@
-/* eslint-disable func-style */
 import { getUserLoginSuccess, getUserLoginFailure, getUserByTokenSuccess, getUserByTokenFailure } from './actions'
 import { GET_USER_LOGIN, GET_USER_BY_TOKEN } from './constant'
 import { postLogin, checkToken } from './services'
