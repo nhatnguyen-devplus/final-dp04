@@ -15,6 +15,7 @@ const LoginPage = () => {
   const userLoginGoogle = useCallback((isToken) => dispatch(getUserLoginGoogle(isToken)), [dispatch])
   const userByToken = useCallback(() => dispatch(getUserByToken()), [dispatch])
   const responseGoogle = (res) => {
+    gapi.auth2.getAuthInstance().disconnect()
     userLoginGoogle(res.tokenId)
   }
   useEffect(() => {

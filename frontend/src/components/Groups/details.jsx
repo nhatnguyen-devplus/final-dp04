@@ -21,17 +21,17 @@ const DetailsGroups = () => {
   const onFinish = (values) => {
     console.log(values)
   }
-  const convertData = (data) => data.map((item) => ({
+  const convertData = (data) =>
+    data.map((item) => ({
       value: item.id,
       label: item.name,
     }))
   const options = data
   const masters = convertData(details.masters)
   const members = convertData(details.members)
-  const filter = (input, option) => (
-      0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
-      0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
-    )
+  const filter = (input, option) =>
+    0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
+    0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
 
   console.log(details)
   return (

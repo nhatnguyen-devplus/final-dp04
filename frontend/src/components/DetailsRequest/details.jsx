@@ -25,7 +25,8 @@ const DetailsRequestLeftSide = ({ details, action }) => {
         return <RequestAction />
       case 'dayoff':
         return <DayOffAction />
-      default : ''
+      default:
+        ''
     }
   }
   return (

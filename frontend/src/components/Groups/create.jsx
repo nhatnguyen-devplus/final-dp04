@@ -1,6 +1,6 @@
 import { data } from '@app/components/Members/Members.data'
 import ViewHeader from '@app/components/ViewHeader'
-import { Card, Row, Col, Button, Form, Input,  Select } from 'antd'
+import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
 import { Link } from 'react-router-dom'
 
 const CreateGroup = () => {
@@ -19,10 +19,9 @@ const CreateGroup = () => {
   const onFinish = (values) => {
     console.log(values)
   }
-  const filter = (input, option) => (
-      0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
-      0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
-    )
+  const filter = (input, option) =>
+    0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
+    0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
   const options = data
   return (
     <>
