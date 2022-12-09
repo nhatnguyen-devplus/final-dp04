@@ -1,14 +1,5 @@
-import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select } from 'antd'
 import ViewHeader from '@app/components/ViewHeader'
-import { useState } from 'react'
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-}
+import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select } from 'antd'
 
 const validateMessages = {
   required: '${label} is required!',
@@ -23,7 +14,9 @@ const validateMessages = {
 
 const LogOffForm = () => {
   const { TextArea } = Input
-  const onFinish = (values) => {}
+  const onFinish = (values) => {
+    console.log(values)
+  }
   const breadcrumbs = {
     data: [
       {
@@ -41,24 +34,24 @@ const LogOffForm = () => {
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
-          title="Log Off From"
           bordered={true}
+          className="card-boxshadow"
           style={{
             width: '100%',
           }}
-          className="card-boxshadow"
+          title="Log Off From"
         >
           <Row>
             <Col span={8}>
               <Form
-                layout={'vertical'}
-                onFinish={onFinish}
-                validateMessages={validateMessages}
                 initialValues={initialValues}
+                layout={'vertical'}
+                validateMessages={validateMessages}
+                onFinish={onFinish}
               >
                 <Form.Item
-                  name={['type']}
                   label="Type of Log off"
+                  name={['type']}
                   rules={[
                     {
                       required: true,
@@ -74,8 +67,8 @@ const LogOffForm = () => {
                 <Row>
                   <Col span={12}>
                     <Form.Item
-                      name={'from'}
                       label="From"
+                      name={'from'}
                       rules={[
                         {
                           required: true,
@@ -88,8 +81,8 @@ const LogOffForm = () => {
                   </Col>
                   <Col span={12}>
                     <Form.Item
-                      name={'to'}
                       label="To"
+                      name={'to'}
                       rules={[
                         {
                           required: true,
@@ -104,8 +97,8 @@ const LogOffForm = () => {
                 <Row>
                   <Col span={12}>
                     <Form.Item
-                      name={['quantity']}
                       label="Quantity"
+                      name={['quantity']}
                       rules={[
                         {
                           required: true,
@@ -114,13 +107,13 @@ const LogOffForm = () => {
                         },
                       ]}
                     >
-                      <InputNumber style={{ width: '80%' }} placeholder={'Quantity'} />
+                      <InputNumber placeholder={'Quantity'} style={{ width: '80%' }} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item
-                      name="time"
                       label="Time"
+                      name="time"
                       rules={[
                         {
                           required: true,
@@ -128,20 +121,20 @@ const LogOffForm = () => {
                       ]}
                     >
                       <Select
-                        placeholder="Select a option and change input text above"
                         allowClear
+                        placeholder="Select a option and change input text above"
                         style={{ width: '80%' }}
                       >
-                        <Option value="Morning">Morning</Option>
-                        <Option value="Afternoon">Afternoon</Option>
-                        <Option value="AllDay">All Day</Option>
+                        <Select.Option value="Morning">Morning</Select.Option>
+                        <Select.Option value="Afternoon">Afternoon</Select.Option>
+                        <Select.Option value="AllDay">All Day</Select.Option>
                       </Select>
                     </Form.Item>
                   </Col>
                 </Row>
                 <Form.Item
-                  name={['reason']}
                   label="Reason"
+                  name={['reason']}
                   rules={[
                     {
                       required: true,
@@ -149,10 +142,10 @@ const LogOffForm = () => {
                     },
                   ]}
                 >
-                  <TextArea rows={4} placeholder="Type your reason" />
+                  <TextArea placeholder="Type your reason" rows={4} />
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button htmlType="submit" type="primary">
                     Submit
                   </Button>
                 </Form.Item>

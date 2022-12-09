@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllUsers } from '@app/redux/members/actions'
 import { Table, Button, Avatar, Modal } from 'antd'
@@ -28,7 +28,7 @@ const Members = () => {
     data: [
       {
         title: 'Members ',
-        path: '/admin/requets',
+        path: '/admin/members',
       },
     ],
     spread: '/',
@@ -67,20 +67,17 @@ const Members = () => {
       render: (record) => (
         <>
           <Link to={`details/${record}`}>
-            <Button className="btn-mr15" type="primary">
-              View
-            </Button>
+            <Button className="btn-mr15" icon=<EyeOutlined /> type="primary"></Button>
           </Link>
 
           <Button
             danger
+            icon=<DeleteOutlined />
             type="primary"
             onClick={() => {
               setDel(record), showModal()
             }}
-          >
-            Delete
-          </Button>
+          ></Button>
         </>
       ),
     },

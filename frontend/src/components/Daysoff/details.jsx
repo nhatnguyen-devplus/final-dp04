@@ -1,20 +1,19 @@
-import { data } from '@app/components/Requests/Requests.data'
-import { Card, Row, Form } from 'antd'
+import { Card, Row } from 'antd'
 import { useParams } from 'react-router-dom'
+import { data } from '@app/components/Requests/Requests.data'
 import '@app/components/Requests/Requests.scss'
 import ViewHeader from '@app/components/ViewHeader'
 import Histories from '@app/components/Histories'
 import DetailsRequestLeftSide from '@app/components/DetailsRequest/details'
 
-const DetailsRequest = () => {
+const DetailsDayOff = () => {
   const params = useParams()
-  const details = data.find((item) => item.key === params.id)
-  const [form] = Form.useForm()
+  const details = data.find((item) => item.key == params.id)
   const breadcrumbs = {
     data: [
       {
-        title: 'Requests ',
-        path: '/admin/requests',
+        title: 'Day Off ',
+        path: '/admin/daysoff',
       },
       {
         title: 'Details ',
@@ -22,18 +21,18 @@ const DetailsRequest = () => {
     ],
     spread: '/',
   }
-  const action = 'request'
+  const action = 'dayoff'
   return (
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
+          title="Log Off Details"
           bordered={true}
-          className="card-boxshadow"
           style={{
             width: '100%',
           }}
-          title="Log Off Details"
+          className="card-boxshadow"
         >
           <Row>
             <DetailsRequestLeftSide details={details} action={action} />
@@ -44,4 +43,4 @@ const DetailsRequest = () => {
     </>
   )
 }
-export default DetailsRequest
+export default DetailsDayOff
