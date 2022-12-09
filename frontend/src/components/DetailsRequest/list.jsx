@@ -1,19 +1,8 @@
 import { EyeOutlined } from '@ant-design/icons'
-import ViewHeader from '@app/components/ViewHeader'
 import { Button, Table } from 'antd'
 import { Link } from 'react-router-dom'
-import { data } from './Requests.data'
 
-const Requests = () => {
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Requests ',
-        path: '/admin/requets',
-      },
-    ],
-    spread: '/',
-  }
+const ListRequests = ({ listdata }) => {
   const columns = [
     {
       title: '#',
@@ -26,7 +15,6 @@ const Requests = () => {
     {
       title: 'Quantity',
       dataIndex: 'qty',
-      // align: '',
     },
     {
       title: 'Name',
@@ -56,16 +44,13 @@ const Requests = () => {
     },
   ]
   return (
-    <>
-      <ViewHeader breadcrumbs={breadcrumbs} />
-      <Table
-        bordered
-        columns={columns}
-        dataSource={data}
-        footer={() => 'Click button to view details'}
-        title={() => 'List of requests for for leave'}
-      />
-    </>
+    <Table
+      bordered
+      columns={columns}
+      dataSource={listdata}
+      footer={() => 'Click button to view details'}
+      title={() => 'List of requests for for leave'}
+    />
   )
 }
-export default Requests
+export default ListRequests
