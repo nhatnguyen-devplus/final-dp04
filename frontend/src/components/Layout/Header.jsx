@@ -1,9 +1,8 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Layout, Input, Space } from 'antd'
+import { Layout } from 'antd'
 import React from 'react'
 import NavBarUser from '../NavBarUser'
 const { Header: HeaderAntd } = Layout
-const Search = Input
 
 const Header = ({ collapsed, setCollapsed }) => (
   <HeaderAntd

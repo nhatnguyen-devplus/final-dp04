@@ -1,15 +1,15 @@
-import { Card, Row, Col, Button, Form, Input, Select, Timeline, Typography, Space } from 'antd'
-import { Link, useParams } from 'react-router-dom'
 import { data } from '@app/components/Requests/Requests.data'
+import { Card, Row, Col, Button, Form, Input, Select, Typography, Space } from 'antd'
+import { Link, useParams } from 'react-router-dom'
 import '@app/components/Requests/Requests.scss'
 import ViewHeader from '@app/components/ViewHeader'
 import Histories from '@app/components/Histories'
 
 const DetailsRequest = () => {
   const { TextArea } = Input
-  const { Title, Text } = Typography
+  const { Text } = Typography
   const params = useParams()
-  const details = data.find((item) => item.key == params.id)
+  const details = data.find((item) => item.key === params.id)
   const [form] = Form.useForm()
   const breadcrumbs = {
     data: [
@@ -44,12 +44,12 @@ const DetailsRequest = () => {
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
-          title="Log Off Details"
           bordered={true}
+          className="card-boxshadow"
           style={{
             width: '100%',
           }}
-          className="card-boxshadow"
+          title="Log Off Details"
         >
           <Row>
             <Col span={12}>
@@ -97,8 +97,8 @@ const DetailsRequest = () => {
                   </Space>
                   <Form form={form} layout="vertical" name="form_in_modal">
                     <Form.Item
-                      name="status"
                       label="Action:"
+                      name="status"
                       rules={[
                         {
                           required: true,
@@ -107,20 +107,20 @@ const DetailsRequest = () => {
                       ]}
                     >
                       <Select
+                        allowClear
+                        placeholder="Select"
                         style={{
                           width: 200,
                         }}
-                        placeholder="Select"
-                        allowClear
                       >
-                        <Option value="0">Pending</Option>
-                        <Option value="1">Approve</Option>
-                        <Option value="2">Reject</Option>
-                        <Option value="2">Request Change</Option>
+                        <Select.Option value="0">Pending</Select.Option>
+                        <Select.Option value="1">Approve</Select.Option>
+                        <Select.Option value="2">Reject</Select.Option>
+                        <Select.Option value="2">Request Change</Select.Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item name="description" label="Description:">
-                      <TextArea rows={4} placeholder="Your comment" />
+                    <Form.Item label="Description:" name="description">
+                      <TextArea placeholder="Your comment" rows={4} />
                     </Form.Item>
                     <Form.Item>
                       <Button htmlType="submit" type="primary">

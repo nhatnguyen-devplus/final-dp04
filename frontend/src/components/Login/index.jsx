@@ -19,7 +19,7 @@ const Login = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input placeholder="Username" prefix={<UserOutlined className="site-form-item-icon" />} />
       </Form.Item>
       <Form.Item
         name="password"
@@ -30,10 +30,10 @@ const Login = () => {
           },
         ]}
       >
-        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+        <Input placeholder="Password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
       <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+        <Form.Item noStyle name="remember" valuePropName="checked">
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
@@ -43,7 +43,7 @@ const Login = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button className="login-form-button" htmlType="submit" type="primary">
           Log in
         </Button>
         Or <a href="">register now!</a>
