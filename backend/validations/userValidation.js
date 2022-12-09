@@ -10,5 +10,5 @@ const checkUpdateReq = Joi.object({
 })
 
 export const userValidation = {
-    checkUpdateReq,
+  checkUpdateReq,
 }

@@ -1,5 +1,5 @@
 const path = require('path')
-const nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   entry: './app.js',
@@ -7,7 +7,7 @@ module.exports = {
   mode: 'development',
   externals: [nodeExternals()],
   externalsPresets: {
-      node: true
+    node: true,
   },
   output: {
     path: path.resolve(__dirname, 'dist'),

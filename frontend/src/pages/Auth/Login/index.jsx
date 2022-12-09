@@ -6,15 +6,16 @@ import GoogleLogin from 'react-google-login'
 import './Login.scss'
 import { gapi } from 'gapi-script'
 import { useSelector, useDispatch } from 'react-redux'
-import { getUserLogin, getUserByToken } from '@app/redux/login/actions'
+import { getUserLogin, getUserByToken, getUserLoginGoogle } from '@app/redux/login/actions'
 
 const LoginPage = () => {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn)
   const dispatch = useDispatch()
   const userLogin = useCallback((values) => dispatch(getUserLogin(values)), [dispatch])
+  const userLoginGoogle = useCallback((isToken) => dispatch(getUserLoginGoogle(isToken)), [dispatch])
   const userByToken = useCallback(() => dispatch(getUserByToken()), [dispatch])
-  const responseGoogle = () => {
-    // console.log(res)
+  const responseGoogle = (res) => {
+    userLoginGoogle(res.tokenId)
   }
   useEffect(() => {
     const start = () => {
@@ -28,7 +29,7 @@ const LoginPage = () => {
   useEffect(() => {
     userByToken()
   }, [true === isLoggedIn])
-  const handleLogin = async (data) => {
+  const handleLogin = (data) => {
     userLogin({
       data,
     })

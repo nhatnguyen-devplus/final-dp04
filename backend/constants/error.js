@@ -3,7 +3,7 @@ export default {
     status: '404',
     message: 'NOT FOUND',
   },
-  
+
   INVALID_TOKEN: {
     status: '401',
     message: 'INVALID_TOKEN',

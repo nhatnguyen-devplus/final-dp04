@@ -2,9 +2,15 @@ import {
   GET_USER_LOGIN,
   GET_USER_LOGIN_SUCCESS,
   GET_USER_LOGIN_FAILURE,
+
+  GET_USER_LOGIN_GOOGLE,
+  GET_USER_LOGIN_GOOGLE_SUCCESS,
+  GET_USER_LOGIN_GOOGLE_FAILURE,
+
   GET_USER_BY_TOKEN,
   GET_USER_BY_TOKEN_SUCCESS,
   GET_USER_BY_TOKEN_FAILURE,
+
   USER_LOG_OUT,
 } from './constant'
 
@@ -40,6 +46,27 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         loading: false,
       }
 
+    case GET_USER_LOGIN_GOOGLE: {
+      return {
+        ...state,
+        loading: true,
+      }
+    }
+
+    case GET_USER_LOGIN_GOOGLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isLoggedIn: true,
+        idToken: localStorage.getItem('token') || '',
+      }
+
+    case GET_USER_LOGIN_GOOGLE_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      }
     case GET_USER_BY_TOKEN: {
       return {
         ...state,
