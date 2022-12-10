@@ -13,6 +13,7 @@ import {
 
 const INITIAL_STATE = {
   data: [],
+  isRole: null,
   loading: true,
   isLoggedIn: false,
   idToken: null,
@@ -68,6 +69,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
+        isRole: null,
       }
     }
 
@@ -76,6 +78,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         data: action.payload.data,
+        isRole: action.payload.data.role,
         isLoggedIn: true,
         idToken: localStorage.getItem('token') || '',
       }
