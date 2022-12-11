@@ -68,20 +68,20 @@ const Requests = () => {
       render: (index, record) => (
         <>
           <Link to={`details/${record.key}`}>
-            <Button icon=<EyeOutlined /> type="primary"></Button>
+            <Button icon={<EyeOutlined />} type="primary"></Button>
           </Link>
           {'Admin' === role && (
             <>
               <Button
                 className="approve"
-                icon=<CheckOutlined />
+                icon={<CheckOutlined />}
                 onClick={() => {
                   form.setFieldValue('status', 1), showModal()
                 }}
               ></Button>
               <Button
                 className="reject"
-                icon=<CloseOutlined />
+                icon={<CloseOutlined />}
                 onClick={() => {
                   form.setFieldValue('status', 2), showModal()
                 }}

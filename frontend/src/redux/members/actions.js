@@ -22,8 +22,8 @@ export const getAllUsersFailure = (error) => ({
 })
 
 export const getUserById = (_id) => ({
-    type: GET_USER_BY_ID,
-    payload: _id,
+  type: GET_USER_BY_ID,
+  payload: _id,
 })
 
 export const getUserByIdSuccess = (profile) => ({

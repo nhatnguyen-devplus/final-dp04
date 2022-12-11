@@ -44,11 +44,7 @@ const SlackChannels = () => {
         >
           <Row>
             <Col span={12}>
-              <Form
-                initialValues={{ dayoffchannel: dayOff, hrchannel:  hr }}
-                layout={'vertical'}
-                onFinish={onFinish}
-              >
+              <Form initialValues={{ dayoffchannel: dayOff, hrchannel: hr }} layout={'vertical'} onFinish={onFinish}>
                 <Form.Item
                   label="Day off channel"
                   name={['dayoffchannel']}

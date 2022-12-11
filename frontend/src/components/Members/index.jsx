@@ -67,12 +67,12 @@ const Members = () => {
       render: (record) => (
         <>
           <Link to={`details/${record}`}>
-            <Button className="btn-mr15" icon=<EyeOutlined /> type="primary"></Button>
+            <Button className="btn-mr15" icon={<EyeOutlined />} type="primary"></Button>
           </Link>
 
           <Button
             danger
-            icon=<DeleteOutlined />
+            icon={<DeleteOutlined />}
             type="primary"
             onClick={() => {
               setDel(record), showModal()

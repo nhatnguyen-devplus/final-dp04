@@ -53,7 +53,7 @@ const CreateMember = () => {
                 >
                   <Radio.Group>
                     <Radio value={'Staff'}>Staff</Radio>
-                    <Radio value={'Manager'}>WFH</Radio>
+                    <Radio value={'Manager'}>Master</Radio>
                     <Radio value={'Hr'}>HR</Radio>
                     <Radio value={'Admin'}>Admin</Radio>
                   </Radio.Group>

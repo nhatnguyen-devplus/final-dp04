@@ -1,9 +1,26 @@
-import { data } from '@app/components/Members/Members.data'
 import ViewHeader from '@app/components/ViewHeader'
-import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
+import { postCreateGroup } from '@app/redux/groups/actions'
+import { Card, Row, Col, Button, Form, Input, Select, notification } from 'antd'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const CreateGroup = () => {
+  const navigate = useNavigate()
+  const members = useSelector((state) => state.members.data)
+  const { response, error } = useSelector((state) => state.groups)
+  const dispatch = useDispatch()
+  const createGroup = useCallback((data) => dispatch(postCreateGroup(data)), [dispatch])
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (type, desc) => {
+    api[type]({
+      message: type,
+      description: desc,
+      type,
+    })
+  }
+
   const breadcrumbs = {
     data: [
       {
@@ -16,15 +33,33 @@ const CreateGroup = () => {
     ],
     spread: '/',
   }
+
+  useEffect(() => {
+    if (response) {
+      if (response.status && 200 === response.status) {
+        navigate('/admin/groups')
+      } else {
+        openNotificationWithIcon('error', response.message)
+      }
+    }
+  }, [response])
+
+  useEffect(() => {
+    if (error) {
+      openNotificationWithIcon('error', error.response.data.message)
+    }
+  }, [error])
+
   const onFinish = (values) => {
-    console.log(values)
+    createGroup(values)
   }
   const filter = (input, option) =>
     0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
     0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
-  const options = data
+  const options = members && members.data ? members.data : []
   return (
     <>
+      {contextHolder}
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
@@ -66,7 +101,7 @@ const CreateGroup = () => {
                     placeholder="Choose members"
                   >
                     {options.map((option) => (
-                      <Select.Option key={option.id} value={option.id}>
+                      <Select.Option key={option._id} value={option._id}>
                         {option.name}
                       </Select.Option>
                     ))}
@@ -74,7 +109,7 @@ const CreateGroup = () => {
                 </Form.Item>
                 <Form.Item
                   label="Members"
-                  name={['members']}
+                  name={['staffs']}
                   rules={[
                     {
                       required: true,
@@ -88,7 +123,7 @@ const CreateGroup = () => {
                     placeholder="Choose members"
                   >
                     {options.map((option) => (
-                      <Select.Option key={option.id} value={option.id}>
+                      <Select.Option key={option._id} value={option._id}>
                         {option.name}
                       </Select.Option>
                     ))}
