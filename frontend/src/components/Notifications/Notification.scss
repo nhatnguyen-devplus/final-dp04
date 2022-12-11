@@ -1,0 +1,22 @@
+.ant-dropdown-menu{
+max-height: 53vh;
+overflow: scroll;
+
+
+}
+.ant-dropdown-menu::-webkit-scrollbar {
+    width: 5px;
+    background-color: white;
+    border-radius: 20px;
+}
+.ant-dropdown-menu-item {
+  padding: 15px 15px !important;
+  border-bottom: 1px solid #efefef;
+  max-width: 325px;
+}
+.noties-title {
+  font-size: 18px;
+  line-height: 14px;
+  color: #214476;
+  font-weight: bold;
+}

@@ -49,7 +49,7 @@ const LoginPage = () => {
           <h2>Login</h2>
           <LoginForm handleLogin={(data) => handleLogin(data)} />
           <GoogleLogin
-            buttonText="Login"
+            buttonText="Login with Google"
             clientId={import.meta.env.VITE_CLIENT_ID}
             cookiePolicy={'single_host_origin'}
             onFailure={responseGoogle}

@@ -1,5 +1,6 @@
-import { PlusOutlined } from '@ant-design/icons'
+import { EditOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons'
 import './style.scss'
+import Notifications from '@app/components/Notifications'
 import { userLogOut } from '@app/redux/login/actions'
 import { Dropdown, Space, Avatar, Button } from 'antd'
 import { useCallback } from 'react'
@@ -32,13 +33,17 @@ const NavBarUser = () => {
   }
   const items = [
     {
-      label: <Link to="profile/edit">Edit profile</Link>,
+      label: (
+        <Link to="profile/edit">
+          <EditOutlined /> Edit profile
+        </Link>
+      ),
       key: 'user1',
     },
     {
       label: (
         <Link to="/auth/login" onClick={() => handleLogOut()}>
-          Log Out
+          <LogoutOutlined /> Log Out
         </Link>
       ),
       key: 'user2',
@@ -51,6 +56,7 @@ const NavBarUser = () => {
           Log Off
         </Button>
       </Link>
+      <Notifications />
       <Dropdown
         menu={{
           items,

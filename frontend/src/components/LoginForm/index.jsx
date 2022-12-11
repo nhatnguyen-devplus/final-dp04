@@ -53,10 +53,9 @@ const LoginForm = ({ handleLogin }) => {
       </Form.Item>
 
       <Form.Item>
-        <Button className="login-form-button" htmlType="submit" type="primary">
+        <Button className="login-form-button" htmlType="submit" style={{ width: '100%' }} type="primary">
           Log in
-        </Button>{' '}
-        Or <Link to="">register now!</Link>
+        </Button>
       </Form.Item>
     </Form>
   )

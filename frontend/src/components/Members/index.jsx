@@ -62,7 +62,7 @@ const Members = () => {
     },
     {
       title: 'Action',
-      dataIndex: 'id',
+      dataIndex: '_id',
       width: '15%',
       render: (record) => (
         <>

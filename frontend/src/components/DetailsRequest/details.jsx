@@ -1,7 +1,9 @@
 import DayOffAction from '@app/components/DetailsAction/DayOffAction'
 import RequestAction from '@app/components/DetailsAction/RequestAction'
 import { Row, Col, Typography, Space } from 'antd'
+import { useSelector } from 'react-redux'
 const DetailsRequestLeftSide = ({ details, action }) => {
+  const { role } = useSelector((state) => state.login)
   const { Text } = Typography
   const switchColor = (status) => {
     switch (status) {
@@ -22,7 +24,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
   const switchAction = (action) => {
     switch (action) {
       case 'request':
-        return <RequestAction />
+        return <>{'Admin' === role && <RequestAction />}</>
       case 'dayoff':
         return <DayOffAction />
       default:
@@ -42,9 +44,6 @@ const DetailsRequestLeftSide = ({ details, action }) => {
             </Text>
             <Text>
               <Text strong>Day Off:</Text> {details.dayoff}
-            </Text>
-            <Text>
-              <Text strong>Time:</Text> {details.time}
             </Text>
           </Space>
         </Col>

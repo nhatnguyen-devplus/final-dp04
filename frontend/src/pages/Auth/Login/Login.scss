@@ -10,4 +10,14 @@
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 0 8px #e0e0e0;
+
+  button {
+    width: 100%;
+    text-align: center !important;
+    border-radius: 8px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold !important;
+  }
 }
