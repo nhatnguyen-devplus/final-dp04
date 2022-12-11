@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 const DayOffAction = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { Title, Text } = Typography
+  const { Text } = Typography
   const { TextArea } = Input
   const [form] = Form.useForm()
   const showModal = () => {
@@ -15,10 +15,10 @@ const DayOffAction = () => {
       <Text strong>Action:</Text>
       <br></br>
       <br></br>
-      <Button type="primary" onClick={showModal} icon=<UndoOutlined />>
+      <Button icon=<UndoOutlined /> type="primary" onClick={showModal}>
         Revert
       </Button>
-      <Modal title="Reason for revert:" open={isModalOpen} onCancel={showModal} footer={''}>
+      <Modal footer={''} open={isModalOpen} title="Reason for revert:" onCancel={showModal}>
         <Form form={form} layout="vertical" name="form_in_modal">
           <Form.Item
             name="reason"
@@ -29,7 +29,7 @@ const DayOffAction = () => {
               },
             ]}
           >
-            <TextArea rows={4} placeholder="Your reason" />
+            <TextArea placeholder="Your reason" rows={4} />
           </Form.Item>
           <Form.Item>
             <Button htmlType="submit" type="primary">

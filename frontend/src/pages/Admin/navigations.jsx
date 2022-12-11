@@ -36,7 +36,17 @@ export const navigations = [
       },
       {
         key: 'mng3',
-        label: <Link to="notifications">Notifications</Link>,
+        label: 'Broadcast',
+        children: [
+          {
+            key: 'bc1',
+            label: <Link to="broadcast/slack">Slack</Link>,
+          },
+          {
+            key: 'bc2',
+            label: <Link to="others">Others</Link>,
+          },
+        ],
       },
       {
         key: 'mng4',

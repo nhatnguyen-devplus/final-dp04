@@ -36,3 +36,28 @@
   color: white !important;
   background: #1677ff;
 }
+.ant-table-cell {
+  button {
+    margin-right: 5px;
+    color: white;
+  }
+  .approve {
+    background-color: #28a745 !important;
+  }
+  .reject {
+    background-color: #dc3545 !important;
+  }
+  .update {
+    background-color: #ffc107 !important;
+  }
+  .approve,
+  .reject,
+  .update {
+    border: none;
+  }
+  .approve,
+  .reject,
+  .update:hover {
+    color: #dbdbdb !important;
+  }
+}

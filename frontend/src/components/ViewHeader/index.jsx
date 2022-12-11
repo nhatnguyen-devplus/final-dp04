@@ -1,5 +1,4 @@
-import { AntDesignOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Tooltip, Row, Col } from 'antd'
+import { Row, Col } from 'antd'
 import { Link } from 'react-router-dom'
 import './ViewHeader.scss'
 const ViewHeader = ({ breadcrumbs }) => (
@@ -14,39 +13,6 @@ const ViewHeader = ({ breadcrumbs }) => (
             </span>
           ))}
       </h4>
-    </Col>
-    <Col md={3}>
-      <Avatar.Group
-        maxCount={2}
-        maxStyle={{
-          color: '#f56a00',
-          backgroundColor: '#fde3cf',
-        }}
-        size={'small'}
-      >
-        <Avatar src="https://joeschmoe.io/api/v1/random" />
-        <Avatar
-          style={{
-            backgroundColor: '#f56a00',
-          }}
-        >
-          K
-        </Avatar>
-        <Tooltip placement="top" title="Ant User">
-          <Avatar
-            icon={<UserOutlined />}
-            style={{
-              backgroundColor: '#87d068',
-            }}
-          />
-        </Tooltip>
-        <Avatar
-          icon={<AntDesignOutlined />}
-          style={{
-            backgroundColor: '#1890ff',
-          }}
-        />
-      </Avatar.Group>
     </Col>
   </Row>
 )

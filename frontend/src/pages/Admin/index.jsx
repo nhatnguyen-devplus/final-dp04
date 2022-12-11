@@ -13,6 +13,7 @@ import DetailsMember from '@app/components/Members/details'
 import NotFound from '@app/components/NotFound/NotFound'
 import DetailsRequest from '@app/components/Requests/DetailsRequest'
 import Requests from '@app/components/Requests/Requests'
+import SlackChannels from '@app/components/SlackChannels'
 import './style.scss'
 // import { checkToken } from '@app/redux/login/services'
 import { getUserByToken } from '@app/redux/login/actions'
@@ -47,6 +48,7 @@ const Index = () => {
                 <Route element={<DetailsMember />} path="members/details/:id" />
                 <Route element={<Daysoff />} path="daysoff" />
                 <Route element={<DetailsDayOff />} path="daysoff/details/:id" />
+                <Route element={<SlackChannels />} path="broadcast/slack" />
               </Routes>
             </Layout>
           ) : (

@@ -7,6 +7,7 @@ const ListRequests = ({ listdata }) => {
     {
       title: '#',
       render: (text, record, index) => index + 1,
+      width: '2%',
     },
     {
       title: 'Day Off',
@@ -15,13 +16,17 @@ const ListRequests = ({ listdata }) => {
     {
       title: 'Quantity',
       dataIndex: 'qty',
+      width: '3%',
     },
     {
       title: 'Name',
       dataIndex: 'user',
       render: (text) => <a>{text}</a>,
     },
-    ,
+    {
+      title: 'Reason',
+      dataIndex: 'reason',
+    },
     {
       title: 'Status',
       dataIndex: 'status',

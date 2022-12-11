@@ -1,12 +1,14 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import ViewHeader from '@app/components/ViewHeader'
-import { Button, Table, Avatar, Modal } from 'antd'
+import { Button, Table, Avatar, Modal, Tooltip } from 'antd'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { data } from './Groups.data'
+import { useSelector } from 'react-redux'
 
 const Groups = () => {
+  const { role } = useSelector((state) => state.login)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [del, setDel] = useState(null)
   const showModal = () => {
@@ -45,7 +47,9 @@ const Groups = () => {
           }}
         >
           {members.map((item) => (
-            <Avatar key={item.id} size={'large'} src={item.image} />
+            <Tooltip key={item.id} placement="top" title={item.name}>
+              <Avatar size={'large'} src={item.image} />
+            </Tooltip>
           ))}
         </Avatar.Group>
       ),
@@ -62,7 +66,9 @@ const Groups = () => {
           }}
         >
           {masters.map((item) => (
-            <Avatar key={item.id} size={'large'} src={item.image} />
+            <Tooltip key={item.id} placement="top" title={item.name}>
+              <Avatar key={item.id} size={'large'} src={item.image} />
+            </Tooltip>
           ))}
         </Avatar.Group>
       ),
@@ -77,14 +83,16 @@ const Groups = () => {
           <Link to={`details/${record.id}`}>
             <Button className="btn-mr15" icon=<EyeOutlined /> type="primary"></Button>
           </Link>
-          <Button
-            danger
-            icon=<DeleteOutlined />
-            type="primary"
-            onClick={() => {
-              setDel(record), showModal()
-            }}
-          ></Button>
+          {'Admin' === role && (
+            <Button
+              danger
+              icon=<DeleteOutlined />
+              type="primary"
+              onClick={() => {
+                setDel(record), showModal()
+              }}
+            ></Button>
+          )}
         </>
       ),
     },
@@ -102,9 +110,11 @@ const Groups = () => {
           <>
             <span>List of Groups</span>
             <Link to="create">
-              <Button className="btn-create" icon={<PlusOutlined />}>
-                Create
-              </Button>
+              {'Admin' === role && (
+                <Button className="btn-create" icon={<PlusOutlined />}>
+                  Create
+                </Button>
+              )}
             </Link>
           </>
         )}

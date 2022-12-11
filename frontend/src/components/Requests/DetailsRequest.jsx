@@ -36,7 +36,7 @@ const DetailsRequest = () => {
           title="Log Off Details"
         >
           <Row>
-            <DetailsRequestLeftSide details={details} action={action} />
+            <DetailsRequestLeftSide action={action} details={details} />
             <Histories />
           </Row>
         </Card>

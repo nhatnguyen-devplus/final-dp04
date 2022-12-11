@@ -1,21 +1,17 @@
-import { data } from '@app/components/Groups/Groups.data'
 import ViewHeader from '@app/components/ViewHeader'
-import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
-import { useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Card, Row, Col, Button, Form, Select } from 'antd'
+import { Link } from 'react-router-dom'
+import { dayOffChannel, hrChannel } from './NotiData'
 
-const DetailsGroups = () => {
-  const { role } = useSelector((state) => state.login)
-  const params = useParams()
-  const details = data.find((item) => item.id === params.id)
+const SlackChannels = () => {
   const breadcrumbs = {
     data: [
       {
-        title: 'Groups ',
-        path: '/admin/groups',
+        title: 'Broadcast ',
+        path: '#',
       },
       {
-        title: 'Details ',
+        title: 'Slack Channels ',
       },
     ],
     spread: '/',
@@ -28,9 +24,8 @@ const DetailsGroups = () => {
       value: item.id,
       label: item.name,
     }))
-  const options = data
-  const mastersData = convertData(details.masters)
-  const membersData = convertData(details.members)
+  const dayOff = convertData(dayOffChannel)
+  const hr = convertData(hrChannel)
   const filter = (input, option) =>
     0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
     0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
@@ -45,43 +40,31 @@ const DetailsGroups = () => {
           style={{
             width: '100%',
           }}
-          title="You can change data on this form"
+          title="Choose slack channels to broadcast"
         >
           <Row>
             <Col span={12}>
               <Form
-                initialValues={{ name: details.name, masters: mastersData, members: membersData }}
+                initialValues={{ dayoffchannel: dayOff, hrchannel:  hr }}
                 layout={'vertical'}
                 onFinish={onFinish}
               >
                 <Form.Item
-                  label="Name Group"
-                  name={'name'}
+                  label="Day off channel"
+                  name={['dayoffchannel']}
                   rules={[
                     {
                       required: true,
-                      message: 'Please type name group!',
-                    },
-                  ]}
-                >
-                  <Input placeholder="Type name group" />
-                </Form.Item>
-                <Form.Item
-                  label="Masters"
-                  name={'masters'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please type master in group!',
+                      message: 'Please type or change Day off channel!',
                     },
                   ]}
                 >
                   <Select
                     filterOption={(input, option) => filter(input, option)}
                     mode="multiple"
-                    placeholder="Choose members"
+                    placeholder="Choose day off channel"
                   >
-                    {options.map((option) => (
+                    {dayOffChannel.map((option) => (
                       <Select.Option key={option.id} value={option.id}>
                         {option.name}
                       </Select.Option>
@@ -89,44 +72,42 @@ const DetailsGroups = () => {
                   </Select>
                 </Form.Item>
                 <Form.Item
-                  label="Members"
-                  name={'members'}
+                  label="HR channel"
+                  name={['hrchannel']}
                   rules={[
                     {
                       required: true,
-                      message: 'Please type members in group!',
+                      message: 'Please type or change  HR channel!',
                     },
                   ]}
                 >
                   <Select
                     filterOption={(input, option) => filter(input, option)}
                     mode="multiple"
-                    placeholder="Choose members"
+                    placeholder="Choose Channel"
                   >
-                    {options.map((option) => (
+                    {hrChannel.map((option) => (
                       <Select.Option key={option.id} value={option.id}>
                         {option.name}
                       </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>
-                {'Admin' === role && (
-                  <Form.Item>
-                    <Button htmlType="submit" type="primary">
-                      Submit
+                <Form.Item>
+                  <Button htmlType="submit" type="primary">
+                    Submit
+                  </Button>
+                  <Link to={'/admin'}>
+                    <Button
+                      htmlType="button"
+                      style={{
+                        margin: '0 8px',
+                      }}
+                    >
+                      Back
                     </Button>
-                    <Link to={'/admin/groups'}>
-                      <Button
-                        htmlType="button"
-                        style={{
-                          margin: '0 8px',
-                        }}
-                      >
-                        Back
-                      </Button>
-                    </Link>
-                  </Form.Item>
-                )}
+                  </Link>
+                </Form.Item>
               </Form>
             </Col>
           </Row>
@@ -135,4 +116,4 @@ const DetailsGroups = () => {
     </>
   )
 }
-export default DetailsGroups
+export default SlackChannels

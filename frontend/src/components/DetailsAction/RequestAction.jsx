@@ -22,7 +22,6 @@ const RequestAction = () => {
             width: 200,
           }}
         >
-          <Select.Option value="0">Pending</Select.Option>
           <Select.Option value="1">Approve</Select.Option>
           <Select.Option value="2">Reject</Select.Option>
           <Select.Option value="2">Request Change</Select.Option>

@@ -1,6 +1,6 @@
+import { data } from '@app/components/Requests/Requests.data'
 import { Card, Row } from 'antd'
 import { useParams } from 'react-router-dom'
-import { data } from '@app/components/Requests/Requests.data'
 import '@app/components/Requests/Requests.scss'
 import ViewHeader from '@app/components/ViewHeader'
 import Histories from '@app/components/Histories'
@@ -8,7 +8,7 @@ import DetailsRequestLeftSide from '@app/components/DetailsRequest/details'
 
 const DetailsDayOff = () => {
   const params = useParams()
-  const details = data.find((item) => item.key == params.id)
+  const details = data.find((item) => item.key === params.id)
   const breadcrumbs = {
     data: [
       {
@@ -27,15 +27,15 @@ const DetailsDayOff = () => {
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
-          title="Log Off Details"
           bordered={true}
+          className="card-boxshadow"
           style={{
             width: '100%',
           }}
-          className="card-boxshadow"
+          title="Log Off Details"
         >
           <Row>
-            <DetailsRequestLeftSide details={details} action={action} />
+            <DetailsRequestLeftSide action={action} details={details} />
             <Histories />
           </Row>
         </Card>
