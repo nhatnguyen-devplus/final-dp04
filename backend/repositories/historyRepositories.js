@@ -1,4 +1,4 @@
-const { History } = require('../schemas/history')
+import { History } from '../schemas/history'
 
 const create = (historyCreateReq) => History.create(historyCreateReq)
 

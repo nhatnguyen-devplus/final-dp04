@@ -39,6 +39,13 @@ const UserSchema = new Schema(
       type: String,
     },
 
+    groupsId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'usergroups',
+      },
+    ],
+
     role: {
       type: String,
       enum: Object.values(Role),

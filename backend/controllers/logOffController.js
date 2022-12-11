@@ -1,8 +1,6 @@
 import { jwtService } from '../generals/jwt'
-import { RequestLogOff } from '../schemas/requestLogOff'
-
-const { Helper, ResponseBase } = require('../generals')
-const { logOffService, historyService, userService, userGroupService } = require('../services')
+import { Helper, ResponseBase } from '../generals'
+import { logOffService, historyService, userService, userGroupService } from '../services'
 
 const create = async (req, res) => {
   const logOffCreateReq = req.body
@@ -54,7 +52,7 @@ const getList = async (req, res) => {
     const user = await userService.getOne(decode.data.id)
 
     const groups = await userGroupService.getByIds(user.groupsId)
-    
+
     const totalUser = checkDuplicate(groups, user._id)
 
     if (totalUser.length === 0) {

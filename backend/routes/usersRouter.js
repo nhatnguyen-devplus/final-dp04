@@ -8,6 +8,8 @@ const UserRouter = express.Router()
 
 UserRouter.get('/me', CheckAuth, userController.getOne)
 
+UserRouter.get('/:_id', isAdmin, userController.getUser)
+
 UserRouter.get('/', isAdmin, userController.getList)
 
 UserRouter.delete('/', isAdmin, userController.deleteUser)
