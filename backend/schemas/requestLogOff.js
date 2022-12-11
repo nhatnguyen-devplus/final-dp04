@@ -4,20 +4,20 @@ const Schema = mongoose.Schema
 const RequestLogOffSchema = new Schema(
   {
     iduser: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
     },
 
-    master: [
+    masters: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
       },
     ],
 
     usergroups: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'usergroups',
       },
     ],
