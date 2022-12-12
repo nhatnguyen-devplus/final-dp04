@@ -28,6 +28,13 @@ const UserSchema = new Schema(
       type: String,
     },
 
+    groupsId: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'groups',
+      },
+    ],
+
     avatar: {
       type: String,
     },

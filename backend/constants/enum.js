@@ -1,4 +1,4 @@
-export const RquestSTT = {
+export const RequestSTT = {
   PENDING: 'Pending',
   APPROVE: 'Approve',
   REJECT: 'Reject',
@@ -19,4 +19,12 @@ export const NoteType = {
 export const Role = {
   STAFF: 'Staff',
   ADMIN: 'Admin',
+}
+
+export const TypeHistory = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  APPROVE: 'APPROVE',
+  REJECT: 'REJECT',
+  CANCLE: 'CANCLE',
 }
