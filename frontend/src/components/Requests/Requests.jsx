@@ -13,9 +13,13 @@ const Requests = () => {
   const [form] = Form.useForm()
   const onFinish = (values) => {
     console.log(values)
+    showModal()
   }
   const showModal = () => {
     setIsModalOpen(!isModalOpen)
+    if(true===isModalOpen){
+      form.resetFields()
+    }
   }
   const breadcrumbs = {
     data: [
@@ -90,7 +94,7 @@ const Requests = () => {
                 className="update"
                 icon=<UndoOutlined />
                 onClick={() => {
-                  form.setFieldValue('status', 2), showModal()
+                  form.setFieldValue('status', 3), showModal()
                 }}
               ></Button>
             </>

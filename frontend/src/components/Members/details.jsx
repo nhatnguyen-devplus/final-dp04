@@ -1,22 +1,23 @@
+/* eslint-disable import-order-alphabetical/order */
 import ViewHeader from '@app/components/ViewHeader'
-import { Card, Row, Col, Image, Typography, Space } from 'antd'
+import { Card, Row, Col, Image, Typography, Space, Avatar } from 'antd'
 import { useParams } from 'react-router-dom'
 import '@app/components/Members/Member.scss'
 import { useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUserById } from '@app/redux/members/actions'
+import { UserOutlined } from '@ant-design/icons'
 
 const DetailsMember = () => {
-  const members = useSelector((state) => state.members.dataById)
+  const details = useSelector((state) => state.members.dataById)
   const dispatch = useDispatch()
-  const getAllMembers = useCallback((id) => dispatch(getUserById(id)), [dispatch])
+  const params = useParams()
+  const getDetails = useCallback((id) => dispatch(getUserById(id)), [dispatch])
 
   useEffect(() => {
-    getAllMembers(params.id)
+    getDetails(params.id)
   }, [])
-  const params = useParams()
 
-  const details = members?.data?.find((item) => item._id === params.id)
   const { Text } = Typography
   const breadcrumbs = {
     data: [
@@ -30,17 +31,9 @@ const DetailsMember = () => {
     ],
     spread: '/',
   }
+  const first = (fullName) => fullName.split(' ').slice(0, 1).join(' ')
+  const last = (fullName) => fullName.substring(fullName.split(' ')[0].length).trim()
 
-  const first = (fullName) => {
-    const firstName = fullName.split(' ').slice(0, -2).join(' ')
-    return firstName
-  }
-  const last = (fullName) => {
-    const lastName = fullName.split(' ').slice(0, -2).join(' ')
-    return lastName
-  }
-  const firstName = details ? first(details?.name) : ''
-  const lastName = details ? last(details?.name) : ''
   return (
     <>
       {details && (
@@ -58,18 +51,23 @@ const DetailsMember = () => {
               <Row>
                 <Col span={8}>
                   <Space className="datails-member" direction="vertical">
-                    {details.image && <Image src={details?.image} width={200} />}
+                    {details.image ? (
+                      <Image src={details?.image} width={200} />
+                    ) : (
+                      <Avatar icon={<UserOutlined />} shape="square" size={100} />
+                    )}
                     <Text>
-                      <Text strong>First Name:</Text> {firstName}
+                      <Text strong>First Name:</Text> {first(details.name)}
                     </Text>
                     <Text>
-                      <Text strong>Last Name:</Text> {lastName}
+                      <Text strong>Last Name:</Text> {last(details.name)}
                     </Text>
                     <Text>
                       <Text strong>Email:</Text> {details.email}
                     </Text>
                     <Text>
-                      <Text strong>Group:</Text> {details.group}
+                      <Text strong>Group:</Text>{' '}
+                      {0 < details.groupsId.length && details.groupsId.map((group) => group.name).join(', ')}
                     </Text>
                     <Text>
                       <Text strong>Phone:</Text> {details.phone}
@@ -78,7 +76,7 @@ const DetailsMember = () => {
                       <Text strong>Role:</Text> {details.role}
                     </Text>
                     <Text>
-                      <Text strong>Create At:</Text> {details.created_at}
+                      <Text strong>Create At:</Text> {details.createdAt}
                     </Text>
                   </Space>
                 </Col>

@@ -44,7 +44,7 @@ const getList = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const userId = req.body._id
+    const userId = req.params._id
     const user = await userService.getOne(userId)
 
     if (!user) return res.status(404).json(errors.NOT_FOUND)

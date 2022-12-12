@@ -10,7 +10,9 @@ import LogOffForm from '@app/components/LogOff'
 import Members from '@app/components/Members'
 import CreateMember from '@app/components/Members/create'
 import DetailsMember from '@app/components/Members/details'
+import EditMember from '@app/components/Members/edit'
 import NotFound from '@app/components/NotFound/NotFound'
+import EditProFile from '@app/components/Profile/edit'
 import DetailsRequest from '@app/components/Requests/DetailsRequest'
 import Requests from '@app/components/Requests/Requests'
 import SlackChannels from '@app/components/SlackChannels'
@@ -46,9 +48,11 @@ const Index = () => {
                 <Route element={<Members />} path="members" />
                 <Route element={<CreateMember />} path="members/create" />
                 <Route element={<DetailsMember />} path="members/details/:id" />
+                <Route element={<EditMember />} path="members/edit/:id" />
                 <Route element={<Daysoff />} path="daysoff" />
                 <Route element={<DetailsDayOff />} path="daysoff/details/:id" />
                 <Route element={<SlackChannels />} path="broadcast/slack" />
+                <Route element={<EditProFile />} path="profile/edit" />
               </Routes>
             </Layout>
           ) : (
