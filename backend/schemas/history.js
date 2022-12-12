@@ -1,9 +1,14 @@
 import mongoose from 'mongoose'
-import { RequestSTT } from '../constants/enum'
+import { TypeHistory } from '../constants/enum'
 const Schema = mongoose.Schema
 
-const RequestLogOffSchema = new Schema(
+const HistorySchema = new Schema(
   {
+    idlogoff: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'requestlogoffs',
+    },
+
     iduser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
@@ -35,9 +40,9 @@ const RequestLogOffSchema = new Schema(
       type: String,
     },
 
-    status: {
+    typelog: {
       type: String,
-      enum: Object.values(RequestSTT),
+      enum: Object.values(TypeHistory),
     },
   },
   {
@@ -45,4 +50,4 @@ const RequestLogOffSchema = new Schema(
   }
 )
 
-export const RequestLogOff = mongoose.model('requestlogoffs', RequestLogOffSchema)
+export const History = mongoose.model('histories', HistorySchema)

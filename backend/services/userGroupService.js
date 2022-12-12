@@ -32,10 +32,15 @@ const deleteUserGroup = async (userGroupId) => {
   return await userGroupRepositories.deleteUserGroup(userGroupId)
 }
 
+const getByIds = async (userGroupIds) => {
+  return await userGroupRepositories.getByIds(userGroupIds)
+}
+
 export const userGroupService = {
   getOne,
   getList,
   findByName,
   createUserGroup,
   deleteUserGroup,
+  getByIds,
 }

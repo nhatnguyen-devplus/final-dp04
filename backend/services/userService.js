@@ -27,9 +27,14 @@ const updateUser = async (userId, userUpdateReq) => {
   }
 }
 
+const getByIds = async (userIds) => {
+  return await userRepositories.getByIds(userIds)
+}
+
 export const userService = {
   updateUser,
   getOne,
   getList,
   deleteUser,
+  getByIds,
 }

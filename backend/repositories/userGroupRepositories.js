@@ -13,6 +13,8 @@ const deleteUserGroup = (userGroupId) => UserGroup.findByIdAndDelete(userGroupId
 const updateUserGroup = (userGroupId, userGroupUpdateReq) =>
   UserGroup.findByIdAndUpdate(userGroupId, userGroupUpdateReq)
 
+const getByIds = (userGroupIds) => UserGroup.find({ _id: { $in: userGroupIds } })
+
 export const userGroupRepositories = {
   updateUserGroup,
   deleteUserGroup,
@@ -20,4 +22,5 @@ export const userGroupRepositories = {
   getList,
   findByName,
   create,
+  getByIds,
 }
