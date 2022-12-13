@@ -1,5 +1,6 @@
 import ViewHeader from '@app/components/ViewHeader'
 import { getGroupById, updateGroup } from '@app/redux/groups/actions'
+import { getAllUsers } from '@app/redux/members/actions'
 import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,10 +14,13 @@ const DetailsGroups = () => {
   const dispatch = useDispatch()
   const getGroup = useCallback((id) => dispatch(getGroupById(id)), [dispatch])
   const update = useCallback((data) => dispatch(updateGroup(data)), [dispatch])
+  const getAllMembers = useCallback(() => dispatch(getAllUsers()), [dispatch])
+
   const params = useParams()
 
   useEffect(() => {
     getGroup(params.id)
+    getAllMembers()
   }, [])
 
   const breadcrumbs = {

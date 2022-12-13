@@ -1,6 +1,7 @@
 import DayOffAction from '@app/components/DetailsAction/DayOffAction'
 import RequestAction from '@app/components/DetailsAction/RequestAction'
 import { Row, Col, Typography, Space } from 'antd'
+import moment from 'moment'
 import { useSelector } from 'react-redux'
 const DetailsRequestLeftSide = ({ details, action }) => {
   const { role } = useSelector((state) => state.login)
@@ -37,33 +38,11 @@ const DetailsRequestLeftSide = ({ details, action }) => {
         <Col span={10}>
           <Space direction="vertical">
             <Text>
-              <Text strong>Name:</Text> {details.user}
+              <Text strong>From:</Text> {moment(details.logofffrom).format('YYYY-MM-DD')}
             </Text>
             <Text>
-              <Text strong>Email:</Text> {details.mail}
+              <Text strong>Name:</Text> {details.user && details.user.name}
             </Text>
-            <Text>
-              <Text strong>Day Off:</Text> {details.dayoff}
-            </Text>
-          </Space>
-        </Col>
-        <Col span={10}>
-          <Space direction="vertical">
-            <Text>
-              <Text strong>Group:</Text> {details.group}
-            </Text>
-            <Text>
-              <Text strong>Phone:</Text> {details.phone}
-            </Text>
-            <Text>
-              <Text strong>Quantity:</Text> {details.qty}
-            </Text>
-          </Space>
-        </Col>
-      </Row>
-      <Row>
-        <Col span={20}>
-          <Space direction="vertical">
             <Text>
               <Text strong>Reason:</Text> {details.reason}
             </Text>
@@ -71,8 +50,22 @@ const DetailsRequestLeftSide = ({ details, action }) => {
               <Text strong>Status:</Text>
               <Text className={switchColor(details.status)}> {details.status}</Text>
             </Text>
-            {switchAction(action)}
           </Space>
+        </Col>
+        <Col span={10}>
+          <Space direction="vertical">
+            <Text>
+              <Text strong>To:</Text> {moment(details.logoffto).format('YYYY-MM-DD')}
+            </Text>
+            <Text>
+              <Text strong>Quantity:</Text> {details.dayoff}
+            </Text>
+          </Space>
+        </Col>
+      </Row>
+      <Row style={{ marginTop: '10px' }}>
+        <Col span={20}>
+          <Space direction="vertical">{switchAction(action)}</Space>
         </Col>
       </Row>
     </Col>
