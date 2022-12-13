@@ -1,13 +1,24 @@
-import { data } from '@app/components/Groups/Groups.data'
 import ViewHeader from '@app/components/ViewHeader'
+import { getGroupById, updateGroup } from '@app/redux/groups/actions'
 import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
-import { useSelector } from 'react-redux'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 
 const DetailsGroups = () => {
   const { role } = useSelector((state) => state.login)
+  const members = useSelector((state) => state.members.data)
+  const dataGroup = useSelector((state) => state.groups.data)
+  const { loading } = useSelector((state) => state.groups)
+  const dispatch = useDispatch()
+  const getGroup = useCallback((id) => dispatch(getGroupById(id)), [dispatch])
+  const update = useCallback((data) => dispatch(updateGroup(data)), [dispatch])
   const params = useParams()
-  const details = data.find((item) => item.id === params.id)
+
+  useEffect(() => {
+    getGroup(params.id)
+  }, [])
+
   const breadcrumbs = {
     data: [
       {
@@ -20,118 +31,144 @@ const DetailsGroups = () => {
     ],
     spread: '/',
   }
+
   const onFinish = (values) => {
-    console.log(values)
+    let listMasters = []
+    let staffs = []
+    if (values.masters[0].value) {
+      listMasters = values.masters.map((item) => item.value)
+    } else {
+      listMasters = values.masters
+    }
+    if (values.members[0].value) {
+      staffs = values.members.map((item) => item.value)
+    } else {
+      staffs = values.members
+    }
+    update({
+      id: params.id,
+      data: {
+        name: values.name,
+        masters: listMasters,
+        staffs,
+      },
+    })
   }
+
   const convertData = (data) =>
+    data &&
     data.map((item) => ({
-      value: item.id,
+      value: item._id,
       label: item.name,
     }))
-  const options = data
-  const mastersData = convertData(details.masters)
-  const membersData = convertData(details.members)
+  const options = members && members.data ? members.data : []
+  const mastersData = convertData(dataGroup.masters)
+  const membersData = convertData(dataGroup.staffs)
   const filter = (input, option) =>
     0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
     0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
 
   return (
     <>
-      <ViewHeader breadcrumbs={breadcrumbs} />
-      <div className="site-card-border-less-wrapper">
-        <Card
-          bordered={true}
-          className="card-boxshadow"
-          style={{
-            width: '100%',
-          }}
-          title="You can change data on this form"
-        >
-          <Row>
-            <Col span={12}>
-              <Form
-                initialValues={{ name: details.name, masters: mastersData, members: membersData }}
-                layout={'vertical'}
-                onFinish={onFinish}
-              >
-                <Form.Item
-                  label="Name Group"
-                  name={'name'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please type name group!',
-                    },
-                  ]}
-                >
-                  <Input placeholder="Type name group" />
-                </Form.Item>
-                <Form.Item
-                  label="Masters"
-                  name={'masters'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please type master in group!',
-                    },
-                  ]}
-                >
-                  <Select
-                    filterOption={(input, option) => filter(input, option)}
-                    mode="multiple"
-                    placeholder="Choose members"
+      {!loading && (
+        <>
+          <ViewHeader breadcrumbs={breadcrumbs} />
+          <div className="site-card-border-less-wrapper">
+            <Card
+              bordered={true}
+              className="card-boxshadow"
+              style={{
+                width: '100%',
+              }}
+              title="You can change data on this form"
+            >
+              <Row>
+                <Col span={12}>
+                  <Form
+                    initialValues={{ name: dataGroup.name, masters: mastersData, members: membersData }}
+                    layout={'vertical'}
+                    onFinish={onFinish}
                   >
-                    {options.map((option) => (
-                      <Select.Option key={option.id} value={option.id}>
-                        {option.name}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  label="Members"
-                  name={'members'}
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please type members in group!',
-                    },
-                  ]}
-                >
-                  <Select
-                    filterOption={(input, option) => filter(input, option)}
-                    mode="multiple"
-                    placeholder="Choose members"
-                  >
-                    {options.map((option) => (
-                      <Select.Option key={option.id} value={option.id}>
-                        {option.name}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                {'Admin' === role && (
-                  <Form.Item>
-                    <Button htmlType="submit" type="primary">
-                      Submit
-                    </Button>
-                    <Link to={'/admin/groups'}>
-                      <Button
-                        htmlType="button"
-                        style={{
-                          margin: '0 8px',
-                        }}
+                    <Form.Item
+                      label="Name Group"
+                      name={'name'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please type name group!',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Type name group" />
+                    </Form.Item>
+                    <Form.Item
+                      label="Masters"
+                      name={'masters'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please type master in group!',
+                        },
+                      ]}
+                    >
+                      <Select
+                        filterOption={(input, option) => filter(input, option)}
+                        mode="multiple"
+                        placeholder="Choose members"
                       >
-                        Back
-                      </Button>
-                    </Link>
-                  </Form.Item>
-                )}
-              </Form>
-            </Col>
-          </Row>
-        </Card>
-      </div>
+                        {options.map((option) => (
+                          <Select.Option key={option._id} value={option._id}>
+                            {option.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      label="Members"
+                      name={'members'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please type members in group!',
+                        },
+                      ]}
+                    >
+                      <Select
+                        filterOption={(input, option) => filter(input, option)}
+                        mode="multiple"
+                        placeholder="Choose members"
+                      >
+                        {options.map((option) => (
+                          <Select.Option key={option._id} value={option._id}>
+                            {option.name}
+                          </Select.Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
+                    {'Admin' === role && (
+                      <Form.Item>
+                        <Button htmlType="submit" type="primary">
+                          Submit
+                        </Button>
+                        <Link to={'/admin/groups'}>
+                          <Button
+                            htmlType="button"
+                            style={{
+                              margin: '0 8px',
+                            }}
+                          >
+                            Back
+                          </Button>
+                        </Link>
+                      </Form.Item>
+                    )}
+                  </Form>
+                </Col>
+              </Row>
+            </Card>
+          </div>
+        </>
+      )}
     </>
   )
 }

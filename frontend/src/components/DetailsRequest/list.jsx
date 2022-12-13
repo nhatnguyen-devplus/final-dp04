@@ -43,7 +43,7 @@ const ListRequests = ({ listdata }) => {
       key: 'id',
       render: (index, record) => (
         <Link to={`details/${record.key}`}>
-          <Button icon=<EyeOutlined /> type="primary"></Button>
+          <Button icon={<EyeOutlined />} type="primary"></Button>
         </Link>
       ),
     },

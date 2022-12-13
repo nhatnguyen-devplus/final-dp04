@@ -15,7 +15,7 @@ const DayOffAction = () => {
       <Text strong>Action:</Text>
       <br></br>
       <br></br>
-      <Button icon=<UndoOutlined /> type="primary" onClick={showModal}>
+      <Button icon={<UndoOutlined />} type="primary" onClick={showModal}>
         Revert
       </Button>
       <Modal footer={''} open={isModalOpen} title="Reason for revert:" onCancel={showModal}>
