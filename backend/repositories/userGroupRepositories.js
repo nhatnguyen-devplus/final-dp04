@@ -1,8 +1,10 @@
 import { UserGroup } from '../schemas/userGroups'
 
-const getList = () => UserGroup.find({})
+const getList = () => UserGroup.find({}).populate(['masters', 'staffs'])
 
-const getOne = (userGroupId) => UserGroup.findById(userGroupId)
+const getOne = (userGroupId) => UserGroup.findById(userGroupId).populate(['masters', 'staffs'])
+
+const getOneNoPopulate = (userGroupId) => UserGroup.findById(userGroupId)
 
 const findByName = (userGroupName) => UserGroup.findOne({ name: userGroupName })
 
@@ -23,4 +25,5 @@ export const userGroupRepositories = {
   findByName,
   create,
   getByIds,
+  getOneNoPopulate,
 }

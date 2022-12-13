@@ -17,6 +17,24 @@ const getOne = async (req, res) => {
   return res.status(401).json(errors.INVALID_TOKEN)
 }
 
+const getUser = async (req, res, next) => {
+  const userId = req.params._id
+
+  try {
+    try {
+      const user = await userService.getOne(userId)
+
+      if (!user) return res.status(404).json(errors.NOT_FOUND)
+    } catch (error) {
+      return Helper.responseJsonHandler(error.message, 404, res)
+    }
+
+    return ResponseBase.responseJsonHandler(user, res, 'Get user')
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
 const getList = async (req, res) => {
   try {
     const listUsers = await userService.getList()
@@ -84,6 +102,7 @@ const updateUser = async (req, res) => {
 
 export const userController = {
   getOne,
+  getUser,
   getList,
   deleteUser,
   updateUser,

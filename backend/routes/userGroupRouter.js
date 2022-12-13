@@ -14,4 +14,6 @@ UserGroupRouter.post('/', multer().none(), isAdmin, userGroupController.createUs
 
 UserGroupRouter.delete('/:_id', isAdmin, userGroupController.deleteUserGroup)
 
+UserGroupRouter.post('/:_id', multer().none(), userGroupController.updateUserGroup)
+
 export default UserGroupRouter

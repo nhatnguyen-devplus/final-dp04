@@ -27,9 +27,12 @@ const updateUser = async (userId, userUpdateReq) => {
   }
 }
 
-const getByIds = async (userIds) => {
-  return await userRepositories.getByIds(userIds)
-}
+const getByIds = async (userIds) => await userRepositories.getByIds(userIds)
+
+const addGroupId = async (userInGroup, groupId) => await userRepositories.addIdGroup(userInGroup, groupId)
+
+const updateGroupId = async (usersRemoveGroup, groupId) =>
+  await userRepositories.removeIdGroup(usersRemoveGroup, groupId)
 
 export const userService = {
   updateUser,
@@ -37,4 +40,6 @@ export const userService = {
   getList,
   deleteUser,
   getByIds,
+  addGroupId,
+  updateGroupId,
 }
