@@ -1,20 +1,34 @@
+import { errors } from '../constants'
+import { RequestSTT } from '../constants/enum'
 import { jwtService } from '../generals/jwt'
-import { Helper, ResponseBase } from '../generals'
-import { logOffService, historyService, userService, userGroupService } from '../services'
+import { logOffValidation } from '../validations'
+
+const { Helper, ResponseBase } = require('../generals')
+const { logOffService, historyService, userService, userGroupService } = require('../services')
 
 const create = async (req, res) => {
   const logOffCreateReq = req.body
   const token = req.headers.authorization
   const decode = jwtService.decodeToken(token.split(' ')[1])
   try {
+    try {
+      await logOffValidation.logOffReq.validateAsync(logOffCreateReq)
+    } catch (err) {
+      return res.json({
+        status: 422,
+        message: err.details[0].message,
+      })
+    }
+
     const user = await userService.getOne(decode.data.id)
     let totalMaster = []
-
     const groups = await userGroupService.getByIds(user.groupsId)
 
     groups.map(async (index) => {
       if (index.toString() !== user._id.toString()) {
-        totalMaster.push(index.masters)
+        if (index.masters.length > 0) {
+          totalMaster.push(index.masters)
+        }
       }
     })
 
@@ -43,7 +57,7 @@ const checkDuplicate = (groups, userId) => {
   return totalUser
 }
 
-const getList = async (req, res) => {
+const getListRequests = async (req, res) => {
   const token = req.headers.authorization
 
   try {
@@ -58,8 +72,113 @@ const getList = async (req, res) => {
     if (totalUser.length === 0) {
       totalUser.push(user._id.toString())
     }
-    const listRequest = await logOffService.getList(totalUser)
+    const listRequest = await logOffService.getListRequests(totalUser)
     return ResponseBase.responseJsonHandler(listRequest, res, 'List request')
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
+const getOne = async (req, res) => {
+  const token = req.headers.authorization
+  const logoffId = req.params._id
+
+  const decode = jwtService.decodeToken(token.split(' ')[1])
+
+  try {
+    const user = await userService.getOne(decode.data.id)
+    const logoff = await logOffService.getOne(logoffId)
+
+    if (logoff.masters.includes(user._id) || logoff.user.toString() === user._id.toString()) {
+      return ResponseBase.responseJsonHandler(logoff, res, 'Get logoff')
+    }
+    return res.json(errors.FORBIDDEN)
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
+const update = async (req, res) => {
+  const logoffUpdateReq = req.body
+  const logoffId = req.params._id
+  const token = req.headers.authorization
+
+  const decode = jwtService.decodeToken(token.split(' ')[1])
+  try {
+    const user = await userService.getOne(decode.data.id)
+    let logoff
+    try {
+      logoff = await logOffService.getOne(logoffId)
+
+      if (!logoff) return res.json(errors.NOT_FOUND)
+    } catch (error) {
+      return res.json(errors.NOT_FOUND)
+    }
+    if (!logoffUpdateReq.status) return res.json(errors.INVALID_DATA)
+    //Cant update RequestSTT Cancle || Reject
+    if (logoff.status === RequestSTT.CANCLE || logoff.status === RequestSTT.REJECT) return res.json(errors.INVALID_DATA)
+
+    //Stt pending masters =>  Approve || Reject || CHANGE_REQUEST || CANCLE
+    if (logoff.status === RequestSTT.PENDING) {
+      // Reject || CHANGE_REQUEST need reason
+      if (
+        logoffUpdateReq.status !== RequestSTT.APPROVE &&
+        logoffUpdateReq.status !== RequestSTT.REJECT &&
+        logoffUpdateReq.status !== RequestSTT.CANCLE &&
+        logoffUpdateReq.status !== RequestSTT.CHANGE_REQUEST
+      )
+        return res.json(errors.INVALID_DATA)
+      //Reject || Change Request need reason
+      if (logoffUpdateReq.status === RequestSTT.REJECT || logoffUpdateReq.status === RequestSTT.CHANGE_REQUEST) {
+        if (!logoffUpdateReq.reason) return res.json(errors.INVALID_DATA)
+      }
+      //Reject || Approve || CHANGE_REQUEST need isMaster
+      if (
+        logoffUpdateReq.status === RequestSTT.REJECT ||
+        logoffUpdateReq.status === RequestSTT.CHANGE_REQUEST ||
+        logoffUpdateReq.status === RequestSTT.APPROVE
+      ) {
+        if (!logoff.masters.includes(user._id)) return res.json(errors.FORBIDDEN)
+        if (logoff.approval.includes(user._id)) return res.json(errors.INVALID_DATA)
+      }
+
+      //Cancle logoff(CheckAuth) and Approval = 0
+      if (logoffUpdateReq.status === RequestSTT.CANCLE) {
+        if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
+
+        if (logoff.approval.length > 0) return res.json(errors.INVALID_DATA)
+      }
+    }
+
+    //User update change request(Cancle) && checkauth
+    if (logoff.status === RequestSTT.CHANGE_REQUEST) {
+      if (logoffUpdateReq.status !== RequestSTT.UPDATE || logoffUpdateReq.status !== RequestSTT.CANCLE)
+        return res.json(errors.INVALID_DATA)
+      if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
+
+      if (logoffUpdateReq.status === RequestSTT.UPDATE) {
+        try {
+          await logOffValidation.logOffReq.validateAsync(logoffUpdateReq)
+        } catch (err) {
+          return res.json({
+            status: 422,
+            message: err.details[0].message,
+          })
+        }
+      }
+    }
+
+    // Revert checkAuth, cancle logoff
+    if (logoff.status === RequestSTT.APPROVE) {
+      if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
+      if (logoffUpdateReq !== RequestSTT.CANCLE) return res.json(errors.INVALID_DATA)
+
+      if (!logoffUpdateReq.status === RequestSTT.CANCLE) return res.json(errors.INVALID_DATA)
+    }
+
+    const newHistory = await logOffService.update(logoffId, user._id, logoffUpdateReq)
+
+    return ResponseBase.responseJsonHandler(newHistory, res, 'Update logoff')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)
   }
@@ -67,5 +186,7 @@ const getList = async (req, res) => {
 
 export const logOffController = {
   create,
-  getList,
+  getListRequests,
+  update,
+  getOne,
 }
