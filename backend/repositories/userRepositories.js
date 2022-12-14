@@ -5,6 +5,10 @@ const getList = () => User.find({})
 
 const getOne = (userId) => User.findById(userId)
 
+const getListPopulate = () => User.find({}).populate({ path: 'groupsId', select: 'name' })
+
+const getOnePopulate = (userId) => User.findById(userId).populate({ path: 'groupsId', select: 'name' })
+
 const deleteUser = (userId) => User.findByIdAndDelete(userId)
 
 const updateUser = (userId, userUpdateReq) => User.findByIdAndUpdate(userId, userUpdateReq)
@@ -25,4 +29,6 @@ export const userRepositories = {
   getByIds,
   addIdGroup,
   removeIdGroup,
+  getOnePopulate,
+  getListPopulate,
 }

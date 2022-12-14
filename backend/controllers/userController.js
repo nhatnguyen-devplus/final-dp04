@@ -9,27 +9,24 @@ const getOne = async (req, res) => {
   const token = req.headers.authorization
   if (token) {
     const decode = jwtService.decodeToken(token.split(' ')[1])
-    const user = await userService.getOne(decode.data.id)
-
+    const user = await userService.getOnePopulate(decode.data.id)
     return ResponseBase.responseJsonHandler(user, res, 'Get user')
   }
 
   return res.status(401).json(errors.INVALID_TOKEN)
 }
 
-const getUser = async (req, res, next) => {
+const getUser = async (req, res) => {
   const userId = req.params._id
-
   try {
     try {
-      const user = await userService.getOne(userId)
+      const user = await userService.getOnePopulate(userId)
 
       if (!user) return res.status(404).json(errors.NOT_FOUND)
+      return ResponseBase.responseJsonHandler(user, res, 'Get user')
     } catch (error) {
       return Helper.responseJsonHandler(error.message, 404, res)
     }
-
-    return ResponseBase.responseJsonHandler(user, res, 'Get user')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)
   }
@@ -37,7 +34,7 @@ const getUser = async (req, res, next) => {
 
 const getList = async (req, res) => {
   try {
-    const listUsers = await userService.getList()
+    const listUsers = await userService.getListPopulate()
 
     return ResponseBase.responseJsonHandler(listUsers, res, 'Get list users')
   } catch (error) {
