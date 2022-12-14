@@ -8,6 +8,14 @@ const getList = async () => {
   return await userRepositories.getList()
 }
 
+const getOnePopulate = async (userId) => {
+  return await userRepositories.getOnePopulate(userId)
+}
+
+const getListPopulate = async () => {
+  return await userRepositories.getListPopulate()
+}
+
 const deleteUser = async (userId) => {
   return await userRepositories.deleteUser(userId)
 }
@@ -42,4 +50,6 @@ export const userService = {
   getByIds,
   addGroupId,
   updateGroupId,
+  getOnePopulate,
+  getListPopulate,
 }
