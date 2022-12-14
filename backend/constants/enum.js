@@ -3,7 +3,9 @@ export const RequestSTT = {
   APPROVE: 'Approve',
   REJECT: 'Reject',
   CANCLE: 'Cancle',
-  WAITUPDATE: 'WaitUpdate',
+  CHANGE_REQUEST: 'Change Request',
+  REVERT: 'Revert',
+  UPDATE: 'Update',
 }
 
 export const NoteSTT = {
@@ -12,8 +14,8 @@ export const NoteSTT = {
 }
 
 export const NoteType = {
-  CREATEREQUEST: 'CreateRequest',
-  UPDATEREQUEST: 'UpdateRequest',
+  CREATEREQUEST: 'Create Request',
+  UPDATEREQUEST: 'Update Request',
 }
 
 export const Role = {
@@ -26,5 +28,7 @@ export const TypeHistory = {
   UPDATE: 'UPDATE',
   APPROVE: 'APPROVE',
   REJECT: 'REJECT',
+  CHANGE_REQUEST: 'CHANGE_REQUEST',
   CANCLE: 'CANCLE',
+  REVERT: 'REVERT',
 }

@@ -6,13 +6,15 @@ const create = async (newHistory) => {
     const createHistory = {
       typelog: TypeHistory.CREATE,
       idlogoff: newHistory._id,
-      iduser: newHistory.iduser,
+      user: newHistory.user,
       masters: newHistory.masters,
       logofffrom: newHistory.logofffrom,
       logoffto: newHistory.logoffto,
       reason: newHistory.reason,
+      quantity: newHistory.quantity,
+      contentlog: newHistory.contentlog,
     }
-
+    //TODO: NOTI for all masters
     await historyRepositories.create(createHistory)
   } catch (error) {
     throw error

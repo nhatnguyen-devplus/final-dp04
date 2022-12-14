@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 
 const RequestLogOffSchema = new Schema(
   {
-    iduser: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
     },
@@ -29,6 +29,18 @@ const RequestLogOffSchema = new Schema(
 
     logoffto: {
       type: Date,
+    },
+
+    logofftype: {
+      type: String,
+    },
+
+    contentlog: {
+      type: String,
+    },
+
+    quantity: {
+      type: Number,
     },
 
     reason: {

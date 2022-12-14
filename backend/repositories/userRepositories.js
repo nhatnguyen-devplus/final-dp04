@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 import { User } from '../schemas/users'
 
-const getList = () => User.find({}).populate({ path: 'groupsId', select: 'name'})
+const getList = () => User.find({}).populate({ path: 'groupsId', select: 'name' })
 
-const getOne = (userId) => User.findById(userId).populate({ path: 'groupsId', select: 'name' })
+const getOne = (userId) => User.findById(userId)
 
 const getListPopulate = () => User.find({}).populate({ path: 'groupsId', select: 'name' })
 

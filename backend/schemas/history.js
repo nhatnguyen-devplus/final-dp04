@@ -9,7 +9,7 @@ const HistorySchema = new Schema(
       ref: 'requestlogoffs',
     },
 
-    iduser: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
     },
@@ -43,6 +43,14 @@ const HistorySchema = new Schema(
     typelog: {
       type: String,
       enum: Object.values(TypeHistory),
+    },
+
+    contentlog: {
+      type: String,
+    },
+
+    quantity: {
+      type: Number,
     },
   },
   {
