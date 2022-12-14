@@ -1,5 +1,6 @@
 import ViewHeader from '@app/components/ViewHeader'
 import { postCreateGroup } from '@app/redux/groups/actions'
+import { getAllUsers } from '@app/redux/members/actions'
 import { Card, Row, Col, Button, Form, Input, Select, notification } from 'antd'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,6 +13,12 @@ const CreateGroup = () => {
   const { response, error } = useSelector((state) => state.groups)
   const dispatch = useDispatch()
   const createGroup = useCallback((data) => dispatch(postCreateGroup(data)), [dispatch])
+  const getAllMembers = useCallback(() => dispatch(getAllUsers()), [dispatch])
+
+  useEffect(() => {
+    getAllMembers()
+  }, [])
+
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (type, desc) => {
     api[type]({

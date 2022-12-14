@@ -1,5 +1,9 @@
 import ViewHeader from '@app/components/ViewHeader'
-import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select } from 'antd'
+import { createRequest } from '@app/redux/requests/actions'
+import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select, notification } from 'antd'
+import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const validateMessages = {
   required: '${label} is required!',
@@ -13,9 +17,46 @@ const validateMessages = {
 }
 
 const LogOffForm = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { response, error } = useSelector((state) => state.requests)
+  const createLogOff = useCallback((data) => dispatch(createRequest(data)), [dispatch])
   const { TextArea } = Input
+  const [form] = Form.useForm()
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (type, desc) => {
+    api[type]({
+      message: type,
+      description: desc,
+      type,
+    })
+  }
+
+  useEffect(() => {
+    if (null !== response) {
+      if (response.status && 200 === response.status) {
+        navigate('/admin/requests')
+      } else {
+        openNotificationWithIcon('error', response.message)
+      }
+    }
+  }, [response])
+
+  useEffect(() => {
+    if (null !== error) {
+      openNotificationWithIcon('error', 'Error creating log off failed')
+    }
+  }, [error])
+
   const onFinish = (values) => {
-    console.log(values)
+    createLogOff({
+      type: values.type,
+      logofffrom: values.from.format('YYYY-MM-DD'),
+      logoffto: values.to.format('YYYY-MM-DD'),
+      quantity: values.quantity,
+      time: values.time,
+      reason: values.reason,
+    })
   }
   const breadcrumbs = {
     data: [
@@ -31,6 +72,7 @@ const LogOffForm = () => {
   }
   return (
     <>
+      {contextHolder}
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
         <Card
@@ -44,6 +86,7 @@ const LogOffForm = () => {
           <Row>
             <Col span={8}>
               <Form
+                form={form}
                 initialValues={initialValues}
                 layout={'vertical'}
                 validateMessages={validateMessages}

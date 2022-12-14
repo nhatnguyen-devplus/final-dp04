@@ -14,7 +14,7 @@ import {
 } from './actions'
 import { GET_ALL_USERS, GET_USER_BY_ID, CREATE_USER, DELETE_USER, GET_ME, UPDATE_USER } from './constant'
 import { getAllUsers, getUserById, createUser, deleteUser, getMe, updateUser } from './services'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
 function* getAllUsersSaga() {
   try {
@@ -71,10 +71,10 @@ function* updateUserSaga(action) {
 function* membersSaga() {
   yield takeEvery(GET_ALL_USERS, getAllUsersSaga)
   yield takeEvery(GET_USER_BY_ID, getUserByIdSaga)
-  yield takeEvery(CREATE_USER, createUserSaga)
+  yield takeLatest(CREATE_USER, createUserSaga)
   yield takeEvery(DELETE_USER, deleteUserSaga)
   yield takeEvery(GET_ME, getMeSaga)
-  yield takeEvery(UPDATE_USER, updateUserSaga)
+  yield takeLatest(UPDATE_USER, updateUserSaga)
 }
 
 export default membersSaga

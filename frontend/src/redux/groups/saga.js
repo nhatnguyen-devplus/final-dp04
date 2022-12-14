@@ -62,8 +62,8 @@ function* deleteGroupSaga(action) {
 function* groupsSaga() {
   yield takeEvery(GET_ALL_GROUPS, getAllGroupsSaga)
   yield takeLatest(GET_GROUP_BY_ID, getGroupByIdSaga)
-  yield takeEvery(POST_CREATE_GROUP, postCreateGroupSaga)
-  yield takeEvery(UPDATE_GROUP, updateGroupSaga)
+  yield takeLatest(POST_CREATE_GROUP, postCreateGroupSaga)
+  yield takeLatest(UPDATE_GROUP, updateGroupSaga)
   yield takeEvery(DELETE_GROUP, deleteGroupSaga)
 }
 

@@ -5,10 +5,11 @@ import { userLogOut } from '@app/redux/login/actions'
 import { Dropdown, Space, Avatar, Button } from 'antd'
 import { useCallback } from 'react'
 import { useGoogleLogout } from 'react-google-login'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
 const NavBarUser = () => {
+  const { role } = useSelector((state) => state.login)
   const dispatch = useDispatch()
   const logOut = useCallback(() => dispatch(userLogOut()), [dispatch])
 
@@ -51,7 +52,7 @@ const NavBarUser = () => {
   ]
   return (
     <div className="user-nav">
-      <Link to="/admin/logoff/create">
+      <Link to={'Admin' === role ? '/admin/logoff/create' : '/client/logoff/create'}>
         <Button className="btn-logoff" icon={<PlusOutlined />} type="primary">
           Log Off
         </Button>
