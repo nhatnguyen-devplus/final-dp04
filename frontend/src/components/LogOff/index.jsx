@@ -76,7 +76,7 @@ const LogOffForm = () => {
                         },
                       ]}
                     >
-                      <DatePicker />
+                      <DatePicker format="YYYY/MM/DD" />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -90,7 +90,7 @@ const LogOffForm = () => {
                         },
                       ]}
                     >
-                      <DatePicker />
+                      <DatePicker format="YYYY/MM/DD" />
                     </Form.Item>
                   </Col>
                 </Row>

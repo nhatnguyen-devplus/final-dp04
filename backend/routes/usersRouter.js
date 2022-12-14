@@ -12,7 +12,7 @@ UserRouter.get('/:_id', isAdmin, userController.getUser)
 
 UserRouter.get('/', isAdmin, userController.getList)
 
-UserRouter.delete('/', isAdmin, userController.deleteUser)
+UserRouter.delete('/:_id', isAdmin, userController.deleteUser)
 
 UserRouter.post('/:_id', multer().none(), CheckAuth, userController.updateUser)
 

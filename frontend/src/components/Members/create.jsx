@@ -1,7 +1,10 @@
 /* eslint-disable no-unused-vars */
 import ViewHeader from '@app/components/ViewHeader'
-import { Card, Row, Col, Button, Form, Input, Radio } from 'antd'
-import axios from 'axios'
+import { createUser } from '@app/redux/members/actions'
+import { Card, Row, Col, Button, Form, Input, notification } from 'antd'
+import { useCallback, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 const validateMessages = {
   required: '${label} is required!',
   types: {
@@ -12,6 +15,7 @@ const validateMessages = {
   },
 }
 const CreateMember = () => {
+  const navigate = useNavigate()
   const breadcrumbs = {
     data: [
       {
@@ -24,11 +28,48 @@ const CreateMember = () => {
     ],
     spread: '/',
   }
-  // const { TextArea } = Input
-  const onFinish = async (values) => {}
+  const [form] = Form.useForm()
+  //Notification
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (type, desc) => {
+    api[type]({
+      message: type,
+      description: desc,
+      type,
+    })
+  }
+  //Call API
+  const dispatch = useDispatch()
+  const { response, error } = useSelector((state) => state.members)
+  const create = useCallback((values) => dispatch(createUser(values)), [dispatch])
+  const onFinish = (values) => {
+    const name = `${values.firstName} ${values.lastName}`
+    values.name = name
+    const { firstName, lastName, ...data } = values
+    create(data)
+  }
+
+  useEffect(() => {
+    if (response) {
+      if (response.status && 200 === response.status) {
+        openNotificationWithIcon('success', response.message)
+        navigate('/admin/members')
+      } else {
+        openNotificationWithIcon('error', response.message)
+      }
+    }
+  }, [response])
+
+  useEffect(() => {
+    if (error) {
+      openNotificationWithIcon('error', error.response.data.message)
+    }
+  }, [error])
+  
   return (
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />
+      {contextHolder}
       <div className="site-card-border-less-wrapper">
         <Card
           bordered={true}
@@ -40,8 +81,14 @@ const CreateMember = () => {
         >
           <Row>
             <Col span={8}>
-              <Form layout={'vertical'} validateMessages={validateMessages} onFinish={onFinish}>
-                <Form.Item
+              <Form
+                initialValues={{ password: 'password' }}
+                layout={'vertical'}
+                validateMessages={validateMessages}
+                onFinish={onFinish}
+                form={form}
+              >
+                {/* <Form.Item
                   label="Member's role"
                   name={['type']}
                   rules={[
@@ -57,12 +104,13 @@ const CreateMember = () => {
                     <Radio value={'Hr'}>HR</Radio>
                     <Radio value={'Admin'}>Admin</Radio>
                   </Radio.Group>
-                </Form.Item>
+                </Form.Item> */}
+                <Form.Item style={{ display: 'none' }} name={['password']}></Form.Item>
                 <Row>
                   <Col span={12}>
                     <Form.Item
                       label="First Name"
-                      name={['firstname']}
+                      name={['firstName']}
                       rules={[
                         {
                           required: true,
@@ -76,7 +124,7 @@ const CreateMember = () => {
                   <Col span={12}>
                     <Form.Item
                       label="Last Name"
-                      name={['lastname']}
+                      name={['lastName']}
                       rules={[
                         {
                           required: true,
@@ -108,6 +156,8 @@ const CreateMember = () => {
                     {
                       min: 10,
                       max: 11,
+                      required: true,
+                      message: 'Please type phone numbers!',
                     },
                   ]}
                 >

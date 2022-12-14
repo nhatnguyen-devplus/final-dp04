@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllGroups, deleteGroup } from '@app/redux/groups/actions'
@@ -58,7 +58,7 @@ const Groups = () => {
   const columns = [
     {
       title: '#',
-      dataIndex: 'id',
+      render: (text, record, index) => index + 1,
     },
     {
       title: 'Group Name',
@@ -77,7 +77,7 @@ const Groups = () => {
         >
           {members.map((item) => (
             <Tooltip key={item._id} placement="top" title={item.name ? item.name : 'no name'}>
-              <Avatar size={'large'} src={item.image ? item.image : ''} />
+              <Avatar icon={<UserOutlined />} size={'large'} src={item.image ? item.image : ''} />
             </Tooltip>
           ))}
         </Avatar.Group>
@@ -96,7 +96,7 @@ const Groups = () => {
         >
           {masters.map((item) => (
             <Tooltip key={item._id} placement="top" title={item.name ? item.name : 'no name'}>
-              <Avatar size={'large'} src={item.image ? item.image : ''} />
+              <Avatar icon={<UserOutlined />} size={'large'} src={item.image ? item.image : ''} />
             </Tooltip>
           ))}
         </Avatar.Group>
