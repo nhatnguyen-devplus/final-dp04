@@ -1,5 +1,5 @@
 import { workSpaceRepositories } from '../repositories'
-import { NotiRepositories } from '../repositories/notiRepositories'
+import { NotificationRepositories } from '../repositories/notiRepositories'
 
 const createMany = async (userFrom, userTo, description) => {
   const workspace = await workSpaceRepositories.getList()
@@ -14,9 +14,21 @@ const createMany = async (userFrom, userTo, description) => {
     }
   })
 
-  await NotiRepositories.createMany(data)
+  await NotificationRepositories.createMany(data)
 }
 
-export const notiService = {
+const getOne = async (notiId) => await NotificationRepositories.getOne(notiId)
+
+const update = async (notiId) => {
+  const seen = {
+    isSeen: true,
+  }
+
+  await NotificationRepositories.update(notiId, seen)
+}
+
+export const notificationService = {
   createMany,
+  getOne,
+  update,
 }
