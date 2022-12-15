@@ -1,5 +1,6 @@
 import { RequestSTT, TypeHistory } from '../constants/enum'
 import { historyRepositories, logOffRepositories } from '../repositories'
+import { notiService } from './notiservice'
 
 const create = async (requestLogOff, totalMaster, userId) => {
   try {
@@ -15,6 +16,8 @@ const create = async (requestLogOff, totalMaster, userId) => {
       quantity: requestLogOff.quantity,
       contentlog: requestLogOff.contentlog,
     }
+    const descriptionNoti = 'New log off request'
+    await notiService.createMany(userId, totalMaster, descriptionNoti)
     return logOffRepositories.create(newLogOff)
   } catch (error) {
     throw error
@@ -47,12 +50,19 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     typelog: null,
   }
   let changeSTT
+  let userTo = []
+  let descriptionNoti
 
   if (logoffUpdateReq.status === RequestSTT.APPROVE) {
     newHistory.typelog = TypeHistory.APPROVE
     newHistory.approval.push(userId)
+
     await logOffRepositories.addApproval(logOffId, userId)
+
     const newLogOff = await logOffRepositories.getOne(logOffId)
+
+    userTo.push(logOff.user._id)
+    descriptionNoti = ' approved your request'
 
     if (newLogOff.approval.length === newLogOff.masters.length) {
       changeSTT = {
@@ -65,6 +75,8 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   if (logoffUpdateReq.status === RequestSTT.REJECT) {
     newHistory.typelog = TypeHistory.REJECT
     newHistory.reason = logoffUpdateReq.reason
+    userTo.push(logOff.user._id)
+    descriptionNoti = ' rejected your request'
 
     changeSTT = {
       status: RequestSTT.REJECT,
@@ -74,6 +86,8 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   if (logoffUpdateReq.status === RequestSTT.CHANGE_REQUEST) {
     newHistory.typelog = TypeHistory.CHANGE_REQUEST
     newHistory.reason = logoffUpdateReq.reason
+    userTo.push(logOff.user._id)
+    descriptionNoti = ' change your request'
 
     changeSTT = {
       status: RequestSTT.CHANGE_REQUEST,
@@ -83,6 +97,8 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.CANCLE) {
     newHistory.typelog = TypeHistory.CANCLE
+    userTo.concat(newHistory.masters)
+    descriptionNoti = ' cancle request'
 
     changeSTT = {
       status: RequestSTT.CANCLE,
@@ -96,6 +112,9 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     newHistory.quantity = logoffUpdateReq.quantity
     newHistory.approval = []
 
+    userTo.concat(newHistory.masters)
+    descriptionNoti = ' updated request'
+
     changeSTT = {
       status: RequestSTT.PENDING,
       approval: [],
@@ -103,6 +122,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   }
 
   await historyRepositories.create(newHistory)
+  await notiService.createMany(userId, userTo, descriptionNoti)
   await logOffRepositories.update(logOffId, changeSTT)
   return newHistory
 }

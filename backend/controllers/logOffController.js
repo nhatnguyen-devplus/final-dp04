@@ -2,9 +2,8 @@ import { errors } from '../constants'
 import { RequestSTT } from '../constants/enum'
 import { jwtService } from '../generals/jwt'
 import { logOffValidation } from '../validations'
-
-const { Helper, ResponseBase } = require('../generals')
-const { logOffService, historyService, userService, userGroupService } = require('../services')
+import { Helper, ResponseBase } from '../generals'
+import { logOffService, historyService, userService, userGroupService } from '../services'
 
 const create = async (req, res) => {
   const logOffCreateReq = req.body

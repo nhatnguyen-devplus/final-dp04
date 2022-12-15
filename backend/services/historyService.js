@@ -1,7 +1,7 @@
 import { TypeHistory } from '../constants/enum'
 import { historyRepositories } from '../repositories'
 
-const create = async (newHistory) => {
+const create = async (newHistory, type = null) => {
   try {
     const createHistory = {
       typelog: TypeHistory.CREATE,
@@ -14,7 +14,7 @@ const create = async (newHistory) => {
       quantity: newHistory.quantity,
       contentlog: newHistory.contentlog,
     }
-    //TODO: NOTI for all masters
+
     await historyRepositories.create(createHistory)
   } catch (error) {
     throw error
