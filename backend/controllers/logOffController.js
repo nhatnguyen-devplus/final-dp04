@@ -89,7 +89,7 @@ const getOne = async (req, res) => {
     const user = await userService.getOne(decode.data.id)
     const logoff = await logOffService.getOne(logoffId)
 
-    if (logoff.masters.includes(user._id) || logoff.user.toString() === user._id.toString()) {
+    if (logoff.masters.includes(user._id) || logoff.user._id.toString() === user._id.toString()) {
       return ResponseBase.responseJsonHandler(logoff, res, 'Get logoff')
     }
     return res.json(errors.FORBIDDEN)

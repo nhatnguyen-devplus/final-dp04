@@ -65,7 +65,7 @@ const CreateMember = () => {
       openNotificationWithIcon('error', error.response.data.message)
     }
   }, [error])
-  
+
   return (
     <>
       <ViewHeader breadcrumbs={breadcrumbs} />

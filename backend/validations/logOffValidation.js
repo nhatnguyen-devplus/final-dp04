@@ -6,7 +6,8 @@ const logOffReq = Joi.object({
   reason: Joi.string().required(),
   quantity: Joi.required(),
   contentlog: Joi.string().required(),
-  status: Joi.string().required(),
+  status: Joi.any(),
+  time: Joi.any(),
 })
 
 export const logOffValidation = {

@@ -6,7 +6,6 @@ import Groups from '@app/components/Groups'
 import CreateGroup from '@app/components/Groups/create'
 import DetailsGroups from '@app/components/Groups/details'
 import Layout from '@app/components/Layout/Layout'
-import LogOffForm from '@app/components/LogOff'
 import Members from '@app/components/Members'
 import CreateMember from '@app/components/Members/create'
 import DetailsMember from '@app/components/Members/details'
@@ -41,7 +40,6 @@ const Index = () => {
                 <Route element={<Dashboard />} path="dashboard" />
                 <Route element={<Requests />} path="requests" />
                 <Route element={<DetailsRequest />} path="requests/details/:id" />
-                <Route element={<LogOffForm />} path="logoff/create" />
                 <Route element={<Groups />} path="groups" />
                 <Route element={<CreateGroup />} path="groups/create" />
                 <Route element={<DetailsGroups />} path="groups/details/:id" />

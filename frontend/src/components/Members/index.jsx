@@ -39,7 +39,7 @@ const Members = () => {
       getAllMembers()
     }
   }, [response])
-  
+
   const showModal = () => {
     setIsModalOpen(!isModalOpen)
   }
@@ -77,7 +77,7 @@ const Members = () => {
     {
       title: 'Group',
       dataIndex: 'groupsId',
-      render: (groupsId) => (0 < groupsId.length && groupsId.map((group) => group.name).join(', '))
+      render: (groupsId) => 0 < groupsId.length && groupsId.map((group) => group.name).join(', '),
     },
     ,
     {
@@ -108,7 +108,7 @@ const Members = () => {
       ),
     },
   ]
-  console.log(members)
+
   return (
     <>
       {members && (
