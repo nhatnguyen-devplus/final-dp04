@@ -6,6 +6,7 @@ import { authValidation } from '../validations/authValidation'
 import { jwtService } from '../generals/jwt'
 import { OAuth2Client } from 'google-auth-library'
 import { emailValidation } from '../validations'
+import { bcryptService } from '../generals/bcrypt'
 
 const client = new OAuth2Client(process.env.CLIENT_ID)
 const register = async (req, res) => {
@@ -44,7 +45,11 @@ const login = async (req, res) => {
 
     const user = await User.findOne({ email: email })
 
-    if (!user) return res.status(404).json(errors.NOT_FOUND)
+    if (!user) return res.status(404).json(errors.INCORRECT_PASSWORD_OR_EMAIL)
+
+    const correctPassword = await bcryptService.compare(password, user.password)
+
+    if (!correctPassword) return res.status(401).json(errors.INCORRECT_PASSWORD_OR_EMAIL)
 
     const newToken = await authService.login(password, user)
 

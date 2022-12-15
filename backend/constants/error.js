@@ -38,9 +38,9 @@ export default {
     message: 'EXISTED_GROUP',
   },
 
-  INCORRECT_PASSWORD: {
+  INCORRECT_PASSWORD_OR_EMAIL: {
     status: '401',
-    message: 'INCORRECT_PASSWORD',
+    message: 'INCORRECT_PASSWORD_OR_EMAIL',
   },
 
   UNAUTHORIZE: {
