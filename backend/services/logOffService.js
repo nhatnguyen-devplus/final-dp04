@@ -1,6 +1,6 @@
 import { RequestSTT, TypeHistory } from '../constants/enum'
 import { historyRepositories, logOffRepositories } from '../repositories'
-import { notiService } from './notiservice'
+import { notificationService } from './notificationservice'
 
 const create = async (requestLogOff, totalMaster, userId) => {
   try {
@@ -17,7 +17,7 @@ const create = async (requestLogOff, totalMaster, userId) => {
       contentlog: requestLogOff.contentlog,
     }
     const descriptionNoti = 'New log off request'
-    await notiService.createMany(userId, totalMaster, descriptionNoti)
+    await notificationService.createMany(userId, totalMaster, descriptionNoti)
     return logOffRepositories.create(newLogOff)
   } catch (error) {
     throw error
@@ -122,7 +122,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   }
 
   await historyRepositories.create(newHistory)
-  await notiService.createMany(userId, userTo, descriptionNoti)
+  await notificationService.createMany(userId, userTo, descriptionNoti)
   await logOffRepositories.update(logOffId, changeSTT)
   return newHistory
 }
