@@ -58,7 +58,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
               <Text strong>To:</Text> {moment(details.logoffto).format('YYYY-MM-DD')}
             </Text>
             <Text>
-              <Text strong>Quantity:</Text> {details.dayoff}
+              <Text strong>Quantity:</Text> {details.quantity}
             </Text>
           </Space>
         </Col>

@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   isLoggedIn: false,
   idToken: null,
   error: null,
+  response: null,
 }
 
 const loginReducer = (state = INITIAL_STATE, action) => {
@@ -26,6 +27,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
+        response: null,
       }
     }
 
@@ -48,6 +51,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
+        error: null,
+        response: null,
       }
     }
 
@@ -56,6 +61,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         isLoggedIn: true,
+        response: action.payload,
         idToken: localStorage.getItem('token') || '',
       }
 

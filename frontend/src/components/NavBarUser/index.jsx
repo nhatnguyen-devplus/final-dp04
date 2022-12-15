@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 
 const NavBarUser = () => {
-  const { role } = useSelector((state) => state.login)
+  const { role, data } = useSelector((state) => state.login)
   const dispatch = useDispatch()
   const logOut = useCallback(() => dispatch(userLogOut()), [dispatch])
 
@@ -52,11 +52,15 @@ const NavBarUser = () => {
   ]
   return (
     <div className="user-nav">
-      <Link to={'Admin' === role ? '/admin/logoff/create' : '/client/logoff/create'}>
-        <Button className="btn-logoff" icon={<PlusOutlined />} type="primary">
-          Log Off
-        </Button>
-      </Link>
+      {'Admin' !== role ? (
+        <Link to="/client/logoff/create">
+          <Button className="btn-logoff" icon={<PlusOutlined />} type="primary">
+            Log Off
+          </Button>
+        </Link>
+      ) : (
+        <></>
+      )}
       <Notifications />
       <Dropdown
         menu={{
@@ -66,8 +70,8 @@ const NavBarUser = () => {
       >
         <Link onClick={(e) => e.preventDefault()}>
           <Space>
-            Nguyễn Quang Hiếu
-            <Avatar src="https://joeschmoe.io/api/v1/random" />
+            {data?.name}
+            <Avatar src={data.avatar ? data.avatar : 'https://joeschmoe.io/api/v1/random'} />
           </Space>
         </Link>
       </Dropdown>

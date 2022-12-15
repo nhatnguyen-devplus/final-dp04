@@ -72,7 +72,7 @@ const Requests = () => {
     },
     {
       title: 'Quantity',
-      dataIndex: 'qty',
+      dataIndex: 'quantity',
       width: '5%',
     },
     {
@@ -157,7 +157,7 @@ const Requests = () => {
               <Form.Item name="status">
                 <Input readOnly style={{ border: 'none' }} value={status} />
               </Form.Item>
-              <Form.Item name="comment">
+              <Form.Item name="reason">
                 <TextArea placeholder="Your comment" rows={4} />
               </Form.Item>
               <Form.Item>

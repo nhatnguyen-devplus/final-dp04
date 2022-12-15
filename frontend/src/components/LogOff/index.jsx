@@ -35,7 +35,7 @@ const LogOffForm = () => {
   useEffect(() => {
     if (null !== response) {
       if (response.status && 200 === response.status) {
-        navigate('/admin/requests')
+        navigate('/client/requests')
       } else {
         openNotificationWithIcon('error', response.message)
       }
@@ -50,7 +50,7 @@ const LogOffForm = () => {
 
   const onFinish = (values) => {
     createLogOff({
-      type: values.type,
+      contentlog: values.type,
       logofffrom: values.from.format('YYYY-MM-DD'),
       logoffto: values.to.format('YYYY-MM-DD'),
       quantity: values.quantity,
@@ -103,8 +103,8 @@ const LogOffForm = () => {
                   ]}
                 >
                   <Radio.Group>
-                    <Radio value={1}>Off</Radio>
-                    <Radio value={2}>WFH</Radio>
+                    <Radio value="Off">Off</Radio>
+                    <Radio value="WFH">WFH</Radio>
                   </Radio.Group>
                 </Form.Item>
                 <Row>
