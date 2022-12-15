@@ -1,6 +1,5 @@
 import { jwtService } from '../generals/jwt'
 import { errors } from '../constants'
-import { User } from '../schemas/users'
 import { Helper, ResponseBase } from '../generals'
 import { userService } from '../services'
 import { userValidation } from '../validations/userValidation'
@@ -43,12 +42,16 @@ const getList = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
+  const token = req.headers.authorization
+  const userId = req.params._id
+  const decode = jwtService.decodeToken(token.split(' ')[1])
   try {
-    const userId = req.params._id
+    const userlogin = await userService.getOne(decode.data.id)
     const user = await userService.getOne(userId)
 
     if (!user) return res.status(404).json(errors.NOT_FOUND)
 
+    if (userId === userlogin._id.toString()) return res.json(errors.UNAUTHORIZE)
     await userService.deleteUser(userId)
 
     return ResponseBase.responseJsonHandler(user, res, 'Delete user')

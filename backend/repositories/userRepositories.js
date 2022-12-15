@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { User } from '../schemas/users'
 
 const getList = () => User.find({}).populate({ path: 'groupsId', select: 'name' })
