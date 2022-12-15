@@ -1,14 +1,19 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Form, Input } from 'antd'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const LoginForm = ({ handleLogin }) => {
+  const [form] = Form.useForm()
+  const { response } = useSelector((state) => state.login)
   const onFinish = (values) => {
+    form.resetFields(['password'])
     handleLogin(values)
   }
   return (
     <Form
       className="login-form"
+      form={form}
       initialValues={{
         remember: true,
       }}
@@ -42,6 +47,11 @@ const LoginForm = ({ handleLogin }) => {
       >
         <Input placeholder="Password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
+      {response && '401' === response.status ? (
+        <p style={{ color: 'red' }}>You entered the wrong email or password</p>
+      ) : (
+        <></>
+      )}
       <Form.Item>
         <Form.Item noStyle name="remember" valuePropName="checked">
           <Checkbox>Remember me</Checkbox>

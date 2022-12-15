@@ -18,6 +18,7 @@ const INITIAL_STATE = {
   isLoggedIn: false,
   idToken: null,
   error: null,
+  errorToken: null,
   response: null,
 }
 
@@ -37,6 +38,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         isLoggedIn: true,
+        response: action.payload,
         idToken: localStorage.getItem('token') || '',
       }
 
@@ -92,7 +94,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
     case GET_USER_BY_TOKEN_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        errorToken: action.payload,
         loading: false,
         isLoggedIn: false,
       }

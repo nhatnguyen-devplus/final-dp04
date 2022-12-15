@@ -1,6 +1,6 @@
 import LoginForm from '@app/components/LoginForm'
 import LogoLogin from '@app/components/LoginLogo'
-import { Col, Row } from 'antd'
+import { Col, notification, Row } from 'antd'
 import { useCallback, useEffect } from 'react'
 import GoogleLogin from 'react-google-login'
 import './Login.scss'
@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getUserLogin, getUserByToken, getUserLoginGoogle } from '@app/redux/login/actions'
 
 const LoginPage = () => {
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn)
+  const { isLoggedIn, response } = useSelector((state) => state.login)
   const dispatch = useDispatch()
   const userLogin = useCallback((values) => dispatch(getUserLogin(values)), [dispatch])
   const userLoginGoogle = useCallback((isToken) => dispatch(getUserLoginGoogle(isToken)), [dispatch])
@@ -18,6 +18,23 @@ const LoginPage = () => {
     gapi.auth2.getAuthInstance().disconnect()
     userLoginGoogle(res.tokenId)
   }
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (type, desc) => {
+    api[type]({
+      message: type,
+      description: desc,
+      type,
+    })
+  }
+
+  useEffect(() => {
+    if (response) {
+      if (response.status && 400 === response.status) {
+        openNotificationWithIcon('error', 'Error: Your email input is incorrect')
+      }
+    }
+  }, [response])
+
   useEffect(() => {
     const start = () => {
       gapi.client.init({
@@ -37,6 +54,7 @@ const LoginPage = () => {
   }
   return (
     <div className="login-page">
+      {contextHolder}
       <Row justify="center">
         <LogoLogin />
       </Row>
