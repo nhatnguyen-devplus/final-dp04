@@ -15,7 +15,7 @@ const register = async (req, res) => {
   try {
     await authValidation.checkCreateReq.validateAsync(userCreateReq)
   } catch (err) {
-    return res.status(400).json({
+    return res.json({
       status: 400,
       message: err.details[0].message,
     })
@@ -26,9 +26,9 @@ const register = async (req, res) => {
 
     const checkEmail = await User.findOne({ email: userCreateReq.email })
 
-    if (checkPhone) return res.status(422).json(errors.EXISTED_PHONE)
+    if (checkPhone) return res.json(errors.EXISTED_PHONE)
 
-    if (checkEmail) return res.status(422).json(errors.EXISTED_EMAIL)
+    if (checkEmail) return res.json(errors.EXISTED_EMAIL)
 
     const newUser = await authService.register(userCreateReq)
 
@@ -41,17 +41,17 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body
-    if (!email || !password) return res.status(422).json(errors.ERROR_INPUT)
+    if (!email || !password) return res.json(errors.ERROR_INPUT)
 
     const user = await User.findOne({ email: email })
 
-    if (!user) return res.status(404).json(errors.INCORRECT_PASSWORD_OR_EMAIL)
+    if (!user) return res.json(errors.INCORRECT_PASSWORD_OR_EMAIL)
 
     const correctPassword = await bcryptService.compare(password, user.password)
 
-    if (!correctPassword) return res.status(401).json(errors.INCORRECT_PASSWORD_OR_EMAIL)
+    if (!correctPassword) return res.json(errors.INCORRECT_PASSWORD_OR_EMAIL)
 
-    const newToken = await authService.login(password, user)
+    const newToken = await authService.login(user)
 
     return ResponseBase.responseJsonHandler(newToken, res, 'Login')
   } catch (error) {
@@ -61,14 +61,14 @@ const login = async (req, res) => {
 
 const loginGG = async (req, res) => {
   const tokenID = req.headers.authorization
-  if (!tokenID) return res.status(200).json(errors.INVALID_TOKEN)
+  if (!tokenID) return res.json(errors.INVALID_TOKEN)
   try {
     try {
       var ticket = await client.verifyIdToken({
         idToken: tokenID.split(' ')[1],
       })
     } catch (error) {
-      return res.status(200).json(errors.INVALID_TOKEN)
+      return res.json(errors.INVALID_TOKEN)
     }
 
     const infoUser = ticket.getPayload()
@@ -76,7 +76,7 @@ const loginGG = async (req, res) => {
     try {
       await emailValidation.checkEmail.validateAsync(infoUser)
     } catch (err) {
-      return res.status(400).json({
+      return res.json({
         status: 400,
         message: err.details[0].message,
       })

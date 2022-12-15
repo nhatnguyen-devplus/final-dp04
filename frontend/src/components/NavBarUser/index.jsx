@@ -71,7 +71,7 @@ const NavBarUser = () => {
         <Link onClick={(e) => e.preventDefault()}>
           <Space>
             {data?.name}
-            <Avatar src={data.avatar ? data.avatar : 'https://joeschmoe.io/api/v1/random'} />
+            <Avatar src={data.avatar ? data.avatar : ''} />
           </Space>
         </Link>
       </Dropdown>
