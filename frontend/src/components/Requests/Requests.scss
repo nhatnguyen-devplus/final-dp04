@@ -16,3 +16,20 @@
 .status-details {
   font-weight: bold;
 }
+.status {
+  text-align: center;
+  p {
+    font-size: 14px;
+    border-radius: 10px;
+    max-width: 130px !important;
+  }
+  .status-Pending {
+    background-color: rgba(128, 128, 128, 0.555);
+  }
+  .status-Change {
+    background-color: #fcce00;
+  }
+  .status-approval {
+    background-color: #3fd603cf;
+  }
+}

@@ -4,7 +4,7 @@ import { Row, Col, Typography, Space } from 'antd'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 const DetailsRequestLeftSide = ({ details, action }) => {
-  const { role } = useSelector((state) => state.login)
+  const { data } = useSelector((state) => state.login)
   const { Text } = Typography
   const switchColor = (status) => {
     switch (status) {
@@ -25,7 +25,13 @@ const DetailsRequestLeftSide = ({ details, action }) => {
   const switchAction = (action) => {
     switch (action) {
       case 'request':
-        return <>{'Admin' === role && <RequestAction />}</>
+        return (
+          <>
+            {'Pending' === details.status && !details.approval.includes(data._id) && details.user._id !== data._id && (
+              <RequestAction />
+            )}
+          </>
+        )
       case 'dayoff':
         return <DayOffAction />
       default:

@@ -8,7 +8,7 @@ const UserGroupRouter = express.Router()
 
 UserGroupRouter.get('/:_id', CheckAuth, userGroupController.getOne)
 
-UserGroupRouter.get('/', isAdmin, userGroupController.getList)
+UserGroupRouter.get('/', CheckAuth, userGroupController.getList)
 
 UserGroupRouter.post('/', multer().none(), isAdmin, userGroupController.createUserGroup)
 
