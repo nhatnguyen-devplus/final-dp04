@@ -3,6 +3,7 @@ import { errors } from '../constants'
 import { Helper, ResponseBase } from '../generals'
 import { userService } from '../services'
 import { userValidation } from '../validations/userValidation'
+import { Role } from '../constants/enum'
 
 const getOne = async (req, res) => {
   const token = req.headers.authorization
@@ -86,7 +87,7 @@ const updateUser = async (req, res) => {
     if (token) {
       const decode = jwtService.decodeToken(token.split(' ')[1])
 
-      if (decode.data.id === userId) {
+      if (decode.data.id === userId || decode.data.role === Role.ADMIN) {
         const updatedUser = await userService.updateUser(userId, userUpdateReq)
 
         return ResponseBase.responseJsonHandler(updatedUser, res, 'Update User')

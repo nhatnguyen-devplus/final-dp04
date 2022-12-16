@@ -2,7 +2,7 @@ export const RequestSTT = {
   PENDING: 'Pending',
   APPROVE: 'Approve',
   REJECT: 'Reject',
-  CANCLE: 'Cancle',
+  CANCEL: 'Cancel',
   CHANGE_REQUEST: 'Change Request',
   REVERT: 'Revert',
   UPDATE: 'Update',
@@ -29,6 +29,6 @@ export const TypeHistory = {
   APPROVE: 'APPROVE',
   REJECT: 'REJECT',
   CHANGE_REQUEST: 'CHANGE_REQUEST',
-  CANCLE: 'CANCLE',
+  CANCEL: 'CANCEL',
   REVERT: 'REVERT',
 }
