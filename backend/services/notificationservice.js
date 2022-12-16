@@ -3,7 +3,6 @@ import { NotificationRepositories } from '../repositories/notiRepositories'
 
 const createMany = async (userFrom, userTo, description) => {
   const workspace = await workSpaceRepositories.getList()
-
   const data = userTo.map((item) => {
     return {
       from: userFrom,
