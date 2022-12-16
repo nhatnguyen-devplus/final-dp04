@@ -8,9 +8,9 @@ const web = new WebClient(token)
 const sendCreatedUser = async (req, res) => {
     try{
         const result = await web.chat.postMessage({
-          scopes: ['chat:write'],
+          scopes: ['chat:write:bot'],
           text: `Created a new ${req.role} with name: ${req.name}`,
-          channel: 'C04EQRRTNH5',
+          channel: ['C04EQQZRZ39','C04EQRRTNH5'],
         })
     }
     catch(err){

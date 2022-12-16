@@ -4,7 +4,7 @@ import { updateUser, getUserById } from '@app/redux/members/actions'
 import { Card, Row, Col, Button, Form, Input, notification, Select } from 'antd'
 import { useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 const validateMessages = {
   required: '${label} is required!',
   types: {
@@ -15,6 +15,7 @@ const validateMessages = {
   },
 }
 const EditMember = () => {
+  const navigate = useNavigate()
   const breadcrumbs = {
     data: [
       {
@@ -38,28 +39,33 @@ const EditMember = () => {
   }
   //Call API
   const details = useSelector((state) => state.members.dataById)
+  const {response, error} = useSelector((state) => state.members)
   const dispatch = useDispatch()
   const params = useParams()
   const getDetails = useCallback((id) => dispatch(getUserById(id)), [dispatch])
   const update = useCallback((data) => dispatch(updateUser(data)), [dispatch])
+  
   useEffect(() => {
     getDetails(params.id)
   }, [])
-  // useEffect(() => {
-  //   if (response) {
-  //     if (response.status && 200 === response.status) {
-  //       openNotificationWithIcon('success', response.message)
-  //     } else {
-  //       openNotificationWithIcon('error', response.message)
-  //     }
-  //   }
-  // }, [response])
 
-  // useEffect(() => {
-  //   if (error) {
-  //     openNotificationWithIcon('error', error.response.data.message)
-  //   }
-  // }, [error])
+  useEffect(() => {
+    if (response) {
+      if (response.status && 200 === response.status) {
+        openNotificationWithIcon('success', response.message)
+        navigate('/admin/members')
+      } else {
+        openNotificationWithIcon('error', response.message)
+      }
+    }
+  }, [response])
+
+  useEffect(() => {
+    if (error) {
+      openNotificationWithIcon('error', error.response.data.message)
+    }
+  }, [error])
+
   const onFinish = (values) => {
     const name = `${values.firstName} ${values.lastName}`
     values.name = name

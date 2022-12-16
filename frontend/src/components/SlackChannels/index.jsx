@@ -1,8 +1,9 @@
 import ViewHeader from '@app/components/ViewHeader'
+import { getAllSlackChannels } from '@app/redux/slack/actions'
 import { Card, Row, Col, Button, Form, Select } from 'antd'
+import { useEffect, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { dayOffChannel, hrChannel } from './NotiData'
-
 const SlackChannels = () => {
   const breadcrumbs = {
     data: [
@@ -16,6 +17,16 @@ const SlackChannels = () => {
     ],
     spread: '/',
   }
+
+  const channels = useSelector((state) => state.slack.dataAll)
+  const dispatch = useDispatch()
+  const getAllChannels = useCallback(() => dispatch(getAllSlackChannels()), [dispatch])
+   
+  useEffect(() => {
+    getAllChannels()
+  }, [])
+
+  console.log(channels);
   const onFinish = (values) => {
     console.log(values)
   }
@@ -24,8 +35,6 @@ const SlackChannels = () => {
       value: item.id,
       label: item.name,
     }))
-  const dayOff = convertData(dayOffChannel)
-  const hr = convertData(hrChannel)
   const filter = (input, option) =>
     0 <= option.props.children.toLowerCase().indexOf(input.toLowerCase()) ||
     0 <= option.props.value.toLowerCase().indexOf(input.toLowerCase())
@@ -44,7 +53,7 @@ const SlackChannels = () => {
         >
           <Row>
             <Col span={12}>
-              <Form initialValues={{ dayoffchannel: dayOff, hrchannel: hr }} layout={'vertical'} onFinish={onFinish}>
+              <Form layout={'vertical'} onFinish={onFinish}>
                 <Form.Item
                   label="Day off channel"
                   name={['dayoffchannel']}
@@ -60,7 +69,7 @@ const SlackChannels = () => {
                     mode="multiple"
                     placeholder="Choose day off channel"
                   >
-                    {dayOffChannel.map((option) => (
+                    {channels?.map((option) => (
                       <Select.Option key={option.id} value={option.id}>
                         {option.name}
                       </Select.Option>
@@ -82,7 +91,7 @@ const SlackChannels = () => {
                     mode="multiple"
                     placeholder="Choose Channel"
                   >
-                    {hrChannel.map((option) => (
+                    {channels?.map((option) => (
                       <Select.Option key={option.id} value={option.id}>
                         {option.name}
                       </Select.Option>
