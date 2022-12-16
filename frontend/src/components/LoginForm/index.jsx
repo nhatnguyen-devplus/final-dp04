@@ -47,11 +47,7 @@ const LoginForm = ({ handleLogin }) => {
       >
         <Input placeholder="Password" prefix={<LockOutlined className="site-form-item-icon" />} type="password" />
       </Form.Item>
-      {response && '401' === response.status ? (
-        <p style={{ color: 'red' }}>You entered the wrong email or password</p>
-      ) : (
-        <></>
-      )}
+      {response && '401' === response.status && <p style={{ color: 'red' }}>You entered the wrong email or password</p>}
       <Form.Item>
         <Form.Item noStyle name="remember" valuePropName="checked">
           <Checkbox>Remember me</Checkbox>

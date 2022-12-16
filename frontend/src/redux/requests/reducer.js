@@ -8,6 +8,9 @@ import {
   CREATE_REQUEST,
   CREATE_REQUEST_SUCCESS,
   CREATE_REQUEST_FAILURE,
+  UPDATE_REQUEST,
+  UPDATE_REQUEST_SUCCESS,
+  UPDATE_REQUEST_FAILURE,
 } from './constant'
 
 const INITIAL_STATE = {
@@ -81,6 +84,27 @@ const requestsReducer = (state = INITIAL_STATE, action) => {
       }
 
     case CREATE_REQUEST_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      }
+
+    case UPDATE_REQUEST: {
+      return {
+        ...state,
+        loading: true,
+      }
+    }
+
+    case UPDATE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        response: action.payload,
+      }
+
+    case UPDATE_REQUEST_FAILURE:
       return {
         ...state,
         error: action.payload,

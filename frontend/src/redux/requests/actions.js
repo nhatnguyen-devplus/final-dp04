@@ -8,6 +8,9 @@ import {
   CREATE_REQUEST,
   CREATE_REQUEST_SUCCESS,
   CREATE_REQUEST_FAILURE,
+  UPDATE_REQUEST,
+  UPDATE_REQUEST_SUCCESS,
+  UPDATE_REQUEST_FAILURE,
 } from './constant'
 
 export const getAllRequests = () => ({
@@ -51,5 +54,20 @@ export const createRequestSuccess = (profile) => ({
 
 export const createRequestFailure = (error) => ({
   type: CREATE_REQUEST_FAILURE,
+  payload: error,
+})
+
+export const updateRequest = (data) => ({
+  type: UPDATE_REQUEST,
+  payload: data,
+})
+
+export const updateRequestSuccess = (profile) => ({
+  type: UPDATE_REQUEST_SUCCESS,
+  payload: profile,
+})
+
+export const updateRequestFailure = (error) => ({
+  type: UPDATE_REQUEST_FAILURE,
   payload: error,
 })
