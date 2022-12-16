@@ -1,24 +1,43 @@
 .login-page {
-  background-color: #def5e5;
-  min-height: 100vh;
-  background-image: linear-gradient(to bottom right, #eff5f5, #f7f7f7);
+  background-color: #8eafd0;
+  height: 100vh;
+  // background-image: linear-gradient(to bottom right, #8ac3dd, #aec2ca);
+  background-image: url(../../../../public/images/WallpaperDog-20512824.jpg);
+  background-size: cover;
   padding-bottom: 50px;
+
+  h2 {
+      font-size: 28px;
+      color: rgb(58, 58, 58);
+      text-shadow: 1px 1px 1px rgb(255, 255, 255);
+      margin-bottom: 20px;
+      margin-top: 15px;
+    }
+  
+  h1 {
+    font-size: 40px;
+    color: rgb(58, 58, 58);
+    text-shadow: 1px 1px 1px rgb(255, 255, 255);
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
 }
 .login-parrent {
   margin-top: 20px;
   padding: 10px 20px 20px 20px;
   background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 8px #e0e0e0;
+  border-radius: 15px;
+  box-shadow:  3px 3px 8px #3d4246;
+  padding-bottom: 30px;
 
   button {
-    width: 100%;
-    text-align: center !important;
-    border-radius: 8px !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold !important;
-    margin-bottom: 0px !important;
+  width: 100%;
+  text-align: center !important;
+  border-radius: 8px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold !important;
+  margin-bottom: 0px !important;
   }
 }

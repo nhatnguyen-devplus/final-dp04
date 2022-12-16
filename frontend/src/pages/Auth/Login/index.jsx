@@ -59,12 +59,12 @@ const LoginPage = () => {
         <LogoLogin />
       </Row>
       <Row justify="center">
-        <h1>First, you need to Login</h1>
+        <h2>First, you need to Login</h2>
         <p></p>
       </Row>
       <Row justify="center">
         <Col className="login-parrent" md={6} sm={18} xs={20}>
-          <h2>Login</h2>
+          <h2 style={{textAlign: 'center', fontSize: '24px'}}>Login Form</h2>
           <LoginForm handleLogin={(data) => handleLogin(data)} />
           <GoogleLogin
             buttonText="Login with Google"
