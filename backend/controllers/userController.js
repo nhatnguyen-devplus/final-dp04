@@ -21,7 +21,6 @@ const getUser = async (req, res) => {
   try {
     try {
       const user = await userService.getOnePopulate(userId)
-
       if (!user) return res.status(404).json(errors.NOT_FOUND)
       return ResponseBase.responseJsonHandler(user, res, 'Get user')
     } catch (error) {
@@ -35,7 +34,6 @@ const getUser = async (req, res) => {
 const getList = async (req, res) => {
   try {
     const listUsers = await userService.getListPopulate()
-
     return ResponseBase.responseJsonHandler(listUsers, res, 'Get list users')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)

@@ -7,6 +7,7 @@ import { jwtService } from '../generals/jwt'
 import { OAuth2Client } from 'google-auth-library'
 import { emailValidation } from '../validations'
 import { bcryptService } from '../generals/bcrypt'
+import { slackController } from './slackController'
 
 const client = new OAuth2Client(process.env.CLIENT_ID)
 const register = async (req, res) => {
@@ -31,7 +32,7 @@ const register = async (req, res) => {
     if (checkEmail) return res.json(errors.EXISTED_EMAIL)
 
     const newUser = await authService.register(userCreateReq)
-
+    slackController.sendCreatedUser(newUser)
     return ResponseBase.responseJsonHandler(newUser, res, 'Register')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)
