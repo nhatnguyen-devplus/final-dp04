@@ -8,6 +8,12 @@ const getListRequests = (totalUser) =>
     'user',
   ])
 
+const getListDayOffs = (totalUser) =>
+  RequestLogOff.find({ user: { $in: totalUser }, status: { $in: ['Reject', 'Approve', 'Cancel'] } }).populate([
+    'masters',
+    'user',
+  ])
+
 const getOne = (logOffId) => RequestLogOff.findById(logOffId).populate('user')
 
 const addApproval = async (logOffId, userId) =>
@@ -21,4 +27,5 @@ export const logOffRepositories = {
   getOne,
   addApproval,
   update,
+  getListDayOffs,
 }

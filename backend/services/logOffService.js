@@ -34,6 +34,16 @@ const getListRequests = async (totalUser) => {
   }
 }
 
+const getListDayOffs = async (totalUser) => {
+  try {
+    const dayOffs = await logOffRepositories.getListDayOffs(totalUser)
+
+    return dayOffs
+  } catch (error) {
+    throw error
+  }
+}
+
 const getOne = async (logOffId) => await logOffRepositories.getOne(logOffId)
 
 const update = async (logOffId, userId, logoffUpdateReq) => {
@@ -132,4 +142,5 @@ export const logOffService = {
   getListRequests,
   update,
   getOne,
+  getListDayOffs,
 }

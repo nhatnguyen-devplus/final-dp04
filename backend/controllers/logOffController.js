@@ -78,6 +78,28 @@ const getListRequests = async (req, res) => {
   }
 }
 
+const getListDayOffs = async (req, res) => {
+  const token = req.headers.authorization
+
+  try {
+    const decode = jwtService.decodeToken(token.split(' ')[1])
+
+    const user = await userService.getOne(decode.data.id)
+
+    const groups = await userGroupService.getByIds(user.groupsId)
+
+    const totalUser = checkDuplicate(groups, user._id)
+
+    if (totalUser.length === 0) {
+      totalUser.push(user._id.toString())
+    }
+    const listDayOffs = await logOffService.getListDayOffs(totalUser)
+    return ResponseBase.responseJsonHandler(listDayOffs, res, 'List request')
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
 const getOne = async (req, res) => {
   const token = req.headers.authorization
   const logoffId = req.params._id
@@ -143,7 +165,7 @@ const update = async (req, res) => {
 
       //Cancel logoff(CheckAuth) and Approval = 0
       if (logoffUpdateReq.status === RequestSTT.CANCEL) {
-        if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
+        if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
 
         if (logoff.approval.length > 0) return res.json(errors.INVALID_DATA)
       }
@@ -153,7 +175,7 @@ const update = async (req, res) => {
     if (logoff.status === RequestSTT.CHANGE_REQUEST) {
       if (logoffUpdateReq.status !== RequestSTT.UPDATE || logoffUpdateReq.status !== RequestSTT.CANCEL)
         return res.json(errors.INVALID_DATA)
-      if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
+      if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
 
       if (logoffUpdateReq.status === RequestSTT.UPDATE) {
         try {
@@ -169,7 +191,7 @@ const update = async (req, res) => {
 
     // Revert checkAuth, cancel logoff
     if (logoff.status === RequestSTT.APPROVE) {
-      if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
+      if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
       if (logoffUpdateReq !== RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
 
       if (!logoffUpdateReq.status === RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
@@ -188,4 +210,5 @@ export const logOffController = {
   getListRequests,
   update,
   getOne,
+  getListDayOffs,
 }
