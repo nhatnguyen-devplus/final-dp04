@@ -114,16 +114,16 @@ const update = async (req, res) => {
       return res.json(errors.NOT_FOUND)
     }
     if (!logoffUpdateReq.status) return res.json(errors.INVALID_DATA)
-    //Cant update RequestSTT Cancle || Reject
-    if (logoff.status === RequestSTT.CANCLE || logoff.status === RequestSTT.REJECT) return res.json(errors.INVALID_DATA)
+    //Cant update RequestSTT Cancel || Reject
+    if (logoff.status === RequestSTT.CANCEL || logoff.status === RequestSTT.REJECT) return res.json(errors.INVALID_DATA)
 
-    //Stt pending masters =>  Approve || Reject || CHANGE_REQUEST || CANCLE
+    //Stt pending masters =>  Approve || Reject || CHANGE_REQUEST || CANCEL
     if (logoff.status === RequestSTT.PENDING) {
       // Reject || CHANGE_REQUEST need reason
       if (
         logoffUpdateReq.status !== RequestSTT.APPROVE &&
         logoffUpdateReq.status !== RequestSTT.REJECT &&
-        logoffUpdateReq.status !== RequestSTT.CANCLE &&
+        logoffUpdateReq.status !== RequestSTT.CANCEL &&
         logoffUpdateReq.status !== RequestSTT.CHANGE_REQUEST
       )
         return res.json(errors.INVALID_DATA)
@@ -141,17 +141,17 @@ const update = async (req, res) => {
         if (logoff.approval.includes(user._id)) return res.json(errors.INVALID_DATA)
       }
 
-      //Cancle logoff(CheckAuth) and Approval = 0
-      if (logoffUpdateReq.status === RequestSTT.CANCLE) {
+      //Cancel logoff(CheckAuth) and Approval = 0
+      if (logoffUpdateReq.status === RequestSTT.CANCEL) {
         if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
 
         if (logoff.approval.length > 0) return res.json(errors.INVALID_DATA)
       }
     }
 
-    //User update change request(Cancle) && checkauth
+    //User update change request(Cancel) && checkauth
     if (logoff.status === RequestSTT.CHANGE_REQUEST) {
-      if (logoffUpdateReq.status !== RequestSTT.UPDATE || logoffUpdateReq.status !== RequestSTT.CANCLE)
+      if (logoffUpdateReq.status !== RequestSTT.UPDATE || logoffUpdateReq.status !== RequestSTT.CANCEL)
         return res.json(errors.INVALID_DATA)
       if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
 
@@ -167,12 +167,12 @@ const update = async (req, res) => {
       }
     }
 
-    // Revert checkAuth, cancle logoff
+    // Revert checkAuth, cancel logoff
     if (logoff.status === RequestSTT.APPROVE) {
       if (user._id.toString() !== logoff.user.toString()) return res.json(errors.FORBIDDEN)
-      if (logoffUpdateReq !== RequestSTT.CANCLE) return res.json(errors.INVALID_DATA)
+      if (logoffUpdateReq !== RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
 
-      if (!logoffUpdateReq.status === RequestSTT.CANCLE) return res.json(errors.INVALID_DATA)
+      if (!logoffUpdateReq.status === RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
     }
 
     const newHistory = await logOffService.update(logoffId, user._id, logoffUpdateReq)

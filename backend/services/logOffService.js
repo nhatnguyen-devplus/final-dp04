@@ -95,13 +95,13 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     }
   }
 
-  if (logoffUpdateReq.status === RequestSTT.CANCLE) {
-    newHistory.typelog = TypeHistory.CANCLE
+  if (logoffUpdateReq.status === RequestSTT.CANCEL) {
+    newHistory.typelog = TypeHistory.CANCEL
     userTo.concat(newHistory.masters)
-    descriptionNoti = ' cancle request'
+    descriptionNoti = ' cancel request'
 
     changeSTT = {
-      status: RequestSTT.CANCLE,
+      status: RequestSTT.CANCEL,
     }
   }
 
