@@ -7,15 +7,17 @@ const WorkSpaceSchema = new Schema(
       type: String,
     },
 
-    hrchanel: [
+    hrchannel: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'channels',
       },
     ],
 
-    dayoffchanel: [
+    dayoffchannel: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'channels',
       },
     ],
   },
