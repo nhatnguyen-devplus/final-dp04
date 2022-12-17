@@ -103,6 +103,7 @@ const groupsReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
+        response: action.payload,
       }
 
     case UPDATE_GROUP_FAILURE:

@@ -77,7 +77,7 @@ const Groups = () => {
         >
           {members.map((item) => (
             <Tooltip key={item._id} placement="top" title={item.name ? item.name : 'no name'}>
-              <Avatar icon={<UserOutlined />} size={'large'} src={item.avatar ? item.avatar : ''} />
+              <Avatar icon={<UserOutlined />} size={'large'} src={item.image ? item.image : ''} />
             </Tooltip>
           ))}
         </Avatar.Group>
@@ -96,7 +96,7 @@ const Groups = () => {
         >
           {masters.map((item) => (
             <Tooltip key={item._id} placement="top" title={item.name ? item.name : 'no name'}>
-              <Avatar icon={<UserOutlined />} size={'large'} src={item.avatar ? item.avatar : ''} />
+              <Avatar icon={<UserOutlined />} size={'large'} src={item.image ? item.image : ''} />
             </Tooltip>
           ))}
         </Avatar.Group>
