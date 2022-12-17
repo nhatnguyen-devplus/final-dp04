@@ -64,6 +64,7 @@ const Requests = () => {
     ],
     spread: '/',
   }
+  const formatDate = (date) => moment(date).format('YYYY-MM-DD')
   const columns = [
     {
       title: '#',
@@ -73,7 +74,9 @@ const Requests = () => {
     {
       title: 'Day Off',
       dataIndex: 'logofffrom',
-      render: (text) => <p>{moment(text).format('YYYY-MM-DD')}</p>,
+      render: (text, record) => (
+        <p>{text === record.logoffto ? formatDate(text) : `${formatDate(text)} - ${formatDate(record.logoffto)}`}</p>
+      ),
     },
     {
       title: 'Quantity',

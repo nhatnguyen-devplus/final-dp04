@@ -33,7 +33,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
           </>
         )
       case 'dayoff':
-        return <DayOffAction />
+        return <>{details.user && details.user._id === data._id && 'Approve' === details.status && <DayOffAction />}</>
       default:
         ''
     }

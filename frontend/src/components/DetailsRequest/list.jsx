@@ -1,8 +1,11 @@
 import { EyeOutlined } from '@ant-design/icons'
 import { Button, Table } from 'antd'
+import moment from 'moment'
 import { Link } from 'react-router-dom'
 
 const ListRequests = ({ listdata }) => {
+  const formatDate = (date) => moment(date).format('YYYY-MM-DD')
+
   const columns = [
     {
       title: '#',
@@ -11,17 +14,20 @@ const ListRequests = ({ listdata }) => {
     },
     {
       title: 'Day Off',
-      dataIndex: 'dayoff',
+      dataIndex: 'logofffrom',
+      render: (text, record) => (
+        <p>{text === record.logoffto ? formatDate(text) : `${formatDate(text)} - ${formatDate(record.logoffto)}`}</p>
+      ),
     },
     {
       title: 'Quantity',
-      dataIndex: 'qty',
+      dataIndex: 'quantity',
       width: '3%',
     },
     {
       title: 'Name',
       dataIndex: 'user',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <Link to="">{text.name}</Link>,
     },
     {
       title: 'Reason',
@@ -30,11 +36,17 @@ const ListRequests = ({ listdata }) => {
     {
       title: 'Status',
       dataIndex: 'status',
+      render: (text, record) => (
+        <div className="status">
+          <p className={0 < record.approval.length ? `status-approval` : `status-${text}`}>{text}</p>
+        </div>
+      ),
     },
     ,
     {
       title: 'Create At',
       dataIndex: 'created_at',
+      render: (text) => <p>{moment(text).format('YYYY-MM-DD')}</p>,
     },
     ,
     {
@@ -42,7 +54,7 @@ const ListRequests = ({ listdata }) => {
       dataIndex: 'id',
       key: 'id',
       render: (index, record) => (
-        <Link to={`details/${record.key}`}>
+        <Link to={`details/${record._id}`}>
           <Button icon={<EyeOutlined />} type="primary"></Button>
         </Link>
       ),

@@ -1,16 +1,17 @@
 import ViewHeader from '@app/components/ViewHeader'
 import { getGroupById, updateGroup } from '@app/redux/groups/actions'
 import { getAllUsers } from '@app/redux/members/actions'
-import { Card, Row, Col, Button, Form, Input, Select } from 'antd'
+import { Card, Row, Col, Button, Form, Input, Select, notification } from 'antd'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const DetailsGroups = () => {
+  const navigate = useNavigate()
   const { role } = useSelector((state) => state.login)
   const members = useSelector((state) => state.members.data)
   const dataGroup = useSelector((state) => state.groups.data)
-  const { loading } = useSelector((state) => state.groups)
+  const { loading, error, response } = useSelector((state) => state.groups)
   const dispatch = useDispatch()
   const getGroup = useCallback((id) => dispatch(getGroupById(id)), [dispatch])
   const update = useCallback((data) => dispatch(updateGroup(data)), [dispatch])
@@ -18,10 +19,35 @@ const DetailsGroups = () => {
 
   const params = useParams()
 
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (type, desc) => {
+    api[type]({
+      message: type,
+      description: desc,
+      type,
+    })
+  }
+
   useEffect(() => {
     getGroup(params.id)
     getAllMembers()
   }, [])
+
+  useEffect(() => {
+    if (response) {
+      if (response.status && 200 === response.status) {
+        navigate('/admin/groups')
+      } else {
+        openNotificationWithIcon('error', response.message)
+      }
+    }
+  }, [response])
+
+  useEffect(() => {
+    if (error) {
+      openNotificationWithIcon('error', error.response.data.message)
+    }
+  }, [error])
 
   const breadcrumbs = {
     data: [
@@ -35,25 +61,15 @@ const DetailsGroups = () => {
     ],
     spread: '/',
   }
-
+  const convertId = (input) => input.map((item) => item.value)
   const onFinish = (values) => {
-    let listMasters = []
-    let staffs = []
-    if (values.masters[0].value) {
-      listMasters = values.masters.map((item) => item.value)
-    } else {
-      listMasters = values.masters
-    }
-    if (values.members[0].value) {
-      staffs = values.members.map((item) => item.value)
-    } else {
-      staffs = values.members
-    }
+    const masters = values.masters[0].value ? convertId(values.masters) : values.masters
+    const staffs = values.members[0].value ? convertId(values.members) : values.members
     update({
       id: params.id,
       data: {
         name: values.name,
-        masters: listMasters,
+        masters,
         staffs,
       },
     })
@@ -76,6 +92,7 @@ const DetailsGroups = () => {
     <>
       {!loading && (
         <>
+          {contextHolder}
           <ViewHeader breadcrumbs={breadcrumbs} />
           <div className="site-card-border-less-wrapper">
             <Card

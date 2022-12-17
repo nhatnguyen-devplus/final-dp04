@@ -160,7 +160,7 @@ const EditMember = () => {
                         },
                       ]}
                     >
-                      <Input placeholder={'Phone number'} type="number" />
+                      <Input placeholder={'Phone number'} type="tel" />
                     </Form.Item>
                     {/* <Form.Item
                       label="Role"
