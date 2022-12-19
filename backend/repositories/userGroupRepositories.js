@@ -1,6 +1,9 @@
 import { UserGroup } from '../schemas/userGroups'
 
-const getList = () => UserGroup.find({}).populate(['masters', 'staffs'])
+const getList = (ids) => {
+  if (ids.length === 0) return UserGroup.find({}).populate(['masters', 'staffs'])
+  return UserGroup.find({ _id: { $in: ids } }).populate(['masters', 'staffs'])
+}
 
 const getOne = (userGroupId) => UserGroup.findById(userGroupId).populate(['masters', 'staffs'])
 
