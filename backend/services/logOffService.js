@@ -86,7 +86,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   if (logoffUpdateReq.status === RequestSTT.REJECT) {
     newHistory.typelog = TypeHistory.REJECT
     newHistory.reason = logoffUpdateReq.reason
-    newHistory.user = user._id
+    newHistory.user = userId
     userTo.push(logOff.user._id)
     descriptionNoti = ' rejected your request'
 
