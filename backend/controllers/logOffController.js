@@ -173,7 +173,7 @@ const update = async (req, res) => {
 
     //User update change request(Cancel) && checkauth
     if (logoff.status === RequestSTT.CHANGE_REQUEST) {
-      if (logoffUpdateReq.status !== RequestSTT.UPDATE || logoffUpdateReq.status !== RequestSTT.CANCEL)
+      if (logoffUpdateReq.status !== RequestSTT.UPDATE && logoffUpdateReq.status !== RequestSTT.CANCEL)
         return res.json(errors.INVALID_DATA)
       if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
 

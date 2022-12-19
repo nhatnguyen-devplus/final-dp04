@@ -29,6 +29,7 @@ const requestsReducer = (state = INITIAL_STATE, action) => {
         loading: true,
         error: null,
         response: null,
+        data: {},
       }
     }
 
@@ -52,6 +53,7 @@ const requestsReducer = (state = INITIAL_STATE, action) => {
         loading: true,
         error: null,
         response: null,
+        data: null,
       }
     }
 
