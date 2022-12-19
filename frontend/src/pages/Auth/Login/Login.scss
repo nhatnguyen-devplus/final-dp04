@@ -4,20 +4,20 @@
   // background-image: linear-gradient(to bottom right, #8ac3dd, #aec2ca);
   background-image: url(../../../../public/images/WallpaperDog-20512824.jpg);
   background-size: cover;
-  padding-bottom: 50px;
 
-  h2 {
+  .titleFirstLogin {
       font-size: 28px;
       color: rgb(58, 58, 58);
       text-shadow: 1px 1px 1px rgb(255, 255, 255);
-      margin-bottom: 20px;
-      margin-top: 15px;
-    }
+      margin-bottom: 10px;
+      margin-top: 45px;
+      line-height: 15px;
+  }
   
   h1 {
-    font-size: 40px;
-    color: rgb(58, 58, 58);
-    text-shadow: 1px 1px 1px rgb(255, 255, 255);
+    font-size: 45px;
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 2px rgb(0, 0, 0);
     line-height: 24px;
     margin-bottom: 10px;
   }

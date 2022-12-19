@@ -59,7 +59,7 @@ const LoginPage = () => {
         <LogoLogin />
       </Row>
       <Row justify="center">
-        <h2>First, you need to Login</h2>
+        <h2 className='titleFirstLogin'>First, you need to Login</h2>
         <p></p>
       </Row>
       <Row justify="center">

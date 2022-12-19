@@ -49,22 +49,24 @@ const items = [
 const countNoti = items.length - 1
 
 const Notifications = () => (
-  <Dropdown
-    menu={{
-      items,
-    }}
-    trigger={['click']}
-  >
-    <a style={{ marginRight: '20px' }} onClick={(e) => e.preventDefault()}>
-      <Space size="middle">
-        <Badge count={countNoti} size="small">
-          <Button icon className="noties-btn" shape="circle">
-            <FontAwesomeIcon icon={faBell} />
-          </Button>
-        </Badge>
-      </Space>
-    </a>
-  </Dropdown>
+  <div className={'notificationCard'}>
+    <Dropdown
+      menu={{
+        items,
+      }}
+      trigger={['click']}
+    >
+      <a style={{ marginRight: '20px' }} onClick={(e) => e.preventDefault()}>
+        <Space size="middle">
+          <Badge count={countNoti} size="small">
+            <Button icon className="noties-btn" shape="circle">
+              <FontAwesomeIcon icon={faBell} />
+            </Button>
+          </Badge>
+        </Space>
+      </a>
+    </Dropdown>
+  </div>
 )
 
 export default Notifications
