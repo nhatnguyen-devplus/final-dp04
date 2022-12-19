@@ -1,11 +1,12 @@
 import { TypeHistory } from '../constants/enum'
+import { slack } from '../generals/slack'
 import { historyRepositories } from '../repositories'
 
-const create = async (newHistory, type = null) => {
+const create = async (newHistory) => {
   try {
-    const createHistory = {
-      typelog: TypeHistory.CREATE,
-      idlogoff: newHistory._id,
+    let createHistory = {
+      typelog: null,
+      idlogoff: newHistory.idlogoff,
       user: newHistory.user,
       masters: newHistory.masters,
       logofffrom: newHistory.logofffrom,
@@ -14,8 +15,14 @@ const create = async (newHistory, type = null) => {
       quantity: newHistory.quantity,
       contentlog: newHistory.contentlog,
     }
+    if (!newHistory.typelog) {
+      createHistory.typelog = TypeHistory.CREATE
+    } else {
+      createHistory.typelog = newHistory.typelog
+    }
 
-    await historyRepositories.create(createHistory)
+    const createdHistory = await historyRepositories.create(createHistory)
+    await slack.sendNotiLogOff(createdHistory)
   } catch (error) {
     throw error
   }

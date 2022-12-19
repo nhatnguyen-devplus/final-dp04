@@ -1,5 +1,6 @@
 import { RequestSTT, TypeHistory } from '../constants/enum'
 import { historyRepositories, logOffRepositories } from '../repositories'
+import { historyService } from './historyService'
 import { notificationService } from './notificationservice'
 
 const create = async (requestLogOff, totalMaster, userId) => {
@@ -58,6 +59,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     quantity: logOff.quantity,
     reason: null,
     typelog: null,
+    contentlog: logOff.contentlog,
   }
   let changeSTT
   let userTo = []
@@ -77,7 +79,6 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     if (newLogOff.approval.length === newLogOff.masters.length) {
       changeSTT = {
         status: RequestSTT.APPROVE,
-        user: userId,
       }
     }
   }
@@ -85,6 +86,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   if (logoffUpdateReq.status === RequestSTT.REJECT) {
     newHistory.typelog = TypeHistory.REJECT
     newHistory.reason = logoffUpdateReq.reason
+    newHistory.user = user._id
     userTo.push(logOff.user._id)
     descriptionNoti = ' rejected your request'
 
@@ -107,6 +109,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.CANCEL) {
     newHistory.typelog = TypeHistory.CANCEL
+    newHistory.reason = logoffUpdateReq.reason
     userTo.concat(newHistory.masters)
     descriptionNoti = ' cancel request'
 
@@ -128,7 +131,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
     changeSTT = {
       status: RequestSTT.PENDING,
-      logoffto:  logoffUpdateReq.logoffto,
+      logoffto: logoffUpdateReq.logoffto,
       logofffrom: logoffUpdateReq.logofffrom,
       quantity: logoffUpdateReq.quantity,
       reason: logoffUpdateReq.reason,
@@ -136,7 +139,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     }
   }
 
-  await historyRepositories.create(newHistory)
+  await historyService.create(newHistory)
   await notificationService.createMany(userId, userTo, descriptionNoti)
   await logOffRepositories.update(logOffId, changeSTT)
   return newHistory

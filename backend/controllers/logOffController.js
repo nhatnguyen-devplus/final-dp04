@@ -18,7 +18,6 @@ const create = async (req, res) => {
         message: err.details[0].message,
       })
     }
-
     const user = await userService.getOne(decode.data.id)
     let totalMaster = []
     const groups = await userGroupService.getByIds(user.groupsId)

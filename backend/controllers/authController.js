@@ -31,7 +31,6 @@ const register = async (req, res) => {
     if (checkEmail) return res.json(errors.EXISTED_EMAIL)
 
     const newUser = await authService.register(userCreateReq)
-
     return ResponseBase.responseJsonHandler(newUser, res, 'Register')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)

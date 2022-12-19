@@ -1,6 +1,6 @@
 import { WorkSpace } from '../schemas/workSpace'
 
-const getList = () => WorkSpace.find({})
+const getList = () => WorkSpace.find({}).populate(['hrchannel', 'dayoffchannel'])
 
 const create = (newWorkSpace) => WorkSpace.create(newWorkSpace)
 
