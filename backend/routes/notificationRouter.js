@@ -7,4 +7,6 @@ const NotificationRouter = express.Router()
 
 NotificationRouter.post('/:_id', CheckAuth, notificationController.update)
 NotificationRouter.get('/slack/channels', CheckAuth, slack.getChannels)
+NotificationRouter.get('/', CheckAuth, notificationController.getByUser)
+
 export default NotificationRouter

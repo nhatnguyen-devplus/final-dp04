@@ -13,6 +13,11 @@ const NotificationSchema = new Schema(
       ref: 'users',
     },
 
+    logoff: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'requestlogoffs',
+    },
+
     description: {
       type: String,
     },

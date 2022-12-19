@@ -68,7 +68,7 @@ const LogOffForm = () => {
     spread: '/',
   }
   const initialValues = {
-    type: 1,
+    type: 'Off',
   }
   return (
     <>

@@ -17,7 +17,7 @@ const DetailsRequest = () => {
 
   useEffect(() => {
     getOneRequest(params.id)
-  }, [])
+  }, [params.id])
 
   const breadcrumbs = {
     data: [

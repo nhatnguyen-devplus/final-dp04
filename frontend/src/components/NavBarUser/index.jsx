@@ -1,4 +1,4 @@
-import { EditOutlined, LogoutOutlined, PlusOutlined } from '@ant-design/icons'
+import { EditOutlined, LogoutOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
 import './style.scss'
 import Notifications from '@app/components/Notifications'
 import { userLogOut } from '@app/redux/login/actions'
@@ -71,7 +71,7 @@ const NavBarUser = () => {
         <Link onClick={(e) => e.preventDefault()}>
           <Space>
             {data?.name}
-            <Avatar src={data.avatar ? data.avatar : ''} />
+            <Avatar icon={<UserOutlined />} src={data.avatar ? data.avatar : null} />
           </Space>
         </Link>
       </Dropdown>

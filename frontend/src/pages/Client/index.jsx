@@ -16,6 +16,7 @@ import { getUserByToken } from '@app/redux/login/actions'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import EditProFile from '@app/components/Profile/edit'
 const Index = () => {
   const { isLoggedIn, loading, role } = useSelector((state) => state.login)
   const dispatch = useDispatch()
@@ -42,6 +43,7 @@ const Index = () => {
                 <Route element={<LogOffForm />} path="logoff/create" />
                 <Route element={<Groups />} path="groups" />
                 <Route element={<DetailsGroups />} path="groups/details/:id" />
+                <Route element={<EditProFile />} path="profile/edit" />
               </Routes>
             </Layout>
           ) : (

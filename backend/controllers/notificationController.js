@@ -19,9 +19,9 @@ const update = async (req, res) => {
       if (!noti) return res.json(errors.NOT_FOUND)
       if (user._id.toString() !== noti.to.toString()) return res.json(errors.FORBIDDEN)
 
-      await notificationService.update(notiId)
+      const newNoti = await notificationService.update(notiId)
 
-      return ResponseBase.responseJsonHandler(null, res, 'Update Notification')
+      return ResponseBase.responseJsonHandler(newNoti, res, 'Update Notification')
     } catch {
       return res.json(errors.NOT_FOUND)
     }
@@ -30,6 +30,23 @@ const update = async (req, res) => {
   }
 }
 
+const getByUser = async (req, res) => {
+  const token = req.headers.authorization
+  const decode = jwtService.decodeToken(token.split(' ')[1])
+  try {
+    const user = await userService.getOne(decode.data.id)
+
+    if (!user) return res.json(errors.NOT_FOUND)
+
+    const notification = await notificationService.getByUser(decode.data.id)
+
+    return ResponseBase.responseJsonHandler(notification, res, 'Get Notification')
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
 export const notificationController = {
   update,
+  getByUser,
 }
