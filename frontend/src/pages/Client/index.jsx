@@ -9,6 +9,7 @@ import LogOffForm from '@app/components/LogOff'
 import NotFound from '@app/components/NotFound/NotFound'
 import DetailsRequest from '@app/components/Requests/DetailsRequest'
 import Requests from '@app/components/Requests/Requests'
+import ChangeRequest from '@app/components/LogOff/change'
 
 // import { checkToken } from '@app/redux/login/services'
 import { getUserByToken } from '@app/redux/login/actions'
@@ -35,6 +36,7 @@ const Index = () => {
                 <Route element={<Dashboard />} path="dashboard" />
                 <Route element={<Requests />} path="requests" />
                 <Route element={<DetailsRequest />} path="requests/details/:id" />
+                <Route element={<ChangeRequest />} path="requests/change/:id" />
                 <Route element={<Daysoff />} path="daysoff" />
                 <Route element={<DetailsDayOff />} path="daysoff/details/:id" />
                 <Route element={<LogOffForm />} path="logoff/create" />

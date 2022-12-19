@@ -121,12 +121,17 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     newHistory.logoffto = logoffUpdateReq.logoffto
     newHistory.quantity = logoffUpdateReq.quantity
     newHistory.approval = []
+    newHistory.reason = logoffUpdateReq.reason
 
     userTo.concat(newHistory.masters)
     descriptionNoti = ' updated request'
 
     changeSTT = {
       status: RequestSTT.PENDING,
+      logoffto:  logoffUpdateReq.logoffto,
+      logofffrom: logoffUpdateReq.logofffrom,
+      quantity: logoffUpdateReq.quantity,
+      reason: logoffUpdateReq.reason,
       approval: [],
     }
   }

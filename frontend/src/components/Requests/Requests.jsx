@@ -1,4 +1,4 @@
-import { CheckOutlined, CloseOutlined, EyeOutlined, UndoOutlined } from '@ant-design/icons'
+import { CheckOutlined, CloseOutlined, EditOutlined, EyeOutlined, UndoOutlined } from '@ant-design/icons'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllRequests, updateRequest } from '@app/redux/requests/actions'
 import { Button, Table, Modal, Input, Form, notification, Tooltip } from 'antd'
@@ -155,7 +155,7 @@ const Requests = () => {
             </>
           ) : (
             <>
-              {0 === record.approval.length && 'Pending' === record.status && (
+              {0 === record.approval.length && 'Pending' === record.status ? (
                 <>
                   <Tooltip placement="top" title="Cancel">
                     <Button
@@ -166,6 +166,14 @@ const Requests = () => {
                       }}
                     ></Button>
                   </Tooltip>
+                </>
+              ) : (
+                <>
+                  <Link to={`change/${record._id}`}>
+                    <Tooltip placement="top" title="Change">
+                      <Button className="update" icon={<EditOutlined />}></Button>
+                    </Tooltip>
+                  </Link>
                 </>
               )}
             </>
