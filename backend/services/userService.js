@@ -25,6 +25,7 @@ const updateUser = async (userId, userUpdateReq) => {
     name: userUpdateReq.name,
     phone: userUpdateReq.phone,
     email: userUpdateReq.email,
+    role: userUpdateReq.role,
   }
   try {
     await userRepositories.updateUser(userId, updateUser)
