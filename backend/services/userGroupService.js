@@ -7,8 +7,8 @@ const getOne = async (userGroupId) => {
 
 const getOneNoPopulate = async (userGroupId) => await userGroupRepositories.getOneNoPopulate(userGroupId)
 
-const getList = async () => {
-  return await userGroupRepositories.getList()
+const getList = async (ids) => {
+  return await userGroupRepositories.getList(ids)
 }
 
 const findByName = async (userGroupName) => {

@@ -1,5 +1,7 @@
 import { errors } from '../constants'
+import { Role } from '../constants/enum'
 import { Helper, ResponseBase } from '../generals'
+import { jwtService } from '../generals/jwt'
 import { userGroupService, userService } from '../services'
 import { userGroupValidation } from '../validations'
 
@@ -18,8 +20,15 @@ const getOne = async (req, res) => {
 }
 
 const getList = async (req, res) => {
+  const token = req.headers.authorization
+  const decode = jwtService.decodeToken(token.split(' ')[1])
   try {
-    const listUserGroups = await userGroupService.getList()
+    const user = await userService.getOne(decode.data.id)
+    let groups = []
+    if (user.role !== Role.ADMIN) {
+      groups = user.groupsId
+    }
+    const listUserGroups = await userGroupService.getList(groups)
 
     return ResponseBase.responseJsonHandler(listUserGroups, res, 'Get list users')
   } catch (error) {
