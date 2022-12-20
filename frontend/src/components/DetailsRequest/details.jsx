@@ -12,7 +12,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
         return 'processing'
       case 'Change Request':
         return 'warning'
-      case 'approval':
+      case 'Approve':
         return 'success'
       case 'Reject':
         return 'error'

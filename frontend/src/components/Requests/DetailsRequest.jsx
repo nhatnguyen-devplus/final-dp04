@@ -7,8 +7,11 @@ import DetailsRequestLeftSide from '@app/components/DetailsRequest/details'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getRequestById } from '@app/redux/requests/actions'
+import { BrRequestsDetailsAdmin, BrRequestsDetailsClient } from '@app/components/Breadcrumbs/data'
+
 
 const DetailsRequest = () => {
+   const { role } = useSelector((state) => state.login)
   const { data } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
   const getOneRequest = useCallback((id) => dispatch(getRequestById(id)), [dispatch])
@@ -19,22 +22,10 @@ const DetailsRequest = () => {
     getOneRequest(params.id)
   }, [params.id])
 
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Requests ',
-        path: '/admin/requests',
-      },
-      {
-        title: 'Details ',
-      },
-    ],
-    spread: '/',
-  }
   const action = 'request'
   return (
     <>
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={'Admin' === role ? BrRequestsDetailsAdmin : BrRequestsDetailsClient} />
       <div className="site-card-border-less-wrapper">
         <Card
           bordered={true}

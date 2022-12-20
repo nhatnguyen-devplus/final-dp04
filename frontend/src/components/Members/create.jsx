@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { BrMembersCreateAdmin, BrMembersCreateClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { createUser } from '@app/redux/members/actions'
 import { Card, Row, Col, Button, Form, Input, notification } from 'antd'
@@ -16,18 +17,6 @@ const validateMessages = {
 }
 const CreateMember = () => {
   const navigate = useNavigate()
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Members ',
-        path: '/admin/members',
-      },
-      {
-        title: 'Details ',
-      },
-    ],
-    spread: '/',
-  }
   const [form] = Form.useForm()
   //Notification
   const [api, contextHolder] = notification.useNotification()
@@ -40,6 +29,7 @@ const CreateMember = () => {
   }
   //Call API
   const dispatch = useDispatch()
+  const { role } = useSelector((state) => state.login)
   const { response, error } = useSelector((state) => state.members)
   const create = useCallback((values) => dispatch(createUser(values)), [dispatch])
   const onFinish = (values) => {
@@ -68,7 +58,7 @@ const CreateMember = () => {
 
   return (
     <>
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={'Admin' === role ? BrMembersCreateAdmin : BrMembersCreateClient} />
       {contextHolder}
       <div className="site-card-border-less-wrapper">
         <Card
@@ -82,11 +72,11 @@ const CreateMember = () => {
           <Row>
             <Col span={8}>
               <Form
+                form={form}
                 initialValues={{ password: 'password' }}
                 layout={'vertical'}
                 validateMessages={validateMessages}
                 onFinish={onFinish}
-                form={form}
               >
                 {/* <Form.Item
                   label="Member's role"
@@ -105,7 +95,7 @@ const CreateMember = () => {
                     <Radio value={'Admin'}>Admin</Radio>
                   </Radio.Group>
                 </Form.Item> */}
-                <Form.Item style={{ display: 'none' }} name={['password']}></Form.Item>
+                <Form.Item name={['password']} style={{ display: 'none' }}></Form.Item>
                 <Row>
                   <Col span={12}>
                     <Form.Item

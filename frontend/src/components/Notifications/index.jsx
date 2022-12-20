@@ -5,11 +5,12 @@ import { Badge, Button, Space, Dropdown, Typography, notification } from 'antd'
 import { useCallback, useEffect } from 'react'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import './Notification.scss'
 
 const { Text } = Typography
 const Notifications = () => {
+  const params = useParams()
   const navigate = useNavigate()
   const { response, error } = useSelector((state) => state.notifications)
   const noties = useSelector((state) => state.notifications.data)
@@ -36,6 +37,7 @@ const Notifications = () => {
       } else {
         openNotificationWithIcon('error', response.message)
       }
+      getNoties()
     }
   }, [response])
 
@@ -66,7 +68,7 @@ const Notifications = () => {
   const countNoti = 0 < noties?.length ? items.length : null
   useEffect(() => {
     getNoties()
-  }, [])
+  }, [params])
   return (
     <>
       {contextHolder}

@@ -4,20 +4,8 @@ import { Card, Row, Col, Button, Form, Select } from 'antd'
 import { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { BrBroadcastSlack } from '@app/components/Breadcrumbs/data'
 const SlackChannels = () => {
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Broadcast ',
-        path: '#',
-      },
-      {
-        title: 'Slack Channels ',
-      },
-    ],
-    spread: '/',
-  }
-
   const channels = useSelector((state) => state.slack.dataAll)
   const dispatch = useDispatch()
   const getAllChannels = useCallback(() => dispatch(getAllSlackChannels()), [dispatch])
@@ -40,7 +28,7 @@ const SlackChannels = () => {
 
   return (
     <>
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={BrBroadcastSlack} />
       <div className="site-card-border-less-wrapper">
         <Card
           bordered={true}

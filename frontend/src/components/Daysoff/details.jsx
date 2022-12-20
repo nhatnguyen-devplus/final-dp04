@@ -1,14 +1,16 @@
-import { Card, Row } from 'antd'
-import { useParams } from 'react-router-dom'
 import '@app/components/Requests/Requests.scss'
-import ViewHeader from '@app/components/ViewHeader'
-import Histories from '@app/components/Histories'
+import { BrDaysoffDetailsAdmin, BrDaysoffDetailsClient } from '@app/components/Breadcrumbs/data'
 import DetailsRequestLeftSide from '@app/components/DetailsRequest/details'
-import { useDispatch, useSelector } from 'react-redux'
+import Histories from '@app/components/Histories'
+import ViewHeader from '@app/components/ViewHeader'
 import { getRequestById } from '@app/redux/requests/actions'
+import { Card, Row } from 'antd'
 import { useCallback, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 const DetailsDayOff = () => {
+    const { role } = useSelector((state) => state.login)
   const { data } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
   const getOneRequest = useCallback((id) => dispatch(getRequestById(id)), [dispatch])
@@ -19,22 +21,10 @@ const DetailsDayOff = () => {
     getOneRequest(params.id)
   }, [])
 
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Day Off ',
-        path: '/admin/daysoff',
-      },
-      {
-        title: 'Details ',
-      },
-    ],
-    spread: '/',
-  }
   const action = 'dayoff'
   return (
     <>
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={'Admin' === role ? BrDaysoffDetailsAdmin : BrDaysoffDetailsClient} />
       <div className="site-card-border-less-wrapper">
         <Card
           bordered={true}
