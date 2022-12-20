@@ -7,8 +7,10 @@ import { useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUserById } from '@app/redux/members/actions'
 import { UserOutlined } from '@ant-design/icons'
+import { BrMembersDetailsAdmin, BrMembersDetailsClient } from '@app/components/Breadcrumbs/data'
 
 const DetailsMember = () => {
+  const { role } = useSelector((state) => state.login)
   const details = useSelector((state) => state.members.dataById)
   const dispatch = useDispatch()
   const params = useParams()
@@ -19,18 +21,6 @@ const DetailsMember = () => {
   }, [])
 
   const { Text } = Typography
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Members ',
-        path: '/admin/members',
-      },
-      {
-        title: 'Details ',
-      },
-    ],
-    spread: '/',
-  }
   const first = (fullName) => fullName.split(' ').slice(0, 1).join(' ')
   const last = (fullName) => fullName.substring(fullName.split(' ')[0].length).trim()
 
@@ -38,7 +28,7 @@ const DetailsMember = () => {
     <>
       {details && (
         <>
-          <ViewHeader breadcrumbs={breadcrumbs} />
+          <ViewHeader breadcrumbs={'Admin' === role ? BrMembersDetailsAdmin : BrMembersDetailsClient} />
           <div className="site-card-border-less-wrapper">
             <Card
               bordered={true}

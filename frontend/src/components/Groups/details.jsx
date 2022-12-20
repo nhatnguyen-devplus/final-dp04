@@ -1,3 +1,4 @@
+import { BrGroupsDetailsAdmin, BrGroupsDetailsClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getGroupById, updateGroup } from '@app/redux/groups/actions'
 import { getAllUsers } from '@app/redux/members/actions'
@@ -49,18 +50,6 @@ const DetailsGroups = () => {
     }
   }, [error])
 
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Groups ',
-        path: '/admin/groups',
-      },
-      {
-        title: 'Details ',
-      },
-    ],
-    spread: '/',
-  }
   const convertId = (input) => input.map((item) => item.value)
   const onFinish = (values) => {
     const masters = values.masters[0].value ? convertId(values.masters) : values.masters
@@ -93,7 +82,7 @@ const DetailsGroups = () => {
       {!loading && (
         <>
           {contextHolder}
-          <ViewHeader breadcrumbs={breadcrumbs} />
+          <ViewHeader breadcrumbs={'Admin' === role ? BrGroupsDetailsAdmin : BrGroupsDetailsClient} />{' '}
           <div className="site-card-border-less-wrapper">
             <Card
               bordered={true}

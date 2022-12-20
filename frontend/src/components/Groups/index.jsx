@@ -1,5 +1,6 @@
 import { PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
+import { BrGroupsIndexAdmin, BrGroupsIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllGroups, deleteGroup } from '@app/redux/groups/actions'
 import { Button, Table, Avatar, Modal, Tooltip, notification } from 'antd'
@@ -45,15 +46,6 @@ const Groups = () => {
   const handleDelete = () => {
     deleteGroupById(del)
     setIsModalOpen(!isModalOpen)
-  }
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Groups ',
-        path: '/admin/groups',
-      },
-    ],
-    spread: '/',
   }
   const columns = [
     {
@@ -130,7 +122,7 @@ const Groups = () => {
   return (
     <>
       {contextHolder}
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={'Admin' === role ? BrGroupsIndexAdmin : BrGroupsIndexClient} />
       <Table
         bordered
         columns={columns}

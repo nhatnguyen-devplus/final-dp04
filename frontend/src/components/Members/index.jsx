@@ -1,4 +1,5 @@
 import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
+import { BrMembersIndexAdmin, BrMembersIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllUsers, deleteUser } from '@app/redux/members/actions'
 import { Table, Button, Avatar, Modal, notification } from 'antd'
@@ -8,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Members = () => {
+  const { role } = useSelector((state) => state.login)
   const members = useSelector((state) => state.members.data)
   const { response } = useSelector((state) => state.members)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -47,15 +49,7 @@ const Members = () => {
     deleteMember(del)
     setIsModalOpen(!isModalOpen)
   }
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Members ',
-        path: '/admin/members',
-      },
-    ],
-    spread: '/',
-  }
+
   const columns = [
     {
       title: '#',
@@ -113,7 +107,7 @@ const Members = () => {
     <>
       {members && (
         <>
-          <ViewHeader breadcrumbs={breadcrumbs} />
+          <ViewHeader breadcrumbs={'Admin' === role ? BrMembersIndexAdmin : BrMembersIndexClient} />
           {contextHolder}
           <Table
             bordered

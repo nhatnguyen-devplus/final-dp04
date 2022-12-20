@@ -6,9 +6,11 @@ import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { BrGroupsCreateAdmin, BrGroupsCreateClient } from '@app/components/Breadcrumbs/data'
 
 const CreateGroup = () => {
   const navigate = useNavigate()
+  const { role } = useSelector((state) => state.login)
   const members = useSelector((state) => state.members.data)
   const { response, error } = useSelector((state) => state.groups)
   const dispatch = useDispatch()
@@ -26,19 +28,6 @@ const CreateGroup = () => {
       description: desc,
       type,
     })
-  }
-
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Groups ',
-        path: '/admin/groups',
-      },
-      {
-        title: 'Create ',
-      },
-    ],
-    spread: '/',
   }
 
   useEffect(() => {
@@ -67,7 +56,7 @@ const CreateGroup = () => {
   return (
     <>
       {contextHolder}
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={'Admin' === role ? BrGroupsCreateAdmin : BrGroupsCreateClient} />
       <div className="site-card-border-less-wrapper">
         <Card
           bordered={true}

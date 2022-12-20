@@ -1,4 +1,5 @@
 import { CheckOutlined, CloseOutlined, EditOutlined, EyeOutlined, UndoOutlined } from '@ant-design/icons'
+import { BrRequestsIndexAdmin, BrRequestsIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllRequests, updateRequest } from '@app/redux/requests/actions'
 import { Button, Table, Modal, Input, Form, notification, Tooltip } from 'antd'
@@ -8,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Requests = () => {
-  const { data } = useSelector((state) => state.login)
+  const { data, role} = useSelector((state) => state.login)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { dataAll, response } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
@@ -55,15 +56,7 @@ const Requests = () => {
       form.resetFields()
     }
   }
-  const breadcrumbs = {
-    data: [
-      {
-        title: 'Requests ',
-        path: '/admin/requets',
-      },
-    ],
-    spread: '/',
-  }
+
   const formatDate = (date) => moment(date).format('YYYY-MM-DD')
   const columns = [
     {
@@ -185,7 +178,7 @@ const Requests = () => {
   return (
     <>
       {contextHolder}
-      <ViewHeader breadcrumbs={breadcrumbs} />
+      <ViewHeader breadcrumbs={'Admin' === role ? BrRequestsIndexAdmin : BrRequestsIndexClient} />
       <Table
         bordered
         columns={columns}
