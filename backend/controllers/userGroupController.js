@@ -74,6 +74,17 @@ const deleteUserGroup = async (req, res) => {
 
     if (!userGroup) return res.status(404).json(errors.NOT_FOUND)
 
+    const dataStaffs = userGroup.staffs.map((staff) => {
+      return staff._id
+    })
+
+    const dataMasters = userGroup.masters.map((master) => {
+      return master._id
+    })
+    const userRemoveGroup = Array.from(
+      new Set(dataMasters.toString('').split(',').concat(dataStaffs.toString('').split(',')))
+    )
+    await userService.updateGroupId(userRemoveGroup, userGroupId)
     await userGroupService.deleteUserGroup(userGroupId)
 
     return ResponseBase.responseJsonHandler(userGroup, res, 'Delete user group')
