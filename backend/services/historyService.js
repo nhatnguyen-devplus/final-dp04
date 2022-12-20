@@ -28,6 +28,9 @@ const create = async (newHistory) => {
   }
 }
 
+const getByRequest = async (logoffId) => await historyRepositories.getByRequest(logoffId)
+
 export const historyService = {
   create,
+  getByRequest,
 }
