@@ -6,7 +6,8 @@ const create = async (newHistory) => {
   try {
     let createHistory = {
       typelog: null,
-      idlogoff: newHistory.idlogoff,
+      idlogoff: newHistory._id,
+      approval: newHistory.approval,
       user: newHistory.user,
       masters: newHistory.masters,
       logofffrom: newHistory.logofffrom,

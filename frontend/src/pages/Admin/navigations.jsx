@@ -44,7 +44,7 @@ export const navigations = [
           },
           {
             key: 'bc2',
-            label: <Link to="others">Others</Link>,
+            label: <Link to="sheet">Sheet</Link>,
           },
         ],
       },

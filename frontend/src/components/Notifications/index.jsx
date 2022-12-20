@@ -52,7 +52,7 @@ const Notifications = () => {
       ? noties.map((item, index) => ({
           label: (
             <Link onClick={() => handleSeen(item?._id)}>
-              <Text strong>{item.from.name}</Text>
+              <Text strong>{item.from?.name}</Text>
               {item.description}
             </Link>
           ),

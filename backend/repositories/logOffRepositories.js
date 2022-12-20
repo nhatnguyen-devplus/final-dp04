@@ -14,6 +14,9 @@ const getListDayOffs = (totalUser) =>
     'user',
   ])
 
+const getListByDay = (from, to) =>
+  RequestLogOff.find({ logofffrom: { $gte: from }, logofffrom: { $lte: to } }).populate('user')
+
 const getOne = (logOffId) => RequestLogOff.findById(logOffId).populate('user')
 
 const addApproval = async (logOffId, userId) =>
@@ -28,4 +31,5 @@ export const logOffRepositories = {
   addApproval,
   update,
   getListDayOffs,
+  getListByDay,
 }

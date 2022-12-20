@@ -2,6 +2,7 @@ import '@app/App.css'
 import Dashboard from '@app/components/Dasboard/Dashboard'
 import Daysoff from '@app/components/Daysoff'
 import DetailsDayOff from '@app/components/Daysoff/details'
+import GoogleSheet from '@app/components/GoogleSheet'
 import Groups from '@app/components/Groups'
 import CreateGroup from '@app/components/Groups/create'
 import DetailsGroups from '@app/components/Groups/details'
@@ -50,6 +51,7 @@ const Index = () => {
                 <Route element={<Daysoff />} path="daysoff" />
                 <Route element={<DetailsDayOff />} path="daysoff/details/:id" />
                 <Route element={<SlackChannels />} path="broadcast/slack" />
+                <Route element={<GoogleSheet />} path="/sheet" />
                 <Route element={<EditProFile />} path="profile/edit" />
               </Routes>
             </Layout>
