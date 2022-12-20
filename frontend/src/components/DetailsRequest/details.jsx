@@ -1,6 +1,6 @@
 import DayOffAction from '@app/components/DetailsAction/DayOffAction'
 import RequestAction from '@app/components/DetailsAction/RequestAction'
-import { Row, Col, Typography, Space } from 'antd'
+import { Row, Col, Typography, Space, Tag } from 'antd'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 const DetailsRequestLeftSide = ({ details, action }) => {
@@ -8,16 +8,16 @@ const DetailsRequestLeftSide = ({ details, action }) => {
   const { Text } = Typography
   const switchColor = (status) => {
     switch (status) {
-      case '0':
-        return 's-pending'
-      case '1':
-        return 's-approve'
-      case '2':
-        return 's-reject'
-      case '3':
-        return 's-waitupdate'
-      case '4':
-        return 's-cancel'
+      case 'Pending':
+        return 'processing'
+      case 'Change Request':
+        return 'warning'
+      case 'approval':
+        return 'success'
+      case 'Reject':
+        return 'error'
+      case 'Cancel':
+        return 'default'
       default:
         return null
     }
@@ -44,22 +44,25 @@ const DetailsRequestLeftSide = ({ details, action }) => {
         <Col span={10}>
           <Space direction="vertical">
             <Text>
-              <Text strong>From:</Text> {moment(details.logofffrom).format('YYYY-MM-DD')}
+              <Text strong>Name: </Text> {details.user && details.user.name}
             </Text>
             <Text>
-              <Text strong>Name:</Text> {details.user && details.user.name}
+              <Text strong>From: </Text> {moment(details.logofffrom).format('YYYY-MM-DD')}
+            </Text>
+            <Text>
+              <Text strong>Status: </Text>
+              <Tag color={switchColor(details.status)}> {details.status}</Tag>
             </Text>
             <Text>
               <Text strong>Reason:</Text> {details.reason}
-            </Text>
-            <Text>
-              <Text strong>Status:</Text>
-              <Text className={switchColor(details.status)}> {details.status}</Text>
             </Text>
           </Space>
         </Col>
         <Col span={10}>
           <Space direction="vertical">
+            <Text>
+              <Text strong>Type:</Text> {details.contentlog}
+            </Text>
             <Text>
               <Text strong>To:</Text> {moment(details.logoffto).format('YYYY-MM-DD')}
             </Text>

@@ -17,9 +17,10 @@ const create = async (requestLogOff, totalMaster, userId) => {
       quantity: requestLogOff.quantity,
       contentlog: requestLogOff.contentlog,
     }
-    const descriptionNoti = 'New log off request'
-    await notificationService.createMany(userId, totalMaster, descriptionNoti)
-    return logOffRepositories.create(newLogOff)
+    const descriptionNoti = ' created new request'
+    const createdLogOff = await logOffRepositories.create(newLogOff)
+    await notificationService.createMany(userId, totalMaster, descriptionNoti, createdLogOff._id)
+    return createdLogOff
   } catch (error) {
     throw error
   }
@@ -99,7 +100,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     newHistory.typelog = TypeHistory.CHANGE_REQUEST
     newHistory.reason = logoffUpdateReq.reason
     userTo.push(logOff.user._id)
-    descriptionNoti = ' change your request'
+    descriptionNoti = ' requested change your log off'
 
     changeSTT = {
       status: RequestSTT.CHANGE_REQUEST,
@@ -140,7 +141,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   }
 
   await historyService.create(newHistory)
-  await notificationService.createMany(userId, userTo, descriptionNoti)
+  await notificationService.createMany(userId, userTo, descriptionNoti, logOffId)
   await logOffRepositories.update(logOffId, changeSTT)
   return newHistory
 }

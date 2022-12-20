@@ -26,7 +26,6 @@ const SlackChannels = () => {
     getAllChannels()
   }, [])
 
-  console.log(channels)
   const onFinish = (values) => {
     console.log(values)
   }

@@ -1,11 +1,13 @@
 .ant-dropdown-menu {
   max-height: 53vh;
   overflow: scroll;
+  padding-bottom: 0px;
 }
 .ant-dropdown-menu::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
   background-color: white;
   border-radius: 20px;
+  height: 0px;
 }
 .ant-dropdown-menu-item {
   padding: 15px 15px !important;

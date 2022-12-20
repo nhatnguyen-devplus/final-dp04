@@ -3,6 +3,7 @@ import daysOffReducer from './daysOff/reducer'
 import groupsReducer from './groups/reducer'
 import loginReducer from './login/reducer'
 import membersReducer from './members/reducer'
+import notificationsReducer from './notifications/reducer'
 import requestsReducer from './requests/reducer'
 import slackReducer from './slack/reducer'
 
@@ -13,5 +14,6 @@ const rootReducer = combineReducers({
   requests: requestsReducer,
   daysOff: daysOffReducer,
   slack: slackReducer,
+  notifications: notificationsReducer,
 })
 export default rootReducer
