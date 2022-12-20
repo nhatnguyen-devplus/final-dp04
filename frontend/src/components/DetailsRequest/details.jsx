@@ -1,8 +1,10 @@
+import { EditOutlined } from '@ant-design/icons'
 import DayOffAction from '@app/components/DetailsAction/DayOffAction'
 import RequestAction from '@app/components/DetailsAction/RequestAction'
-import { Row, Col, Typography, Space, Tag } from 'antd'
+import { Row, Col, Typography, Space, Tag, Tooltip, Button } from 'antd'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 const DetailsRequestLeftSide = ({ details, action }) => {
   const { data } = useSelector((state) => state.login)
   const { Text } = Typography
@@ -29,6 +31,13 @@ const DetailsRequestLeftSide = ({ details, action }) => {
           <>
             {'Pending' === details.status && !details.approval.includes(data._id) && details.user._id !== data._id && (
               <RequestAction />
+            )}
+            {'Change Request' === details.status && details.user._id === data._id && (
+              <Link to={`/client/requests/change/${details._id}`}>
+                <Tooltip placement="top" title="Change">
+                  <Button style={{ background: '#ffc107' }} icon={<EditOutlined />}></Button>
+                </Tooltip>
+              </Link>
             )}
           </>
         )

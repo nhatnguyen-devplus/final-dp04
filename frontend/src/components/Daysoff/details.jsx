@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 const DetailsDayOff = () => {
-    const { role } = useSelector((state) => state.login)
+  const { role } = useSelector((state) => state.login)
   const { data } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
   const getOneRequest = useCallback((id) => dispatch(getRequestById(id)), [dispatch])

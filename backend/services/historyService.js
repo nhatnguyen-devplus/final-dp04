@@ -22,7 +22,6 @@ const create = async (newHistory) => {
     } else {
       createHistory.typelog = newHistory.typelog
     }
-
     const createdHistory = await historyRepositories.create(createHistory)
     await slack.sendNotiLogOff(createdHistory)
   } catch (error) {

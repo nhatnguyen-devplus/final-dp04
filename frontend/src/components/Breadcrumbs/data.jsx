@@ -250,4 +250,3 @@ export const BrBroadcastSlack = {
   ],
   spread: '/',
 }
-

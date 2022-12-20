@@ -61,15 +61,16 @@ const getOne = async (logOffId) => await logOffRepositories.getOne(logOffId)
 const update = async (logOffId, userId, logoffUpdateReq) => {
   const logOff = await logOffRepositories.getOne(logOffId)
   let newHistory = {
-    _id: logOffId,
+    _id: logOff._id,
     user: userId,
     masters: logOff.masters,
     approval: logOff.approval,
     logofffrom: logOff.logofffrom,
     logoffto: logOff.logoffto,
     quantity: logOff.quantity,
-    reason: null,
+    reason: logOff.reason,
     typelog: null,
+    comment: null,
     contentlog: logOff.contentlog,
   }
   let changeSTT

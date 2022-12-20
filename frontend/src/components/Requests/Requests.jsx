@@ -2,14 +2,14 @@ import { CheckOutlined, CloseOutlined, EditOutlined, EyeOutlined, UndoOutlined }
 import { BrRequestsIndexAdmin, BrRequestsIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllRequests, updateRequest } from '@app/redux/requests/actions'
-import { Button, Table, Modal, Input, Form, notification, Tooltip } from 'antd'
+import { Button, Table, Modal, Input, Form, notification, Tooltip, Tag } from 'antd'
 import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Requests = () => {
-  const { data, role} = useSelector((state) => state.login)
+  const { data, role } = useSelector((state) => state.login)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { dataAll, response } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
@@ -27,6 +27,22 @@ const Requests = () => {
     })
   }
 
+  const switchColor = (status) => {
+    switch (status) {
+      case 'Pending':
+        return 'processing'
+      case 'Change Request':
+        return 'warning'
+      case 'Approve':
+        return 'success'
+      case 'Reject':
+        return 'error'
+      case 'Cancel':
+        return 'default'
+      default:
+        return null
+    }
+  }
   useEffect(() => {
     if (null !== response) {
       if (response.status && 200 === response.status) {
@@ -67,6 +83,7 @@ const Requests = () => {
     {
       title: 'Day Off',
       dataIndex: 'logofffrom',
+      width: '17%',
       render: (text, record) => (
         <p>{text === record.logoffto ? formatDate(text) : `${formatDate(text)} - ${formatDate(record.logoffto)}`}</p>
       ),
@@ -87,18 +104,20 @@ const Requests = () => {
     },
     {
       title: 'Status',
+      width: '10%',
       dataIndex: 'status',
       render: (text, record) => (
         <div className="status">
-          <p className={0 < record.approval.length ? `status-approval` : `status-${text}`}>
+          <Tag color={switchColor(0 < record.approval.length ? `Approve` : text)}>
             {0 < record.approval.length ? `Approval ${record.approval.length}/${record.masters.length}` : text}
-          </p>
+          </Tag>
         </div>
       ),
     },
     ,
     {
       title: 'Create At',
+      width: '13%',
       dataIndex: 'createdAt',
       render: (text) => <p>{moment(text).format('YYYY-MM-DD')}</p>,
     },
@@ -107,6 +126,7 @@ const Requests = () => {
       title: 'Action',
       dataIndex: 'id',
       key: 'id',
+      width: '15%',
       render: (index, record) => (
         <>
           <Link to={`details/${record._id}`}>
@@ -191,7 +211,7 @@ const Requests = () => {
           <Form.Item name="status">
             <Input readOnly style={{ border: 'none' }} />
           </Form.Item>
-          <Form.Item name="reason">
+          <Form.Item name="comment">
             <TextArea placeholder="Your comment" rows={4} />
           </Form.Item>
           <Form.Item>
