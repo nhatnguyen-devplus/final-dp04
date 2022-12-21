@@ -49,12 +49,19 @@ const getListDayOffs = async (totalUser) => {
   }
 }
 
+const getListByDay = async (from, to) => {
+  try {
+    return await logOffRepositories.getListByDay(from, to)
+  } catch (error) {
+    throw error
+  }
+}
 const getOne = async (logOffId) => await logOffRepositories.getOne(logOffId)
 
 const update = async (logOffId, userId, logoffUpdateReq) => {
   const logOff = await logOffRepositories.getOne(logOffId)
   let newHistory = {
-    idlogoff: logOff._id,
+    _id: logOffId,
     user: userId,
     masters: logOff.masters,
     approval: logOff.approval,
@@ -158,4 +165,5 @@ export const logOffService = {
   update,
   getOne,
   getListDayOffs,
+  getListByDay,
 }

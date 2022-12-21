@@ -2,7 +2,7 @@ import { TypeHistory } from '../constants/enum'
 import { Helper, ResponseBase } from '../generals'
 import { logOffRepositories, userRepositories, workSpaceRepositories } from '../repositories'
 import { slackTemplate } from '../templates/slackTemplate'
-const { WebClient } = require('@slack/web-api')
+import { WebClient } from '@slack/web-api'
 
 const token = process.env.SLACK_TOKEN
 const web = new WebClient(token)
@@ -12,7 +12,6 @@ const sendNotiLogOff = async (req) => {
   const channels = workspace[0].hrchannel.concat(workspace[0].dayoffchannel)
   const user = await userRepositories.getOne(req.user)
   const logOff = await logOffRepositories.getOne(req.idlogoff)
-
   try {
     await Promise.all(
       channels.map(async (item) => {

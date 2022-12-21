@@ -5,6 +5,7 @@ import loginReducer from './login/reducer'
 import membersReducer from './members/reducer'
 import notificationsReducer from './notifications/reducer'
 import requestsReducer from './requests/reducer'
+import sheetReducer from './sheet/reducer'
 import slackReducer from './slack/reducer'
 
 const rootReducer = combineReducers({
@@ -15,5 +16,6 @@ const rootReducer = combineReducers({
   daysOff: daysOffReducer,
   slack: slackReducer,
   notifications: notificationsReducer,
+  sheet: sheetReducer,
 })
 export default rootReducer
