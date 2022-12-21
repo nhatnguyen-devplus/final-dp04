@@ -1,6 +1,6 @@
 import { UndoOutlined } from '@ant-design/icons'
 import { updateRequest } from '@app/redux/requests/actions'
-import { Button, Form, Input, Typography, Modal, notification } from 'antd'
+import { Button, Form, Input, Typography, Modal, notification, Tooltip } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -58,9 +58,9 @@ const DayOffAction = () => {
       <Text strong>Action:</Text>
       <br></br>
       <br></br>
-      <Button icon={<UndoOutlined />} type="primary" onClick={showModal}>
-        Revert
-      </Button>
+      <Tooltip placement="top" title="Revert">
+        <Button icon={<UndoOutlined />} type="primary" onClick={showModal}></Button>
+      </Tooltip>
       <Modal footer={''} open={isModalOpen} title="Reason for revert:" onCancel={showModal}>
         <Form
           form={form}

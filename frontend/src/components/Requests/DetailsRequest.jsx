@@ -9,9 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getRequestById } from '@app/redux/requests/actions'
 import { BrRequestsDetailsAdmin, BrRequestsDetailsClient } from '@app/components/Breadcrumbs/data'
 
-
 const DetailsRequest = () => {
-   const { role } = useSelector((state) => state.login)
+  const { role } = useSelector((state) => state.login)
   const { data } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
   const getOneRequest = useCallback((id) => dispatch(getRequestById(id)), [dispatch])

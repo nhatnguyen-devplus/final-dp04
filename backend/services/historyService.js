@@ -13,6 +13,7 @@ const create = async (newHistory) => {
       logofffrom: newHistory.logofffrom,
       logoffto: newHistory.logoffto,
       reason: newHistory.reason,
+      comment: newHistory.comment,
       quantity: newHistory.quantity,
       contentlog: newHistory.contentlog,
     }
@@ -21,7 +22,6 @@ const create = async (newHistory) => {
     } else {
       createHistory.typelog = newHistory.typelog
     }
-
     const createdHistory = await historyRepositories.create(createHistory)
     await slack.sendNotiLogOff(createdHistory)
   } catch (error) {

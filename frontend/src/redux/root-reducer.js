@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import daysOffReducer from './daysOff/reducer'
 import groupsReducer from './groups/reducer'
+import historiesReducer from './histories/reducer'
 import loginReducer from './login/reducer'
 import membersReducer from './members/reducer'
 import notificationsReducer from './notifications/reducer'
@@ -17,5 +18,6 @@ const rootReducer = combineReducers({
   slack: slackReducer,
   notifications: notificationsReducer,
   sheet: sheetReducer,
+  histories: historiesReducer,
 })
 export default rootReducer

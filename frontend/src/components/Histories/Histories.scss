@@ -2,7 +2,8 @@
   height: 75vh;
   overflow: scroll;
   .ant-timeline-item {
-    padding-bottom: 8px !important;
+    padding-bottom: 0px !important;
+    margin-bottom: -10px;
 
     // h4 {
     //     margin-top: 5px;

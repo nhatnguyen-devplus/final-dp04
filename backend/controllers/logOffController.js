@@ -155,7 +155,7 @@ const update = async (req, res) => {
         return res.json(errors.INVALID_DATA)
       //Reject || Change Request need reason
       if (logoffUpdateReq.status === RequestSTT.REJECT || logoffUpdateReq.status === RequestSTT.CHANGE_REQUEST) {
-        if (!logoffUpdateReq.reason) return res.json(errors.INVALID_DATA)
+        if (!logoffUpdateReq.comment) return res.json(errors.INVALID_DATA)
       }
       //Reject || Approve || CHANGE_REQUEST need isMaster
       if (
