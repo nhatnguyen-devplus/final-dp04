@@ -11,7 +11,7 @@ const approve = (req, user, logOff) => {
     req.logofffrom
   ).format('DD/MM/YYYY')}\n>*To*: ${moment(req.logoffto).format('DD/MM/YYYY')}\n>*Reason*: ${
     logOff.reason
-  }\n*Approval:* ${logOff.approval.length}/${logOff.masters.length}`
+  }\n>*Comment*: ${logOff.comment}\n*Approval:* ${logOff.approval.length}/${logOff.masters.length}`
 }
 
 const anotherSTT = (req, user, logOff) => {
@@ -19,7 +19,7 @@ const anotherSTT = (req, user, logOff) => {
     req.logofffrom
   ).format('DD/MM/YYYY')}\n>*To*: ${moment(req.logoffto).format('DD/MM/YYYY')}\n>*Reason*: ${
     logOff.reason
-  }\n*Comment* ${req.reason}`
+  }\n>*Comment*: ${logOff.comment}\n*Comment* ${req.reason}`
 }
 
 export const slackTemplate = {

@@ -12,6 +12,7 @@ const sendNotiLogOff = async (req) => {
   const channels = workspace[0].hrchannel.concat(workspace[0].dayoffchannel)
   const user = await userRepositories.getOne(req.user)
   const logOff = await logOffRepositories.getOne(req.idlogoff)
+  console.log(workspace)
   try {
     await Promise.all(
       channels.map(async (item) => {

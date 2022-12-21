@@ -8,6 +8,7 @@ const logOffReq = Joi.object({
   contentlog: Joi.string().required(),
   status: Joi.any(),
   time: Joi.any(),
+  comment: Joi.any(),
 })
 
 export const logOffValidation = {

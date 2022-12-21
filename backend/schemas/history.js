@@ -40,6 +40,10 @@ const HistorySchema = new Schema(
       type: String,
     },
 
+    comment: {
+      type: String,
+    },
+
     typelog: {
       type: String,
       enum: Object.values(TypeHistory),

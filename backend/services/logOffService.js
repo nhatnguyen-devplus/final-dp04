@@ -78,9 +78,8 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.APPROVE) {
     newHistory.typelog = TypeHistory.APPROVE
-    newHistory.reason = logoffUpdateReq.reason
+    newHistory.comment = logoffUpdateReq.comment
     newHistory.approval.push(userId)
-
     await logOffRepositories.addApproval(logOffId, userId)
 
     const newLogOff = await logOffRepositories.getOne(logOffId)
@@ -97,7 +96,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.REJECT) {
     newHistory.typelog = TypeHistory.REJECT
-    newHistory.reason = logoffUpdateReq.reason
+    newHistory.comment = logoffUpdateReq.comment
     newHistory.user = userId
     userTo.push(logOff.user._id)
     descriptionNoti = ' rejected your request'
@@ -109,7 +108,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.CHANGE_REQUEST) {
     newHistory.typelog = TypeHistory.CHANGE_REQUEST
-    newHistory.reason = logoffUpdateReq.reason
+    newHistory.comment = logoffUpdateReq.comment
     userTo.push(logOff.user._id)
     descriptionNoti = ' requested change your log off'
 
@@ -121,7 +120,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.CANCEL) {
     newHistory.typelog = TypeHistory.CANCEL
-    newHistory.reason = logoffUpdateReq.reason
+    newHistory.comment = logoffUpdateReq.comment
     userTo.concat(newHistory.masters)
     descriptionNoti = ' cancel request'
 

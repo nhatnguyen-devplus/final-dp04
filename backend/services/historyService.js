@@ -13,6 +13,7 @@ const create = async (newHistory) => {
       logofffrom: newHistory.logofffrom,
       logoffto: newHistory.logoffto,
       reason: newHistory.reason,
+      comment: newHistory.comment,
       quantity: newHistory.quantity,
       contentlog: newHistory.contentlog,
     }
