@@ -1,5 +1,5 @@
 import { RequestSTT, TypeHistory } from '../constants/enum'
-import { historyRepositories, logOffRepositories } from '../repositories'
+import { logOffRepositories } from '../repositories'
 import { historyService } from './historyService'
 import { notificationService } from './notificationservice'
 
@@ -16,6 +16,9 @@ const create = async (requestLogOff, totalMaster, userId) => {
       status: RequestSTT.PENDING,
       quantity: requestLogOff.quantity,
       contentlog: requestLogOff.contentlog,
+    }
+    if (newLogOff.contentlog === 'WFH') {
+      newLogOff.quantity = 0
     }
     const descriptionNoti = ' created new request'
     const createdLogOff = await logOffRepositories.create(newLogOff)
@@ -68,6 +71,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
 
   if (logoffUpdateReq.status === RequestSTT.APPROVE) {
     newHistory.typelog = TypeHistory.APPROVE
+    newHistory.reason = logoffUpdateReq.reason
     newHistory.approval.push(userId)
 
     await logOffRepositories.addApproval(logOffId, userId)
@@ -126,7 +130,9 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     newHistory.quantity = logoffUpdateReq.quantity
     newHistory.approval = []
     newHistory.reason = logoffUpdateReq.reason
-
+    if (newHistory.contentlog === 'WFH') {
+      newHistory.quantity = 0
+    }
     userTo.concat(newHistory.masters)
     descriptionNoti = ' updated request'
 
