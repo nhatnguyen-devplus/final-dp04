@@ -1,7 +1,8 @@
 import ViewHeader from '@app/components/ViewHeader'
 import { createRequest } from '@app/redux/requests/actions'
 import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select, notification } from 'antd'
-import { useCallback, useEffect } from 'react'
+import moment from 'moment'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
@@ -19,6 +20,7 @@ const validateMessages = {
 const LogOffForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [from, setFrom] = useState(new Date() - 86400000)
   const { response, error } = useSelector((state) => state.requests)
   const createLogOff = useCallback((data) => dispatch(createRequest(data)), [dispatch])
   const { TextArea } = Input
@@ -34,6 +36,7 @@ const LogOffForm = () => {
 
   useEffect(() => {
     if (null !== response) {
+      console.log(response)
       if (response.status && 200 === response.status) {
         navigate('/client/requests')
       } else {
@@ -49,6 +52,7 @@ const LogOffForm = () => {
   }, [error])
 
   const onFinish = (values) => {
+    console.log(values)
     createLogOff({
       contentlog: values.type,
       logofffrom: values.from.format('YYYY-MM-DD'),
@@ -70,6 +74,7 @@ const LogOffForm = () => {
   const initialValues = {
     type: 'Off',
   }
+  console.log(from)
   return (
     <>
       {contextHolder}
@@ -119,7 +124,10 @@ const LogOffForm = () => {
                         },
                       ]}
                     >
-                      <DatePicker format="YYYY/MM/DD" />
+                      <DatePicker
+                        disabledDate={(current) => current.isBefore(moment().subtract(1, 'day'))}
+                        onChange={(e) => setFrom(e.format('YYYY-MM-DD'))}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -133,7 +141,7 @@ const LogOffForm = () => {
                         },
                       ]}
                     >
-                      <DatePicker format="YYYY/MM/DD" />
+                      <DatePicker disabledDate={(current) => current.isBefore(moment(from))} format="YYYY/MM/DD" />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -150,7 +158,7 @@ const LogOffForm = () => {
                         },
                       ]}
                     >
-                      <InputNumber placeholder={'Quantity'} style={{ width: '80%' }} />
+                      <InputNumber min="0" placeholder={'Quantity'} step="0.5" style={{ width: '80%' }} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
