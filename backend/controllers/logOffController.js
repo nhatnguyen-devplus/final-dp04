@@ -18,6 +18,11 @@ const create = async (req, res) => {
         message: err.details[0].message,
       })
     }
+    if (logOffCreateReq.logofffrom > logOffCreateReq.logoffto) return res.json(errors.ERROR_INPUT)
+
+    const from = new Date(logOffCreateReq.logofffrom)
+    const to = new Date(logOffCreateReq.logoffto)
+    if (logOffCreateReq.quantity > Math.ceil(to - from) / 86400000 + 1) return res.json(errors.ERROR_INPUT)
     const user = await userService.getOne(decode.data.id)
     let totalMaster = []
     const groups = await userGroupService.getByIds(user.groupsId)
@@ -172,8 +177,16 @@ const update = async (req, res) => {
 
     //User update change request(Cancel) && checkauth
     if (logoff.status === RequestSTT.CHANGE_REQUEST) {
+      if (logoffUpdateReq.logofffrom > logoffUpdateReq.logoffto) return res.json(errors.INVALID_DATA)
+
+      const from = new Date(logoffUpdateReq.logofffrom)
+      const to = new Date(logoffUpdateReq.logoffto)
+
+      if (logoffUpdateReq.quantity > Math.ceil(to - from) / 86400000 + 1) return res.json(errors.ERROR_INPUT)
+
       if (logoffUpdateReq.status !== RequestSTT.UPDATE && logoffUpdateReq.status !== RequestSTT.CANCEL)
         return res.json(errors.INVALID_DATA)
+
       if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
 
       if (logoffUpdateReq.status === RequestSTT.UPDATE) {
