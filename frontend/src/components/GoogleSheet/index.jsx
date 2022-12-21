@@ -19,7 +19,16 @@ const GoogleSheet = () => {
   const [form] = Form.useForm()
   const getGoogleSheet = useCallback((data) => dispatch(getDataSheet(data)), [dispatch])
   const dateFormat = 'YYYY/MM/DD'
-
+  const dataCSV = [
+    {
+      name: '',
+      from: '',
+      to: '',
+      reason: '',
+      quantity: '',
+      contentlog: '',
+    },
+  ]
   const [api, contextHolder] = notification.useNotification()
   const openNotificationWithIcon = (type, desc) => {
     api[type]({
@@ -49,6 +58,7 @@ const GoogleSheet = () => {
         openNotificationWithIcon('success', response.message)
         setIsInput('')
         form.resetFields()
+        console.log(data)
         if ('Download' === type) {
           csvLink.current.link.click()
         } else {
@@ -128,7 +138,7 @@ const GoogleSheet = () => {
                 <Form.Item>
                   <Button htmlType="submit" type="primary">
                     <CSVLink
-                      data={data || []}
+                      data={data && 0 < data.length ? data : dataCSV}
                       filename={'days-off.csv'}
                       ref={csvLink}
                       style={{ display: 'none' }}
