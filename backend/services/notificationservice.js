@@ -23,9 +23,10 @@ const update = async (notiId) => {
   const seen = {
     isSeen: true,
   }
-  const a = await NotificationRepositories.update(notiId, seen)
-  return a
+  return await NotificationRepositories.update(notiId, seen)
 }
+
+const updateByRequest = async (requestId, userId) => await NotificationRepositories.updateByRequest(requestId, userId)
 
 const getByUser = async (userId) => await NotificationRepositories.getByUser(userId)
 
@@ -34,4 +35,5 @@ export const notificationService = {
   getOne,
   update,
   getByUser,
+  updateByRequest,
 }

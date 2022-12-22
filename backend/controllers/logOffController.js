@@ -4,6 +4,7 @@ import { jwtService } from '../generals/jwt'
 import { logOffValidation } from '../validations'
 import { Helper, ResponseBase } from '../generals'
 import { logOffService, historyService, userService, userGroupService } from '../services'
+import { notificationService } from '../services/notificationservice'
 
 const create = async (req, res) => {
   const logOffCreateReq = req.body
@@ -114,6 +115,7 @@ const getOne = async (req, res) => {
     const user = await userService.getOne(decode.data.id)
     const logoff = await logOffService.getOne(logoffId)
 
+    await notificationService.updateByRequest(logoffId, user._id)
     if (logoff.masters.includes(user._id) || logoff.user._id.toString() === user._id.toString()) {
       return ResponseBase.responseJsonHandler(logoff, res, 'Get logoff')
     }
@@ -131,6 +133,7 @@ const update = async (req, res) => {
   const decode = jwtService.decodeToken(token.split(' ')[1])
   try {
     const user = await userService.getOne(decode.data.id)
+    await notificationService.updateByRequest(logoffId, user._id)
     let logoff
     try {
       logoff = await logOffService.getOne(logoffId)
