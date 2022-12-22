@@ -33,9 +33,9 @@ const create = async (requestLogOff, totalMaster, userId) => {
   }
 }
 
-const getListRequests = async (totalUser) => {
+const getListRequests = async (totalUser, reqDayFrom = null, reqDayTo = null) => {
   try {
-    const logOff = await logOffRepositories.getListRequests(totalUser)
+    const logOff = await logOffRepositories.getListRequests(totalUser, reqDayFrom, reqDayTo)
 
     return logOff
   } catch (error) {
@@ -139,7 +139,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
     newHistory.logofffrom = logoffUpdateReq.logofffrom
     newHistory.logoffto = logoffUpdateReq.logoffto
     newHistory.quantity = logoffUpdateReq.quantity
-    newHistory.approval = []
+    newHistory.approval = [userId]
     newHistory.reason = logoffUpdateReq.reason
     if (newHistory.contentlog === 'WFH') {
       newHistory.quantity = 0
@@ -153,7 +153,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
       logofffrom: logoffUpdateReq.logofffrom,
       quantity: logoffUpdateReq.quantity,
       reason: logoffUpdateReq.reason,
-      approval: [],
+      approval: [userId],
     }
   }
 

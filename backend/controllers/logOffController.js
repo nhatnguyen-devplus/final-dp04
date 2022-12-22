@@ -71,6 +71,8 @@ const checkDay = (data) => {
 
 const getListRequests = async (req, res) => {
   const token = req.headers.authorization
+  const reqDayFrom = req.query.dayfrom ? req.query.dayfrom : null
+  const reqDayTo = req.query.dayto ? req.query.dayto : null
 
   try {
     const decode = jwtService.decodeToken(token.split(' ')[1])
@@ -84,7 +86,7 @@ const getListRequests = async (req, res) => {
     if (totalUser.length === 0) {
       totalUser.push(user._id.toString())
     }
-    const listRequest = await logOffService.getListRequests(totalUser)
+    const listRequest = await logOffService.getListRequests(totalUser, reqDayFrom, reqDayTo)
     return ResponseBase.responseJsonHandler(listRequest, res, 'List request')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)
