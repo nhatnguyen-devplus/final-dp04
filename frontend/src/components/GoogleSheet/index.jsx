@@ -58,7 +58,6 @@ const GoogleSheet = () => {
         openNotificationWithIcon('success', response.message)
         setIsInput('')
         form.resetFields()
-        console.log(data)
         if ('Download' === type) {
           csvLink.current.link.click()
         } else {
@@ -89,7 +88,14 @@ const GoogleSheet = () => {
         >
           <Row>
             <Col span={12}>
-              <Form form={form} layout={'vertical'} onFinish={onFinish}>
+              <Form
+                form={form}
+                initialValues={{
+                  type: 'Download',
+                }}
+                layout={'vertical'}
+                onFinish={onFinish}
+              >
                 <Form.Item
                   label="Enter date:"
                   name={'date'}
@@ -113,11 +119,11 @@ const GoogleSheet = () => {
                   ]}
                 >
                   <Radio.Group>
-                    <Radio value="Link" onChange={() => setIsInput(true)}>
-                      Google Sheet
-                    </Radio>
                     <Radio value="Download" onChange={() => setIsInput(false)}>
                       CSV or Excel
+                    </Radio>
+                    <Radio value="Link" onChange={() => setIsInput(true)}>
+                      Google Sheet
                     </Radio>
                   </Radio.Group>
                 </Form.Item>
