@@ -4,13 +4,15 @@ import { NotificationRepositories } from '../repositories/notiRepositories'
 const createMany = async (userFrom, userTo, description, logOffId) => {
   const workspace = await workSpaceRepositories.getList()
   const data = userTo.map((item) => {
-    return {
-      from: userFrom,
-      to: item,
-      description: description,
-      logoff: logOffId,
-      hrchanel: workspace.hrchanel || null,
-      dayoffchanel: workspace.dayoffchanel || null,
+    if (item !== userFrom.toString()) {
+      return {
+        from: userFrom,
+        to: item,
+        description: description,
+        logoff: logOffId,
+        hrchanel: workspace.hrchanel || null,
+        dayoffchanel: workspace.dayoffchanel || null,
+      }
     }
   })
 
