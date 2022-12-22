@@ -18,7 +18,7 @@ const Daysoff = () => {
   return (
     <>
       <ViewHeader breadcrumbs={'Admin' === role ? BrDaysoffIndexAdmin : BrDaysoffIndexClient} />
-      <ListRequests listdata={dataList.reverse()} />
+      <ListRequests listdata={dataList ? dataList.reverse() : []} />
     </>
   )
 }
