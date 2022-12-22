@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 const Requests = () => {
   const { data, role } = useSelector((state) => state.login)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [status, setStatus] = useState()
   const { dataAll, response } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
   const allRequests = useCallback(() => dispatch(getAllRequests()), [dispatch])
@@ -142,6 +143,10 @@ const Requests = () => {
                       icon={<CheckOutlined />}
                       onClick={() => {
                         form.setFieldValue('status', 'Approve'), showModal(), setById(record._id)
+                        setStatus({
+                          action: 'Approve',
+                          color: 'success',
+                        })
                       }}
                     ></Button>
                   </Tooltip>
@@ -151,6 +156,10 @@ const Requests = () => {
                       icon={<UndoOutlined />}
                       onClick={() => {
                         form.setFieldValue('status', 'Change Request'), showModal(), setById(record._id)
+                        setStatus({
+                          action: 'Change Request',
+                          color: 'warning',
+                        })
                       }}
                     ></Button>
                   </Tooltip>
@@ -160,6 +169,10 @@ const Requests = () => {
                       icon={<CloseOutlined />}
                       onClick={() => {
                         form.setFieldValue('status', 'Reject'), showModal(), setById(record._id)
+                        setStatus({
+                          action: 'Reject',
+                          color: 'error',
+                        })
                       }}
                     ></Button>
                   </Tooltip>
@@ -175,7 +188,13 @@ const Requests = () => {
                       className="reject"
                       icon={<CloseOutlined />}
                       onClick={() => {
-                        form.setFieldValue('status', 'Cancel'), showModal(), setById(record._id)
+                        form.setFieldValue('status', 'Cancel'),
+                          showModal(),
+                          setById(record._id),
+                          setStatus({
+                            action: 'Cancel',
+                            color: 'default',
+                          })
                       }}
                     ></Button>
                   </Tooltip>
@@ -209,9 +228,20 @@ const Requests = () => {
       <Modal footer={''} open={isModalOpen} title="Type your comment:" onCancel={showModal}>
         <Form form={form} layout="vertical" name="form_in_modal" onFinish={onFinish}>
           <Form.Item name="status">
-            <Input readOnly style={{ border: 'none' }} />
+            <Tag color={status?.color}>{status?.action}</Tag>
+            <Input readOnly style={{ display: 'none' }} />
           </Form.Item>
-          <Form.Item name="comment">
+          <Form.Item
+            name="comment"
+            rules={
+              'Approve' !== status?.action && [
+                {
+                  required: true,
+                  message: 'Please type comment!',
+                },
+              ]
+            }
+          >
             <TextArea placeholder="Your comment" rows={4} />
           </Form.Item>
           <Form.Item>
