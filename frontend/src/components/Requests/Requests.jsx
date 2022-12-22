@@ -7,6 +7,7 @@ import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import './Requests.scss'
 
 const Requests = () => {
   const { data, role } = useSelector((state) => state.login)
@@ -84,15 +85,20 @@ const Requests = () => {
     {
       title: 'Day Off',
       dataIndex: 'logofffrom',
-      width: '17%',
+      width: '16%',
       render: (text, record) => (
         <p>{text === record.logoffto ? formatDate(text) : `${formatDate(text)} - ${formatDate(record.logoffto)}`}</p>
       ),
     },
     {
+      title: 'Type',
+      dataIndex: 'contentlog',
+      width: '3%',
+    },
+    {
       title: 'Quantity',
       dataIndex: 'quantity',
-      width: '5%',
+      width: '3%',
     },
     {
       title: 'Name',
@@ -102,6 +108,8 @@ const Requests = () => {
     {
       title: 'Reason',
       dataIndex: 'reason',
+      render: (text) => <p className="line-clamp-2">{text}</p>,
+      width: '20%',
     },
     {
       title: 'Status',
@@ -118,7 +126,7 @@ const Requests = () => {
     ,
     {
       title: 'Create At',
-      width: '13%',
+      width: '10%',
       dataIndex: 'createdAt',
       render: (text) => <p>{moment(text).format('YYYY-MM-DD')}</p>,
     },
@@ -131,7 +139,9 @@ const Requests = () => {
       render: (index, record) => (
         <>
           <Link to={`details/${record._id}`}>
-            <Button icon={<EyeOutlined />} type="primary"></Button>
+            <Tooltip placement="top" title="View">
+              <Button icon={<EyeOutlined />} type="primary"></Button>
+            </Tooltip>
           </Link>
           {record.user._id !== data._id ? (
             <>
@@ -181,7 +191,7 @@ const Requests = () => {
             </>
           ) : (
             <>
-              {0 === record.approval.length && 'Pending' === record.status ? (
+              {0 === record.approval.length && (
                 <>
                   <Tooltip placement="top" title="Cancel">
                     <Button
@@ -198,9 +208,6 @@ const Requests = () => {
                       }}
                     ></Button>
                   </Tooltip>
-                </>
-              ) : (
-                <>
                   <Link to={`change/${record._id}`}>
                     <Tooltip placement="top" title="Change">
                       <Button className="update" icon={<EditOutlined />}></Button>

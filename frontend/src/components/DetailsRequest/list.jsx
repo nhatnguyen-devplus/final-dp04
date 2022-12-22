@@ -2,6 +2,7 @@ import { EyeOutlined } from '@ant-design/icons'
 import { Button, Table, Tag } from 'antd'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
+import '@app/components/Requests/Requests.scss'
 
 const ListRequests = ({ listdata }) => {
   const formatDate = (date) => moment(date).format('YYYY-MM-DD')
@@ -30,11 +31,17 @@ const ListRequests = ({ listdata }) => {
     {
       title: 'Day Off',
       dataIndex: 'logofffrom',
-      width: '17%',
+      width: '16%',
       render: (text, record) => (
         <p>{text === record.logoffto ? formatDate(text) : `${formatDate(text)} - ${formatDate(record.logoffto)}`}</p>
       ),
     },
+    {
+      title: 'Type',
+      dataIndex: 'contentlog',
+      width: '3%',
+    },
+    ,
     {
       title: 'Quantity',
       dataIndex: 'quantity',
@@ -48,12 +55,14 @@ const ListRequests = ({ listdata }) => {
     {
       title: 'Reason',
       dataIndex: 'reason',
+      render: (text) => <p className="line-clamp-2">{text}</p>,
+      width: '20%',
     },
     {
       title: 'Status',
       dataIndex: 'status',
       width: '10%',
-      render: (text, record) => (
+      render: (text) => (
         <div className="status">
           <Tag color={switchColor(text)}>{text}</Tag>
         </div>
@@ -63,7 +72,7 @@ const ListRequests = ({ listdata }) => {
     {
       title: 'Create At',
       dataIndex: 'created_at',
-      width: '13%',
+      width: '10%',
       render: (text) => <p>{moment(text).format('YYYY-MM-DD')}</p>,
     },
     ,
@@ -82,7 +91,7 @@ const ListRequests = ({ listdata }) => {
     <Table
       bordered
       columns={columns}
-      dataSource={listdata ? listdata.reverse() : []}
+      dataSource={listdata ? listdata : []}
       footer={() => 'Click button to view details'}
       title={() => 'List of requests for for leave'}
     />

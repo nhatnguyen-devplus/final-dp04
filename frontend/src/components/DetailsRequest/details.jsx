@@ -32,12 +32,15 @@ const DetailsRequestLeftSide = ({ details, action }) => {
             {'Pending' === details.status && !details.approval.includes(data._id) && details.user._id !== data._id && (
               <RequestAction />
             )}
-            {'Change Request' === details.status && details.user._id === data._id && (
-              <Link to={`/client/requests/change/${details._id}`}>
-                <Tooltip placement="top" title="Change">
-                  <Button icon={<EditOutlined />} style={{ background: '#ffc107' }}></Button>
-                </Tooltip>
-              </Link>
+            {details.status && details.user._id === data._id && (
+              <>
+                <Text strong>Action:</Text>
+                <Link to={`/client/requests/change/${details._id}`}>
+                  <Tooltip placement="top" title="Change">
+                    <Button icon={<EditOutlined />} style={{ background: '#ffc107', color: 'white' }}></Button>
+                  </Tooltip>
+                </Link>
+              </>
             )}
           </>
         )
@@ -62,9 +65,6 @@ const DetailsRequestLeftSide = ({ details, action }) => {
               <Text strong>Status: </Text>
               <Tag color={switchColor(details.status)}> {details.status}</Tag>
             </Text>
-            <Text>
-              <Text strong>Reason:</Text> {details.reason}
-            </Text>
           </Space>
         </Col>
         <Col span={10}>
@@ -83,6 +83,11 @@ const DetailsRequestLeftSide = ({ details, action }) => {
       </Row>
       <Row style={{ marginTop: '10px' }}>
         <Col span={20}>
+          <Col span={18}>
+            <Text>
+              <Text strong>Reason:</Text> {details.reason}
+            </Text>
+          </Col>
           <Space direction="vertical">{switchAction(action)}</Space>
         </Col>
       </Row>

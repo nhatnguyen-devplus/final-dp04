@@ -71,7 +71,7 @@ const DayOffAction = () => {
         >
           <Form.Item name="status" style={{ display: 'none' }}></Form.Item>
           <Form.Item
-            name="reason"
+            name="comment"
             rules={[
               {
                 required: true,
