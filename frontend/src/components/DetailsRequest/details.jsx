@@ -35,7 +35,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
             {'Change Request' === details.status && details.user._id === data._id && (
               <Link to={`/client/requests/change/${details._id}`}>
                 <Tooltip placement="top" title="Change">
-                  <Button style={{ background: '#ffc107' }} icon={<EditOutlined />}></Button>
+                  <Button icon={<EditOutlined />} style={{ background: '#ffc107' }}></Button>
                 </Tooltip>
               </Link>
             )}

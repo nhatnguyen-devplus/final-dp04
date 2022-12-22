@@ -202,7 +202,7 @@ const Requests = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={0 < dataAll.length && dataAll}
+        dataSource={0 < dataAll.length ? dataAll.reverse() : []}
         footer={() => 'Click button to view details'}
         title={() => 'List of requests for for leave'}
       />
