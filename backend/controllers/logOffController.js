@@ -21,9 +21,7 @@ const create = async (req, res) => {
     }
     if (logOffCreateReq.logofffrom > logOffCreateReq.logoffto) return res.json(errors.ERROR_INPUT)
 
-    const from = new Date(logOffCreateReq.logofffrom)
-    const to = new Date(logOffCreateReq.logoffto)
-    if (logOffCreateReq.quantity > Math.ceil(to - from) / 86400000 + 1) return res.json(errors.ERROR_INPUT)
+    checkDay(logOffCreateReq)
     const user = await userService.getOne(decode.data.id)
 
     if (user.groupsId.length < 1) return res.json(errors.INVALID_DATA)
@@ -62,6 +60,13 @@ const checkDuplicate = (groups, userId) => {
     })
   })
   return totalUser
+}
+
+const checkDay = (data) => {
+  const from = new Date(data.logofffrom)
+  const to = new Date(data.logoffto)
+
+  if (data.quantity > Math.ceil(to - from) / 86400000 + 1) return res.json(errors.ERROR_INPUT)
 }
 
 const getListRequests = async (req, res) => {
@@ -156,7 +161,8 @@ const update = async (req, res) => {
         logoffUpdateReq.status !== RequestSTT.APPROVE &&
         logoffUpdateReq.status !== RequestSTT.REJECT &&
         logoffUpdateReq.status !== RequestSTT.CANCEL &&
-        logoffUpdateReq.status !== RequestSTT.CHANGE_REQUEST
+        logoffUpdateReq.status !== RequestSTT.CHANGE_REQUEST &&
+        logoffUpdateReq.status !== RequestSTT.UPDATE
       )
         return res.json(errors.INVALID_DATA)
       //Reject || Change Request need reason
@@ -178,6 +184,20 @@ const update = async (req, res) => {
         if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
 
         if (logoff.approval.length > 0) return res.json(errors.INVALID_DATA)
+      }
+
+      //Update logoff(CheckAuth)
+      if (logoffUpdateReq.status === RequestSTT.UPDATE) {
+        if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
+        try {
+          await logOffValidation.logOffReq.validateAsync(logoffUpdateReq)
+          checkDay(logoffUpdateReq)
+        } catch (err) {
+          return res.json({
+            status: 422,
+            message: err.details[0].message,
+          })
+        }
       }
     }
 
