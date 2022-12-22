@@ -20,6 +20,10 @@ const create = async (requestLogOff, totalMaster, userId) => {
     if (newLogOff.contentlog === 'WFH') {
       newLogOff.quantity = 0
     }
+
+    if (totalMaster.includes(userId.toString())) {
+      newLogOff.approval.push(userId)
+    }
     const descriptionNoti = ' created new request'
     const createdLogOff = await logOffRepositories.create(newLogOff)
     await notificationService.createMany(userId, totalMaster, descriptionNoti, createdLogOff._id)
