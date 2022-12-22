@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getUserById } from '@app/redux/members/actions'
 import { UserOutlined } from '@ant-design/icons'
 import { BrMembersDetailsAdmin, BrMembersDetailsClient } from '@app/components/Breadcrumbs/data'
+import moment from 'moment'
 
 const DetailsMember = () => {
   const { role } = useSelector((state) => state.login)
@@ -66,7 +67,7 @@ const DetailsMember = () => {
                       <Text strong>Role:</Text> {details.role}
                     </Text>
                     <Text>
-                      <Text strong>Create At:</Text> {details.createdAt}
+                      <Text strong>Create At:</Text> {moment(details.createdAt).format('YYYY-MM-DD')}
                     </Text>
                   </Space>
                 </Col>
