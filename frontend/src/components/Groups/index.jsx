@@ -126,7 +126,7 @@ const Groups = () => {
       <Table
         bordered
         columns={columns}
-        dataSource={dataList.reverse()}
+        dataSource={dataList ? dataList.reverse() : []}
         rowKey={'_id'}
         title={() => (
           <>

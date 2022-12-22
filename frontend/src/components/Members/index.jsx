@@ -112,7 +112,7 @@ const Members = () => {
           <Table
             bordered
             columns={columns}
-            dataSource={members.data.reverse()}
+            dataSource={members.data ? members.data.reverse() : []}
             rowKey={'_id'}
             title={() => (
               <>

@@ -82,7 +82,7 @@ const ListRequests = ({ listdata }) => {
     <Table
       bordered
       columns={columns}
-      dataSource={listdata.reverse()}
+      dataSource={listdata ? listdata.reverse() : []}
       footer={() => 'Click button to view details'}
       title={() => 'List of requests for for leave'}
     />
