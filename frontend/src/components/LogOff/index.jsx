@@ -36,7 +36,6 @@ const LogOffForm = () => {
 
   useEffect(() => {
     if (null !== response) {
-      console.log(response)
       if (response.status && 200 === response.status) {
         navigate('/client/requests')
       } else {
@@ -52,7 +51,6 @@ const LogOffForm = () => {
   }, [error])
 
   const onFinish = (values) => {
-    console.log(values)
     createLogOff({
       contentlog: values.type,
       logofffrom: values.from.format('YYYY-MM-DD'),
@@ -74,7 +72,7 @@ const LogOffForm = () => {
   const initialValues = {
     type: 'Off',
   }
-  console.log(from)
+
   return (
     <>
       {contextHolder}

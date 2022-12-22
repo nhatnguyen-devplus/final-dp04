@@ -1,10 +1,11 @@
 import { updateRequest } from '@app/redux/requests/actions'
 import { Button, Form, Input, notification, Select } from 'antd'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
 const RequestAction = () => {
+  const [status, setStatus] = useState(null)
   const navigate = useNavigate()
   const { TextArea } = Input
   const [form] = Form.useForm()
@@ -64,13 +65,25 @@ const RequestAction = () => {
           style={{
             width: 200,
           }}
+          onChange={(e) => setStatus(e)}
         >
           <Select.Option value="Approve">Approve</Select.Option>
           <Select.Option value="Reject">Reject</Select.Option>
-          <Select.Option value="Request Change">Request Change</Select.Option>
+          <Select.Option value="Change Request">Request Change</Select.Option>
         </Select>
       </Form.Item>
-      <Form.Item label="Description:" name="reason">
+      <Form.Item
+        label="Comment:"
+        name="comment"
+        rules={
+          'Approve' !== status && [
+            {
+              required: true,
+              message: 'Please Comment!',
+            },
+          ]
+        }
+      >
         <TextArea placeholder="Your comment" rows={4} />
       </Form.Item>
       <Form.Item>

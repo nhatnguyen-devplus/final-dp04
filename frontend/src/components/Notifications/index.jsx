@@ -26,6 +26,9 @@ const Notifications = () => {
     })
   }
 
+  const switchLink = (action) =>
+    'Approve' === action || 'Reject' === action || 'Cancel' === action ? 'daysoff' : 'requests'
+
   const handleSeen = (id) => {
     seenNoties(id)
   }
@@ -33,7 +36,7 @@ const Notifications = () => {
   useEffect(() => {
     if (response) {
       if (response.status && 200 === response.status) {
-        navigate(`requests/details/${response?.data?.logoff}`)
+        navigate(`${switchLink(response?.data?.logoff.status)}/details/${response?.data?.logoff._id}`)
       } else {
         openNotificationWithIcon('error', response.message)
       }
