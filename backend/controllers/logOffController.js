@@ -27,7 +27,7 @@ const create = async (req, res) => {
     const user = await userService.getOne(decode.data.id)
 
     if (user.groupsId.length < 1) return res.json(errors.INVALID_DATA)
-    
+
     let totalMaster = []
     const groups = await userGroupService.getByIds(user.groupsId)
 

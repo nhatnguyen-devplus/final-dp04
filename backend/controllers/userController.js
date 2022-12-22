@@ -50,6 +50,8 @@ const deleteUser = async (req, res) => {
 
     if (!user) return res.status(404).json(errors.NOT_FOUND)
 
+    if (user.groupsId.length < 1) return res.json(errors.INVALID_DATA)
+
     if (userId === userlogin._id.toString()) return res.json(errors.UNAUTHORIZE)
     await userService.deleteUser(userId)
 
