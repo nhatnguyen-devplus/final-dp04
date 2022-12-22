@@ -101,7 +101,7 @@ const EditProFile = () => {
                     validateMessages={validateMessages}
                     onFinish={onFinish}
                   >
-                    <Form.Item style={{ display: 'none' }} name={['_id']}></Form.Item>
+                    <Form.Item name={['_id']} style={{ display: 'none' }}></Form.Item>
                     <Row>
                       <Col span={12}>
                         <Form.Item

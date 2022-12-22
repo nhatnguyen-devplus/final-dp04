@@ -49,7 +49,7 @@ const Notifications = () => {
 
   const items =
     0 < noties?.length
-      ? noties.map((item, index) => ({
+      ? noties?.map((item, index) => ({
           label: (
             <Link onClick={() => handleSeen(item?._id)}>
               <Text strong>{item.from?.name}</Text>
