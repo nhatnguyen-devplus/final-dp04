@@ -25,6 +25,9 @@ const create = async (req, res) => {
     const to = new Date(logOffCreateReq.logoffto)
     if (logOffCreateReq.quantity > Math.ceil(to - from) / 86400000 + 1) return res.json(errors.ERROR_INPUT)
     const user = await userService.getOne(decode.data.id)
+
+    if (user.groupsId.length < 1) return res.json(errors.INVALID_DATA)
+    
     let totalMaster = []
     const groups = await userGroupService.getByIds(user.groupsId)
 
