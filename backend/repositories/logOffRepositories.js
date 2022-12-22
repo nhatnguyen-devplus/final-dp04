@@ -2,11 +2,27 @@ import { RequestLogOff } from '../schemas/requestLogOff'
 
 const create = (logOffCreateReq) => RequestLogOff.create(logOffCreateReq)
 
-const getListRequests = (totalUser) =>
-  RequestLogOff.find({ user: { $in: totalUser }, status: { $in: ['Pending', 'Change Request'] } }).populate([
-    'masters',
-    'user',
-  ])
+const getListRequests = (totalUser, reqDayFrom = null, reqDayTo = null, reqName = null) => {
+  let queryList = {
+    user: { $in: totalUser },
+    status: { $in: ['Pending', 'Change Request'] },
+  }
+  if (reqDayFrom) {
+    queryList = {
+      ...queryList,
+      logofffrom: { $gte: reqDayFrom },
+    }
+  }
+
+  if (reqDayTo) {
+    queryList = {
+      ...queryList,
+      logofffrom: { ...queryList.logofffrom, $lte: reqDayTo },
+    }
+  }
+
+  return RequestLogOff.find(queryList).populate(['masters', 'user'])
+}
 
 const getListDayOffs = (totalUser) =>
   RequestLogOff.find({ user: { $in: totalUser }, status: { $in: ['Reject', 'Approve', 'Cancel'] } }).populate([
