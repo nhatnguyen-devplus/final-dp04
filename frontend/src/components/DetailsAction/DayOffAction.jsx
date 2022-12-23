@@ -70,7 +70,7 @@ const DayOffAction = () => {
           onFinish={onFinish}
         >
           <Form.Item name="status" style={{ display: 'none' }}>
-            <Input type='hidden' />
+            <Input type="hidden" />
           </Form.Item>
           <Form.Item
             name="comment"
