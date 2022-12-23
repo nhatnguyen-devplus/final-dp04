@@ -125,7 +125,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   if (logoffUpdateReq.status === RequestSTT.CANCEL) {
     newHistory.typelog = TypeHistory.CANCEL
     newHistory.comment = logoffUpdateReq.comment
-    usetTo = userTo.concat(newHistory.masters)
+    userTo = userTo.concat(newHistory.masters)
     descriptionNoti = ' canceled request'
 
     changeSTT = {
