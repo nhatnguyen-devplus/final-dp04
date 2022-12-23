@@ -24,14 +24,51 @@ const getListRequests = (totalUser, reqDayFrom = null, reqDayTo = null, reqName 
   return RequestLogOff.find(queryList).populate(['masters', 'user'])
 }
 
-const getListDayOffs = (totalUser) =>
-  RequestLogOff.find({ user: { $in: totalUser }, status: { $in: ['Reject', 'Approve', 'Cancel'] } }).populate([
+const getListDayOffs = (totalUser, reqDayFrom = null, reqDayTo = null) =>{
+  let queryList = {
+    user: { $in: totalUser },
+    status: { $in: ['Reject', 'Approve', 'Cancel'] },
+  }
+  if (reqDayFrom) {
+    queryList = {
+      ...queryList,
+      logofffrom: { $gte: reqDayFrom },
+    }
+  }
+
+  if (reqDayTo) {
+    queryList = {
+      ...queryList,
+      logofffrom: { ...queryList.logofffrom, $lte: reqDayTo },
+    }
+  }
+
+  return RequestLogOff.find(queryList).populate([
     'masters',
     'user',
   ])
+}
 
-const getListByDay = (from, to) =>
-  RequestLogOff.find({ logofffrom: { $gte: from }, logofffrom: { $lte: to } }).populate('user')
+const getListByDay = (reqDayFrom = null, reqDayTo = null) =>{
+  let queryList = {
+    status: { $in: ['Approve'] },
+  }
+  if (reqDayFrom) {
+    queryList = {
+      ...queryList,
+      logofffrom: { $gte: reqDayFrom },
+    }
+  }
+
+  if (reqDayTo) {
+    queryList = {
+      ...queryList,
+      logofffrom: { ...queryList.logofffrom, $lte: reqDayTo },
+    }
+  }
+  
+  return RequestLogOff.find(queryList).populate('user')
+}
 
 const getOne = (logOffId) => RequestLogOff.findById(logOffId).populate('user')
 

@@ -95,7 +95,8 @@ const getListRequests = async (req, res) => {
 
 const getListDayOffs = async (req, res) => {
   const token = req.headers.authorization
-
+  const reqDayFrom = req.query?.from
+  const reqDayTo = req.query?.to
   try {
     const decode = jwtService.decodeToken(token.split(' ')[1])
 
@@ -108,7 +109,7 @@ const getListDayOffs = async (req, res) => {
     if (totalUser.length === 0) {
       totalUser.push(user._id.toString())
     }
-    const listDayOffs = await logOffService.getListDayOffs(totalUser)
+    const listDayOffs = await logOffService.getListDayOffs(totalUser, reqDayFrom, reqDayTo)
     return ResponseBase.responseJsonHandler(listDayOffs, res, 'List request')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)

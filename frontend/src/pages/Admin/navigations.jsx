@@ -42,10 +42,6 @@ export const navigations = [
             key: 'bc1',
             label: <Link to="broadcast/slack">Slack</Link>,
           },
-          {
-            key: 'bc2',
-            label: <Link to="sheet">Sheet</Link>,
-          },
         ],
       },
       {

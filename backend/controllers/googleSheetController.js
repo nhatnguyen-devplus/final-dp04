@@ -10,7 +10,7 @@ const PRIVATE_KEY = credentials.private_key
 
 const getGoogleSheet = async (req, res) => {
   const { from, to, type, spreadsheetId } = req.body
-  if (!from || !to || !type) return res.json(errors.ERROR_INPUT)
+  if (!type) return res.json(errors.ERROR_INPUT)
   const dayOffs = await logOffService.getListByDay(from, to)
   try {
     if (type === 'Download') {
@@ -26,7 +26,7 @@ const getGoogleSheet = async (req, res) => {
     await sheet.clear('A2:Z')
     let createSheet = dayOffs.map((item) => {
       return {
-        name: item.user.name,
+        name: item?.user?.name,
         from: moment(item.logofffrom).format('YYYY-MM-DD'),
         to: moment(item.logoffto).format('YYYY-MM-DD'),
         reason: item.reason,
