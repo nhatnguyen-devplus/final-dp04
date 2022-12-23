@@ -1,5 +1,5 @@
 import { errors } from '../constants'
-import { RequestSTT } from '../constants/enum'
+import { RequestSTT, Role } from '../constants/enum'
 import { jwtService } from '../generals/jwt'
 import { logOffValidation } from '../validations'
 import { Helper, ResponseBase } from '../generals'
@@ -81,11 +81,16 @@ const getListRequests = async (req, res) => {
 
     const groups = await userGroupService.getByIds(user.groupsId)
 
-    const totalUser = checkDuplicate(groups, user._id)
+    let totalUser = checkDuplicate(groups, user._id)
 
     if (totalUser.length === 0) {
       totalUser.push(user._id.toString())
     }
+
+    if (user.role === Role.ADMIN) {
+      totalUser = null
+    }
+
     const listRequest = await logOffService.getListRequests(totalUser, reqDayFrom, reqDayTo)
     return ResponseBase.responseJsonHandler(listRequest, res, 'List request')
   } catch (error) {
@@ -104,11 +109,16 @@ const getListDayOffs = async (req, res) => {
 
     const groups = await userGroupService.getByIds(user.groupsId)
 
-    const totalUser = checkDuplicate(groups, user._id)
+    let totalUser = checkDuplicate(groups, user._id)
 
     if (totalUser.length === 0) {
       totalUser.push(user._id.toString())
     }
+
+    if (user.role === Role.ADMIN) {
+      totalUser = null
+    }
+
     const listDayOffs = await logOffService.getListDayOffs(totalUser, reqDayFrom, reqDayTo)
     return ResponseBase.responseJsonHandler(listDayOffs, res, 'List request')
   } catch (error) {
@@ -232,7 +242,7 @@ const update = async (req, res) => {
 
     // Revert checkAuth, cancel logoff
     if (logoff.status === RequestSTT.APPROVE) {
-      if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
+      if (user.role === Role.ADMIN) return res.json(errors.FORBIDDEN)
       if (logoffUpdateReq.status !== RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
     }
 

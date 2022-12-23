@@ -174,5 +174,5 @@ export const logOffService = {
   update,
   getOne,
   getListDayOffs,
-  getListByDay,
+  getListByDay
 }

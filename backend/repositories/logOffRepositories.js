@@ -4,8 +4,43 @@ const create = (logOffCreateReq) => RequestLogOff.create(logOffCreateReq)
 
 const getListRequests = (totalUser, reqDayFrom = null, reqDayTo = null, reqName = null) => {
   let queryList = {
-    user: { $in: totalUser },
     status: { $in: ['Pending', 'Change Request'] },
+  }
+
+  if (totalUser) {
+    queryList = {
+      ...queryList,
+      user: { $in: totalUser },
+    }
+  }
+  
+  if (reqDayFrom) {
+    queryList = {
+      ...queryList,
+      logofffrom: { $gte: reqDayFrom },
+    }
+  }
+
+  if (reqDayTo) {
+    queryList = {
+      ...queryList,
+      logofffrom: { ...queryList.logofffrom, $lte: reqDayTo },
+    }
+  }
+
+  return RequestLogOff.find(queryList).populate(['masters', 'user'])
+}
+
+const getListDayOffs = (totalUser, reqDayFrom = null, reqDayTo = null) => {
+  let queryList = {
+    status: { $in: ['Reject', 'Approve', 'Cancel'] },
+  }
+
+  if (totalUser) {
+    queryList = {
+      ...queryList,
+      user: { $in: totalUser },
+    }
   }
   if (reqDayFrom) {
     queryList = {
@@ -24,32 +59,7 @@ const getListRequests = (totalUser, reqDayFrom = null, reqDayTo = null, reqName 
   return RequestLogOff.find(queryList).populate(['masters', 'user'])
 }
 
-const getListDayOffs = (totalUser, reqDayFrom = null, reqDayTo = null) =>{
-  let queryList = {
-    user: { $in: totalUser },
-    status: { $in: ['Reject', 'Approve', 'Cancel'] },
-  }
-  if (reqDayFrom) {
-    queryList = {
-      ...queryList,
-      logofffrom: { $gte: reqDayFrom },
-    }
-  }
-
-  if (reqDayTo) {
-    queryList = {
-      ...queryList,
-      logofffrom: { ...queryList.logofffrom, $lte: reqDayTo },
-    }
-  }
-
-  return RequestLogOff.find(queryList).populate([
-    'masters',
-    'user',
-  ])
-}
-
-const getListByDay = (reqDayFrom = null, reqDayTo = null) =>{
+const getListByDay = (reqDayFrom = null, reqDayTo = null) => {
   let queryList = {
     status: { $in: ['Approve'] },
   }
@@ -66,7 +76,7 @@ const getListByDay = (reqDayFrom = null, reqDayTo = null) =>{
       logofffrom: { ...queryList.logofffrom, $lte: reqDayTo },
     }
   }
-  
+
   return RequestLogOff.find(queryList).populate('user')
 }
 
