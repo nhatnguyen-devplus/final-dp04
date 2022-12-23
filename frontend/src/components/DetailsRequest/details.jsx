@@ -32,7 +32,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
             {'Pending' === details.status && !details.approval.includes(data._id) && details.user._id !== data._id && (
               <RequestAction />
             )}
-            {details.status && details.user._id === data._id && (
+            {details.status && details.user._id === data._id && 0 === details.approval.length && (
               <>
                 <Text strong>Action:</Text>
                 <Link to={`/client/requests/change/${details._id}`}>
@@ -50,48 +50,64 @@ const DetailsRequestLeftSide = ({ details, action }) => {
         ''
     }
   }
+
   return (
-    <Col span={12}>
-      <Row>
-        <Col span={10}>
-          <Space direction="vertical">
-            <Text>
-              <Text strong>Name: </Text> {details.user && details.user.name}
-            </Text>
-            <Text>
-              <Text strong>From: </Text> {moment(details.logofffrom).format('YYYY-MM-DD')}
-            </Text>
-            <Text>
-              <Text strong>Status: </Text>
-              <Tag color={switchColor(details.status)}> {details.status}</Tag>
-            </Text>
-          </Space>
+    <>
+      {details?.approval && (
+        <Col span={12}>
+          <Row>
+            <Col span={10}>
+              <Space direction="vertical">
+                <Text>
+                  <Text strong>Name: </Text> {details.user && details.user.name}
+                </Text>
+                <Text>
+                  <Text strong>From: </Text> {moment(details.logofffrom).format('YYYY-MM-DD')}
+                </Text>
+                <Text>
+                  <Text strong>Status: </Text>
+                  <Tag
+                    color={switchColor(
+                      0 < details.approval.length && 'Pending' === details.status ? `Approve` : details.status
+                    )}
+                  >
+                    {' '}
+                    {0 < details.approval.length && 'Pending' === details.status
+                      ? details.approval.length === details?.masters.length
+                        ? `Approval `
+                        : `Approval ${details.approval.length}/${details?.masters.length}`
+                      : details.status}{' '}
+                  </Tag>
+                </Text>
+              </Space>
+            </Col>
+            <Col span={10}>
+              <Space direction="vertical">
+                <Text>
+                  <Text strong>Type:</Text> {details.contentlog}
+                </Text>
+                <Text>
+                  <Text strong>To:</Text> {moment(details.logoffto).format('YYYY-MM-DD')}
+                </Text>
+                <Text>
+                  <Text strong>Quantity:</Text> {details.quantity}
+                </Text>
+              </Space>
+            </Col>
+          </Row>
+          <Row style={{ marginTop: '10px' }}>
+            <Col span={20}>
+              <Col span={18}>
+                <Text>
+                  <Text strong>Reason:</Text> {details.reason}
+                </Text>
+              </Col>
+              <Space direction="vertical">{switchAction(action)}</Space>
+            </Col>
+          </Row>
         </Col>
-        <Col span={10}>
-          <Space direction="vertical">
-            <Text>
-              <Text strong>Type:</Text> {details.contentlog}
-            </Text>
-            <Text>
-              <Text strong>To:</Text> {moment(details.logoffto).format('YYYY-MM-DD')}
-            </Text>
-            <Text>
-              <Text strong>Quantity:</Text> {details.quantity}
-            </Text>
-          </Space>
-        </Col>
-      </Row>
-      <Row style={{ marginTop: '10px' }}>
-        <Col span={20}>
-          <Col span={18}>
-            <Text>
-              <Text strong>Reason:</Text> {details.reason}
-            </Text>
-          </Col>
-          <Space direction="vertical">{switchAction(action)}</Space>
-        </Col>
-      </Row>
-    </Col>
+      )}
+    </>
   )
 }
 export default DetailsRequestLeftSide
