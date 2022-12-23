@@ -28,7 +28,7 @@ const notificationsReducer = (state = INITIAL_STATE, action) => {
     case GET_NOTIFICATIONS_SUCCESS:
       return {
         ...state,
-        data: action.payload,
+        data: action.payload ? action.payload.reverse() : [],
       }
 
     case GET_NOTIFICATIONS_FAILURE:

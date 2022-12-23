@@ -64,12 +64,14 @@ const DayOffAction = () => {
       <Modal footer={''} open={isModalOpen} title="Reason for revert:" onCancel={showModal}>
         <Form
           form={form}
-          initialValues={{ status: 'Revert' }}
+          initialValues={{ status: 'Cancel' }}
           layout="vertical"
           name="form_in_modal"
           onFinish={onFinish}
         >
-          <Form.Item name="status" style={{ display: 'none' }}></Form.Item>
+          <Form.Item name="status" style={{ display: 'none' }}>
+            <Input type='hidden' />
+          </Form.Item>
           <Form.Item
             name="comment"
             rules={[

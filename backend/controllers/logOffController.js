@@ -233,9 +233,7 @@ const update = async (req, res) => {
     // Revert checkAuth, cancel logoff
     if (logoff.status === RequestSTT.APPROVE) {
       if (user._id.toString() !== logoff.user._id.toString()) return res.json(errors.FORBIDDEN)
-      if (logoffUpdateReq !== RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
-
-      if (!logoffUpdateReq.status === RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
+      if (logoffUpdateReq.status !== RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
     }
 
     const newHistory = await logOffService.update(logoffId, user._id, logoffUpdateReq)

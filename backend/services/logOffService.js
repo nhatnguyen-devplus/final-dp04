@@ -125,25 +125,31 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   if (logoffUpdateReq.status === RequestSTT.CANCEL) {
     newHistory.typelog = TypeHistory.CANCEL
     newHistory.comment = logoffUpdateReq.comment
-    userTo.concat(newHistory.masters)
-    descriptionNoti = ' cancel request'
+    usetTo = userTo.concat(newHistory.masters)
+    descriptionNoti = ' canceled request'
 
     changeSTT = {
       status: RequestSTT.CANCEL,
+      comment: logoffUpdateReq.comment,
     }
   }
 
   if (logoffUpdateReq.status === RequestSTT.UPDATE) {
+    let newApproval = []
+    if (newHistory.masters.includes(logOff.user._id.toString())) {
+      newApproval.push(newHistory.user)
+    }
     newHistory.typelog = TypeHistory.UPDATE
     newHistory.logofffrom = logoffUpdateReq.logofffrom
     newHistory.logoffto = logoffUpdateReq.logoffto
     newHistory.quantity = logoffUpdateReq.quantity
-    newHistory.approval = [userId]
+    newHistory.approval = newApproval
     newHistory.reason = logoffUpdateReq.reason
     if (newHistory.contentlog === 'WFH') {
       newHistory.quantity = 0
     }
-    userTo.concat(newHistory.masters)
+    userTo = userTo.concat(newHistory.masters)
+
     descriptionNoti = ' updated request'
 
     changeSTT = {
@@ -152,7 +158,7 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
       logofffrom: logoffUpdateReq.logofffrom,
       quantity: logoffUpdateReq.quantity,
       reason: logoffUpdateReq.reason,
-      approval: [userId],
+      approval: newApproval,
     }
   }
 
