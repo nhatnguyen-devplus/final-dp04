@@ -23,14 +23,16 @@ const sheetReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: false,
-        data: action.payload.data.map((item) => ({
-          name: item.user?.name,
-          from: item.logofffrom,
-          to: item.logoffto,
-          reason: item.reason,
-          quantity: item.quantity,
-          contentlog: item.contentlog,
-        })),
+        data:
+          0 < action.payload.data.length &&
+          action.payload.data.map((item) => ({
+            name: item.user?.name,
+            from: item.logofffrom,
+            to: item.logoffto,
+            reason: item.reason,
+            quantity: item.quantity,
+            contentlog: item.contentlog,
+          })),
         response: action.payload,
       }
 

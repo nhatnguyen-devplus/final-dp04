@@ -43,10 +43,9 @@ const getListRequests = async (totalUser, reqDayFrom = null, reqDayTo = null) =>
   }
 }
 
-const getListDayOffs = async (totalUser) => {
+const getListDayOffs = async (totalUser, reqDayFrom = null, reqDayTo = null) => {
   try {
-    const dayOffs = await logOffRepositories.getListDayOffs(totalUser)
-
+    const dayOffs = await logOffRepositories.getListDayOffs(totalUser, reqDayFrom, reqDayTo)
     return dayOffs
   } catch (error) {
     throw error

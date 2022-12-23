@@ -9,16 +9,21 @@ const Daysoff = () => {
   const { role } = useSelector((state) => state.login)
   const { dataList } = useSelector((state) => state.daysOff)
   const dispatch = useDispatch()
-  const allDaysOff = useCallback(() => dispatch(getAllDaysOff()), [dispatch])
+  const allDaysOff = useCallback((data) => dispatch(getAllDaysOff(data)), [dispatch])
 
   useEffect(() => {
-    allDaysOff()
+    allDaysOff({
+      from: '',
+      to: '',
+    })
   }, [])
-
+  const filterDayOff = (value) => {
+    allDaysOff(value)
+  }
   return (
     <>
       <ViewHeader breadcrumbs={'Admin' === role ? BrDaysoffIndexAdmin : BrDaysoffIndexClient} />
-      <ListRequests listdata={dataList ? dataList.reverse() : []} />
+      <ListRequests filterData={(data) => filterDayOff(data)} listdata={dataList ? dataList.reverse() : []} />
     </>
   )
 }
