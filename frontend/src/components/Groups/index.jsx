@@ -3,14 +3,14 @@ import { DeleteOutlined, EyeOutlined } from '@ant-design/icons'
 import { BrGroupsIndexAdmin, BrGroupsIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllGroups, deleteGroup } from '@app/redux/groups/actions'
-import { Button, Table, Avatar, Modal, Tooltip, notification } from 'antd'
+import { Button, Table, Avatar, Modal, Tooltip, notification, Spin } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Groups = () => {
   const { role } = useSelector((state) => state.login)
-  const { dataList, response } = useSelector((state) => state.groups)
+  const { dataList, response, loading } = useSelector((state) => state.groups)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [del, setDel] = useState()
   const dispatch = useDispatch()
@@ -120,7 +120,7 @@ const Groups = () => {
   ]
 
   return (
-    <>
+    <Spin spinning={loading}>
       {contextHolder}
       <ViewHeader breadcrumbs={'Admin' === role ? BrGroupsIndexAdmin : BrGroupsIndexClient} />
       <Table
@@ -159,7 +159,7 @@ const Groups = () => {
       >
         <p>Do you want to delete this group? </p>
       </Modal>
-    </>
+    </Spin>
   )
 }
 

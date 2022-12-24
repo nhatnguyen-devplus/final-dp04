@@ -7,7 +7,7 @@ import {
   SearchOutlined,
 } from '@ant-design/icons'
 import { getDataSheet } from '@app/redux/sheet/actions'
-import { Button, DatePicker, Table, Tag, Form, Row, Col, Modal, Radio, Input, notification } from 'antd'
+import { Button, DatePicker, Table, Tag, Form, Row, Col, Modal, Radio, Input, notification, Spin } from 'antd'
 import moment from 'moment'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { CSVLink } from 'react-csv'
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom'
 import '@app/components/Requests/Requests.scss'
 
 const { RangePicker } = DatePicker
-const ListRequests = ({ listdata, filterData }) => {
+const ListRequests = ({ dayOffLoading, listdata, filterData }) => {
   const [formModal] = Form.useForm()
   const [from, setFrom] = useState()
   const [to, setTo] = useState()
@@ -25,7 +25,7 @@ const ListRequests = ({ listdata, filterData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [spreadsheetId, setSpreadsheetId] = useState()
   const { role } = useSelector((state) => state.login)
-  const { data, response, error } = useSelector((state) => state.sheet)
+  const { data, response, error, loading } = useSelector((state) => state.sheet)
   const dispatch = useDispatch()
   const getGoogleSheet = useCallback((data) => dispatch(getDataSheet(data)), [dispatch])
   const dateFormat = 'YYYY/MM/DD'
@@ -177,133 +177,137 @@ const ListRequests = ({ listdata, filterData }) => {
     }
   }, [error])
   return (
-    <Table
-      bordered
-      columns={columns}
-      dataSource={listdata ? (status ? listdata.filter((item) => item.status === status) : listdata) : []}
-      footer={() => 'Click button to view details'}
-      title={() => (
-        <Row>
-          {contextHolder}
-          <Col span={4}>
-            <span>List of requests for for leave</span>
-            <div style={{ display: 'flex', marginTop: '10px' }}>
-              <Button ghost type="primary" onClick={() => setStatus('')}>
-                All
-              </Button>
-              <Button
-                style={{ color: '#52c41a', borderColor: '#b7eb8f', marginLeft: '10px' }}
-                onClick={() => setStatus('Approve')}
-              >
-                <CheckCircleOutlined />
-                Approve
-              </Button>
-              <Button danger style={{ marginLeft: '10px' }} onClick={() => setStatus('Reject')}>
-                <CloseCircleOutlined />
-                Reject
-              </Button>
-              <Button style={{ marginLeft: '10px' }} onClick={() => setStatus('Cancel')}>
-                <ClockCircleOutlined />
-                Cancel
-              </Button>
-            </div>
-          </Col>
-          <Col offset={12} span={8} style={{ marginTop: '10px' }}>
-            <Form
-              initialValues={{
-                type: 'Download',
-              }}
-              layout={'vertical'}
-              style={{ display: 'flex' }}
-              onFinish={onFinish}
-            >
-              <Form.Item name={'date'}>
-                <RangePicker
-                  format={dateFormat}
-                  onChange={(e) => {
-                    setFrom(e[0].format(dateFormat))
-                    setTo(e[1].format(dateFormat))
-                  }}
-                />
-              </Form.Item>
-              <Form.Item></Form.Item>
-              <Button htmlType="submit" style={{ marginLeft: '2px' }} type="primary">
-                <SearchOutlined />
-              </Button>
-              {'Admin' === role && (
-                <Button style={{ marginLeft: '10px' }} onClick={() => setIsModalOpen(true)}>
-                  <DownloadOutlined />
+    <Spin spinning={dayOffLoading}>
+      <Table
+        bordered
+        columns={columns}
+        dataSource={listdata ? (status ? listdata.filter((item) => item.status === status) : listdata) : []}
+        footer={() => 'Click button to view details'}
+        title={() => (
+          <Row>
+            {contextHolder}
+            <Col span={4}>
+              <span>List of requests for for leave</span>
+              <div style={{ display: 'flex', marginTop: '10px' }}>
+                <Button ghost type="primary" onClick={() => setStatus('')}>
+                  All
                 </Button>
-              )}
-            </Form>
-          </Col>
-          <Modal
-            footer={false}
-            open={isModalOpen}
-            style={{
-              top: 150,
-            }}
-            title="Download"
-            onCancel={showModal}
-          >
-            <Form
-              form={formModal}
-              initialValues={{
-                type: 'Download',
-              }}
-              layout={'vertical'}
-              onFinish={onGoogleSheet}
-            >
-              <Form.Item
-                label="Choose"
-                name={'type'}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Cannot be left blank!',
-                  },
-                ]}
-              >
-                <Radio.Group>
-                  <Radio value="Download" onChange={() => setIsInput(false)}>
-                    CSV or Excel
-                  </Radio>
-                  <Radio value="Link" onChange={() => setIsInput(true)}>
-                    Google Sheet
-                  </Radio>
-                </Radio.Group>
-              </Form.Item>
-              {isInput && (
-                <Form.Item
-                  label="Google sheet link:"
-                  name="spreadsheetId"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Path cannot be empty!',
-                    },
-                  ]}
+                <Button
+                  style={{ color: '#52c41a', borderColor: '#b7eb8f', marginLeft: '10px' }}
+                  onClick={() => setStatus('Approve')}
                 >
-                  <Input />
-                </Form.Item>
-              )}
-              <Form.Item>
-                <Button htmlType="submit" type="primary">
-                  <CSVLink
-                    data={data && 0 < data.length ? data : dataCSV}
-                    filename={'days-off.csv'}
-                    ref={csvLink}
-                    style={{ display: 'none' }}
-                    target="_blank"
-                  />
-                  Submit
+                  <CheckCircleOutlined />
+                  Approve
                 </Button>
-              </Form.Item>
-            </Form>
-          </Modal>
-        </Row>
-      )}
-    />
+                <Button danger style={{ marginLeft: '10px' }} onClick={() => setStatus('Reject')}>
+                  <CloseCircleOutlined />
+                  Reject
+                </Button>
+                <Button style={{ marginLeft: '10px' }} onClick={() => setStatus('Cancel')}>
+                  <ClockCircleOutlined />
+                  Cancel
+                </Button>
+              </div>
+            </Col>
+            <Col offset={12} span={8} style={{ marginTop: '10px' }}>
+              <Form
+                initialValues={{
+                  type: 'Download',
+                }}
+                layout={'vertical'}
+                style={{ display: 'flex' }}
+                onFinish={onFinish}
+              >
+                <Form.Item name={'date'}>
+                  <RangePicker
+                    format={dateFormat}
+                    onChange={(e) => {
+                      setFrom(e[0].format(dateFormat))
+                      setTo(e[1].format(dateFormat))
+                    }}
+                  />
+                </Form.Item>
+                <Form.Item></Form.Item>
+                <Button htmlType="submit" style={{ marginLeft: '2px' }} type="primary">
+                  <SearchOutlined />
+                </Button>
+                {'Admin' === role && (
+                  <Button style={{ marginLeft: '10px' }} onClick={() => setIsModalOpen(true)}>
+                    <DownloadOutlined />
+                  </Button>
+                )}
+              </Form>
+            </Col>
+            <Modal
+              footer={false}
+              open={isModalOpen}
+              style={{
+                top: 150,
+              }}
+              title="Download"
+              onCancel={showModal}
+            >
+              <Spin spinning={loading}>
+                <Form
+                  form={formModal}
+                  initialValues={{
+                    type: 'Download',
+                  }}
+                  layout={'vertical'}
+                  onFinish={onGoogleSheet}
+                >
+                  <Form.Item
+                    label="Choose"
+                    name={'type'}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Cannot be left blank!',
+                      },
+                    ]}
+                  >
+                    <Radio.Group>
+                      <Radio value="Download" onChange={() => setIsInput(false)}>
+                        CSV or Excel
+                      </Radio>
+                      <Radio value="Link" onChange={() => setIsInput(true)}>
+                        Google Sheet
+                      </Radio>
+                    </Radio.Group>
+                  </Form.Item>
+                  {isInput && (
+                    <Form.Item
+                      label="Google sheet link:"
+                      name="spreadsheetId"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Path cannot be empty!',
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  )}
+                  <Form.Item>
+                    <Button htmlType="submit" type="primary">
+                      <CSVLink
+                        data={data && 0 < data.length ? data : dataCSV}
+                        filename={'days-off.csv'}
+                        ref={csvLink}
+                        style={{ display: 'none' }}
+                        target="_blank"
+                      />
+                      Submit
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Spin>
+            </Modal>
+          </Row>
+        )}
+      />
+    </Spin>
   )
 }
 export default ListRequests
