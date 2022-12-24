@@ -242,7 +242,7 @@ const update = async (req, res) => {
 
     // Revert checkAuth, cancel logoff
     if (logoff.status === RequestSTT.APPROVE) {
-      if (user.role === Role.ADMIN) return res.json(errors.FORBIDDEN)
+      if (user.role !== Role.ADMIN) return res.json(errors.FORBIDDEN)
       if (logoffUpdateReq.status !== RequestSTT.CANCEL) return res.json(errors.INVALID_DATA)
     }
 

@@ -6,7 +6,7 @@ import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 const DetailsRequestLeftSide = ({ details, action }) => {
-  const { data } = useSelector((state) => state.login)
+  const { data, role } = useSelector((state) => state.login)
   const { Text } = Typography
   const switchColor = (status) => {
     switch (status) {
@@ -45,7 +45,7 @@ const DetailsRequestLeftSide = ({ details, action }) => {
           </>
         )
       case 'dayoff':
-        return <>{details.user && details.user._id === data._id && 'Approve' === details.status && <DayOffAction />}</>
+        return <>{'Admin' === role && 'Approve' === details.status && <DayOffAction />}</>
       default:
         ''
     }

@@ -191,30 +191,26 @@ const Requests = () => {
             </>
           ) : (
             <>
-              {0 === record.approval.length && (
-                <>
-                  <Tooltip placement="top" title="Cancel">
-                    <Button
-                      className="reject"
-                      icon={<CloseOutlined />}
-                      onClick={() => {
-                        form.setFieldValue('status', 'Cancel'),
-                          showModal(),
-                          setById(record._id),
-                          setStatus({
-                            action: 'Cancel',
-                            color: 'default',
-                          })
-                      }}
-                    ></Button>
-                  </Tooltip>
-                  <Link to={`change/${record._id}`}>
-                    <Tooltip placement="top" title="Change">
-                      <Button className="update" icon={<EditOutlined />}></Button>
-                    </Tooltip>
-                  </Link>
-                </>
-              )}
+              <Link to={`change/${record._id}`}>
+                <Tooltip placement="top" title="Change">
+                  <Button className="update" icon={<EditOutlined />}></Button>
+                </Tooltip>
+              </Link>
+              <Tooltip placement="top" title="Cancel">
+                <Button
+                  className="reject"
+                  icon={<CloseOutlined />}
+                  onClick={() => {
+                    form.setFieldValue('status', 'Cancel'),
+                      showModal(),
+                      setById(record._id),
+                      setStatus({
+                        action: 'Cancel',
+                        color: 'default',
+                      })
+                  }}
+                ></Button>
+              </Tooltip>
             </>
           )}
         </>

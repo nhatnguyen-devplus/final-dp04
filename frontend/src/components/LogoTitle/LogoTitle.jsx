@@ -8,7 +8,7 @@ const items = [
   {
     label: <Link to="https://www.antgroup.com">ST United</Link>,
     key: '0',
-  }
+  },
 ]
 const LogoTitle = (props) => (
   <Dropdown
