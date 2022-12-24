@@ -1,6 +1,6 @@
 import ViewHeader from '@app/components/ViewHeader'
 import { createRequest } from '@app/redux/requests/actions'
-import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select, notification } from 'antd'
+import { Card, Row, Col, Button, Form, Input, InputNumber, Radio, DatePicker, Select, notification, Spin } from 'antd'
 import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,7 +21,7 @@ const LogOffForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [from, setFrom] = useState(new Date() - 86400000)
-  const { response, error } = useSelector((state) => state.requests)
+  const { response, error, loading } = useSelector((state) => state.requests)
   const createLogOff = useCallback((data) => dispatch(createRequest(data)), [dispatch])
   const { TextArea } = Input
   const [form] = Form.useForm()
@@ -74,7 +74,7 @@ const LogOffForm = () => {
   }
 
   return (
-    <>
+    <Spin spinning={loading}>
       {contextHolder}
       <ViewHeader breadcrumbs={breadcrumbs} />
       <div className="site-card-border-less-wrapper">
@@ -203,7 +203,7 @@ const LogOffForm = () => {
           </Row>
         </Card>
       </div>
-    </>
+    </Spin>
   )
 }
 export default LogOffForm

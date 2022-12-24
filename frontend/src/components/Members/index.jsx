@@ -2,7 +2,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined, UserOutlined }
 import { BrMembersIndexAdmin, BrMembersIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllUsers, deleteUser } from '@app/redux/members/actions'
-import { Table, Button, Avatar, Modal, notification } from 'antd'
+import { Table, Button, Avatar, Modal, notification, Spin } from 'antd'
 import { useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 const Members = () => {
   const { role } = useSelector((state) => state.login)
   const members = useSelector((state) => state.members.data)
-  const { response } = useSelector((state) => state.members)
+  const { response, loading } = useSelector((state) => state.members)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [del, setDel] = useState(null)
   const dispatch = useDispatch()
@@ -104,7 +104,7 @@ const Members = () => {
   ]
 
   return (
-    <>
+    <Spin spinning={loading}>
       {members && (
         <>
           <ViewHeader breadcrumbs={'Admin' === role ? BrMembersIndexAdmin : BrMembersIndexClient} />
@@ -145,7 +145,7 @@ const Members = () => {
           </Modal>
         </>
       )}
-    </>
+    </Spin>
   )
 }
 export default Members

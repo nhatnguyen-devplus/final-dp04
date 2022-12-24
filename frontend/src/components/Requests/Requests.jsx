@@ -2,7 +2,7 @@ import { CheckOutlined, CloseOutlined, EditOutlined, EyeOutlined, UndoOutlined }
 import { BrRequestsIndexAdmin, BrRequestsIndexClient } from '@app/components/Breadcrumbs/data'
 import ViewHeader from '@app/components/ViewHeader'
 import { getAllRequests, updateRequest } from '@app/redux/requests/actions'
-import { Button, Table, Modal, Input, Form, notification, Tooltip, Tag } from 'antd'
+import { Button, Table, Modal, Input, Form, notification, Tooltip, Tag, Spin } from 'antd'
 import moment from 'moment'
 import { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,7 +13,7 @@ const Requests = () => {
   const { data, role } = useSelector((state) => state.login)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [status, setStatus] = useState()
-  const { dataAll, response } = useSelector((state) => state.requests)
+  const { dataAll, response, loading } = useSelector((state) => state.requests)
   const dispatch = useDispatch()
   const allRequests = useCallback(() => dispatch(getAllRequests()), [dispatch])
   const updateReq = useCallback((data) => dispatch(updateRequest(data)), [dispatch])
@@ -220,48 +220,50 @@ const Requests = () => {
   return (
     <>
       {contextHolder}
-      <ViewHeader breadcrumbs={'Admin' === role ? BrRequestsIndexAdmin : BrRequestsIndexClient} />
-      <Table
-        bordered
-        columns={columns}
-        dataSource={0 < dataAll.length ? dataAll.reverse() : []}
-        footer={() => 'Click button to view details'}
-        title={() => 'List of requests for for leave'}
-      />
-      <Modal footer={''} open={isModalOpen} title="Type your comment:" onCancel={showModal}>
-        <Form form={form} layout="vertical" name="form_in_modal" onFinish={onFinish}>
-          <Form.Item name="status">
-            <Tag color={status?.color}>{status?.action}</Tag>
-            <Input readOnly style={{ display: 'none' }} />
-          </Form.Item>
-          <Form.Item
-            name="comment"
-            rules={
-              'Approve' !== status?.action && [
-                {
-                  required: true,
-                  message: 'Please type comment!',
-                },
-              ]
-            }
-          >
-            <TextArea placeholder="Your comment" rows={4} />
-          </Form.Item>
-          <Form.Item>
-            <Button htmlType="submit" type="primary">
-              Submit
-            </Button>
-            <Button
-              style={{
-                margin: '0 8px',
-              }}
-              onClick={showModal}
+      <Spin spinning={loading}>
+        <ViewHeader breadcrumbs={'Admin' === role ? BrRequestsIndexAdmin : BrRequestsIndexClient} />
+        <Table
+          bordered
+          columns={columns}
+          dataSource={0 < dataAll.length ? dataAll.reverse() : []}
+          footer={() => 'Click button to view details'}
+          title={() => 'List of requests for for leave'}
+        />
+        <Modal footer={''} open={isModalOpen} title="Type your comment:" onCancel={showModal}>
+          <Form form={form} layout="vertical" name="form_in_modal" onFinish={onFinish}>
+            <Form.Item name="status">
+              <Tag color={status?.color}>{status?.action}</Tag>
+              <Input readOnly style={{ display: 'none' }} />
+            </Form.Item>
+            <Form.Item
+              name="comment"
+              rules={
+                'Approve' !== status?.action && [
+                  {
+                    required: true,
+                    message: 'Please type comment!',
+                  },
+                ]
+              }
             >
-              Cancel
-            </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
+              <TextArea placeholder="Your comment" rows={4} />
+            </Form.Item>
+            <Form.Item>
+              <Button htmlType="submit" type="primary">
+                Submit
+              </Button>
+              <Button
+                style={{
+                  margin: '0 8px',
+                }}
+                onClick={showModal}
+              >
+                Cancel
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </Spin>
     </>
   )
 }

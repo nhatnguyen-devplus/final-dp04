@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const Daysoff = () => {
   const { role } = useSelector((state) => state.login)
-  const { dataList } = useSelector((state) => state.daysOff)
+  const { dataList, loading } = useSelector((state) => state.daysOff)
   const dispatch = useDispatch()
   const allDaysOff = useCallback((data) => dispatch(getAllDaysOff(data)), [dispatch])
 
@@ -23,7 +23,8 @@ const Daysoff = () => {
   return (
     <>
       <ViewHeader breadcrumbs={'Admin' === role ? BrDaysoffIndexAdmin : BrDaysoffIndexClient} />
-      <ListRequests filterData={(data) => filterDayOff(data)} listdata={dataList ? dataList.reverse() : []} />
+      <ListRequests dayOffLoading={loading} filterData={(data) => filterDayOff(data)} 
+      listdata={dataList ? dataList.reverse() : []} />
     </>
   )
 }

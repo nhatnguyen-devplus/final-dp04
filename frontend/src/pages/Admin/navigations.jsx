@@ -44,10 +44,6 @@ export const navigations = [
           },
         ],
       },
-      {
-        key: 'mng4',
-        label: <Link to="sync">Sync</Link>,
-      },
     ],
   },
 ]
