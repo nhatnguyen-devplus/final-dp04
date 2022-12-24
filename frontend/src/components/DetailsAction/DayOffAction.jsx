@@ -55,12 +55,14 @@ const DayOffAction = () => {
   return (
     <>
       {contextHolder}
+
       <Text strong>Action:</Text>
       <br></br>
       <br></br>
       <Tooltip placement="top" title="Revert">
         <Button icon={<UndoOutlined />} type="primary" onClick={showModal}></Button>
       </Tooltip>
+
       <Modal footer={''} open={isModalOpen} title="Reason for revert:" onCancel={showModal}>
         <Form
           form={form}
