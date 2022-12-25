@@ -32,6 +32,7 @@ const sheetReducer = (state = INITIAL_STATE, action) => {
             reason: item.reason,
             quantity: item.quantity,
             contentlog: item.contentlog,
+            status: item.status,
           })),
         response: action.payload,
       }

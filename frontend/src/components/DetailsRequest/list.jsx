@@ -31,7 +31,7 @@ const ListRequests = ({ dayOffLoading, listdata, filterData }) => {
   const dateFormat = 'YYYY/MM/DD'
   const formatDate = (date) => moment(date).format('YYYY-MM-DD')
   const csvLink = useRef()
-  const [status, setStatus] = useState()
+  const [status, setStatus] = useState('All')
   const dataCSV = [
     {
       name: '',
@@ -40,6 +40,7 @@ const ListRequests = ({ dayOffLoading, listdata, filterData }) => {
       reason: '',
       quantity: '',
       contentlog: '',
+      status: '',
     },
   ]
   const [api, contextHolder] = notification.useNotification()
@@ -138,14 +139,15 @@ const ListRequests = ({ dayOffLoading, listdata, filterData }) => {
   }
   const onFinish = (values) => {
     filterData({
-      from: values.date[0].format(dateFormat),
-      to: values.date[1].format(dateFormat),
+      from: values.date ? values.date[0].format(dateFormat) : '',
+      to: values.date ? values.date[1].format(dateFormat) : '',
     })
   }
   const onGoogleSheet = (values) => {
     const url = values?.spreadsheetId
     const capturedId = url && url.match(/\/d\/(.+)\//)
     getGoogleSheet({
+      status,
       from,
       to,
       type: values.type,
@@ -181,7 +183,9 @@ const ListRequests = ({ dayOffLoading, listdata, filterData }) => {
       <Table
         bordered
         columns={columns}
-        dataSource={listdata ? (status ? listdata.filter((item) => item.status === status) : listdata) : []}
+        dataSource={
+          listdata ? (status && 'All' !== status ? listdata.filter((item) => item.status === status) : listdata) : []
+        }
         footer={() => 'Click button to view details'}
         title={() => (
           <Row>
@@ -189,7 +193,7 @@ const ListRequests = ({ dayOffLoading, listdata, filterData }) => {
             <Col span={4}>
               <span>List of requests for for leave</span>
               <div style={{ display: 'flex', marginTop: '10px' }}>
-                <Button ghost type="primary" onClick={() => setStatus('')}>
+                <Button ghost type="primary" onClick={() => setStatus('All')}>
                   All
                 </Button>
                 <Button

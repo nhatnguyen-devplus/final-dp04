@@ -59,9 +59,17 @@ const getListDayOffs = (totalUser, reqDayFrom = null, reqDayTo = null) => {
   return RequestLogOff.find(queryList).populate(['masters', 'user'])
 }
 
-const getListByDay = (reqDayFrom = null, reqDayTo = null) => {
-  let queryList = {
-    status: { $in: ['Approve'] },
+const getListByDay = (reqDayFrom = null, reqDayTo = null, status = null) => {
+  let queryList = {}
+  if(status==='All'){
+    queryList = {
+      status: { $in: ['Reject', 'Approve', 'Cancel'] },
+    }
+  }
+  else{
+    queryList = {
+      status: { $in: [status] },
+    }
   }
   if (reqDayFrom) {
     queryList = {
