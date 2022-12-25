@@ -9,9 +9,9 @@ const CLIENT_EMAIL = process.env.SHEET_CLIENT_EMAIL
 const PRIVATE_KEY = credentials.private_key
 
 const getGoogleSheet = async (req, res) => {
-  const { from, to, type, spreadsheetId } = req.body
+  const { from, to, type, spreadsheetId, status } = req.body
   if (!type) return res.json(errors.ERROR_INPUT)
-  const dayOffs = await logOffService.getListByDay(from, to)
+  const dayOffs = await logOffService.getListByDay(from, to, status)
   try {
     if (type === 'Download') {
       return ResponseBase.responseJsonHandler(dayOffs, res, 'Get user')
@@ -32,6 +32,7 @@ const getGoogleSheet = async (req, res) => {
         reason: item.reason,
         quantity: item.quantity,
         contentlog: item.contentlog,
+        status: item.status,
       }
     })
     await sheet.addRows(createSheet)
