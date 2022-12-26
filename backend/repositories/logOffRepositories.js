@@ -13,7 +13,7 @@ const getListRequests = (totalUser, reqDayFrom = null, reqDayTo = null, reqName 
       user: { $in: totalUser },
     }
   }
-  
+
   if (reqDayFrom) {
     queryList = {
       ...queryList,
@@ -90,8 +90,10 @@ const getListByDay = (reqDayFrom = null, reqDayTo = null, status = null) => {
 
 const getOne = (logOffId) => RequestLogOff.findById(logOffId).populate('user')
 
-const addApproval = async (logOffId, userId) =>
-  await RequestLogOff.updateOne({ _id: logOffId }, { $addToSet: { approval: userId } })
+const getByUserIds = (userIds) => RequestLogOff.find({ user: { $in: userIds } }).select(['masters', 'approval'])
+
+const addApproval = (logOffId, userId) =>
+  RequestLogOff.updateOne({ _id: logOffId }, { $addToSet: { approval: userId } })
 
 const update = (logOffId, logOffUpdateReq) => RequestLogOff.findByIdAndUpdate(logOffId, logOffUpdateReq)
 
@@ -103,4 +105,5 @@ export const logOffRepositories = {
   update,
   getListDayOffs,
   getListByDay,
+  getByUserIds,
 }
