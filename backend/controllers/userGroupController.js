@@ -2,7 +2,7 @@ import { errors } from '../constants'
 import { Role } from '../constants/enum'
 import { Helper, ResponseBase } from '../generals'
 import { jwtService } from '../generals/jwt'
-import { userGroupService, userService } from '../services'
+import { logOffService, userGroupService, userService } from '../services'
 import { userGroupValidation } from '../validations'
 
 const getOne = async (req, res) => {
@@ -142,6 +142,8 @@ const updateUserGroup = async (req, res) => {
       newStaffs,
       newMasters
     )
+
+    logOffService.syncLogOff(userGroup.id, newMasters, mastersInGroup)
     return ResponseBase.responseJsonHandler(updatedUserGroup, res, 'Update group')
   } catch (error) {
     return Helper.responseJsonHandler(error, null, res)

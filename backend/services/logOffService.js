@@ -1,5 +1,5 @@
 import { RequestSTT, TypeHistory } from '../constants/enum'
-import { logOffRepositories } from '../repositories'
+import { logOffRepositories, userGroupRepositories } from '../repositories'
 import { historyService } from './historyService'
 import { notificationService } from './notificationservice'
 
@@ -24,6 +24,11 @@ const create = async (requestLogOff, totalMaster, userId) => {
     if (totalMaster.includes(userId.toString())) {
       newLogOff.approval.push(userId)
     }
+
+    if (newLogOff.approval.length === newLogOff.masters.length) {
+      newLogOff.status = RequestSTT.APPROVE
+    }
+
     const descriptionNoti = ' created new request'
     const createdLogOff = await logOffRepositories.create(newLogOff)
     await notificationService.createMany(userId, totalMaster, descriptionNoti, createdLogOff._id)
@@ -168,11 +173,70 @@ const update = async (logOffId, userId, logoffUpdateReq) => {
   return newHistory
 }
 
+const syncLogOff = async (groupId, newMasters, mastersInGroup) => {
+  try {
+    let addMasters = []
+    let removeMasters = []
+    newMasters.forEach((newMaster) => {
+      if (!mastersInGroup.includes(newMaster)) {
+        addMasters = [...addMasters, newMaster]
+      }
+    })
+
+    mastersInGroup.forEach((masterInGroup) => {
+      if (!newMasters.includes(masterInGroup)) {
+        removeMasters = [...removeMasters, masterInGroup]
+      }
+    })
+
+    const group = await userGroupRepositories.getOneNoPopulate(groupId)
+
+    const staffs = group.staffs.toString().split(',')
+    const masters = group.masters.toString().split(',')
+    const userIds = Array.from(new Set(staffs.concat(masters)))
+
+    const requests = await logOffRepositories.getByUserIds(userIds)
+
+    const newRequests = requests.map((request) => {
+      removeMasters.forEach((removeMaster) => {
+        if (!request.approval.includes(removeMaster)) {
+          request.approval.push(removeMaster)
+        }
+      })
+      addMasters.forEach((addMaster) => {
+        if (!request.masters.includes(addMaster)) {
+          request.masters.push(addMaster)
+        }
+      })
+      return request
+    })
+
+    await Promise.all(
+      newRequests.map(async (newRequest) => {
+        let dataUpdate = {
+          approval: newRequest.approval,
+          masters: newRequest.masters,
+        }
+        if (newRequest.approval.length === newRequest.masters.length) {
+          dataUpdate = {
+            ...dataUpdate,
+            status: RequestSTT.APPROVE,
+          }
+        }
+        return await logOffRepositories.update(newRequest._id, dataUpdate)
+      })
+    )
+  } catch (error) {
+    throw error
+  }
+}
+
 export const logOffService = {
   create,
   getListRequests,
   update,
   getOne,
   getListDayOffs,
-  getListByDay
+  getListByDay,
+  syncLogOff,
 }
