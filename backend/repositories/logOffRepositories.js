@@ -61,12 +61,11 @@ const getListDayOffs = (totalUser, reqDayFrom = null, reqDayTo = null) => {
 
 const getListByDay = (reqDayFrom = null, reqDayTo = null, status = null) => {
   let queryList = {}
-  if(status==='All'){
+  if (status === 'All') {
     queryList = {
       status: { $in: ['Reject', 'Approve', 'Cancel'] },
     }
-  }
-  else{
+  } else {
     queryList = {
       status: { $in: [status] },
     }

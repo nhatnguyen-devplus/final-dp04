@@ -12,4 +12,6 @@ AuthRouter.post('/login', multer().none(), (req, res) => {
   return authController.loginGG(req, res)
 })
 
+AuthRouter.post('/change-password', multer().none(), authController.changePassword)
+
 export default AuthRouter

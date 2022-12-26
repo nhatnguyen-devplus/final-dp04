@@ -7,6 +7,7 @@ import { jwtService } from '../generals/jwt'
 import { OAuth2Client } from 'google-auth-library'
 import { emailValidation } from '../validations'
 import { bcryptService } from '../generals/bcrypt'
+import { userService } from '../services'
 
 const client = new OAuth2Client(process.env.CLIENT_ID)
 const register = async (req, res) => {
@@ -49,6 +50,8 @@ const login = async (req, res) => {
     const correctPassword = await bcryptService.compare(password, user.password)
 
     if (!correctPassword) return res.json(errors.INCORRECT_PASSWORD_OR_EMAIL)
+
+    if (!user.isVerified) return res.json(errors.ISNOTVERIFIED)
 
     const newToken = await authService.login(user)
 
@@ -101,8 +104,29 @@ const loginGG = async (req, res) => {
   }
 }
 
+const changePassword = async (req, res) => {
+  const { email, oldPassword, newPassword } = req.body
+
+  if (!email || !oldPassword || !newPassword) return res.json(errors.INVALID_DATA)
+  try {
+    const user = await User.findOne({ email: email })
+
+    if (!user) return res.json(errors.NOT_FOUND)
+
+    const correctPassword = await bcryptService.compare(oldPassword, user.password)
+
+    if (!correctPassword) return res.json(errors.INCORRECT_PASSWORD_OR_EMAIL)
+    const updatedUser = await authService.updatePassword(user._id, newPassword)
+
+    return ResponseBase.responseJsonHandler(updatedUser, res, 'Change Password')
+  } catch (error) {
+    return Helper.responseJsonHandler(error, null, res)
+  }
+}
+
 export const authController = {
   register,
   login,
   loginGG,
+  changePassword,
 }

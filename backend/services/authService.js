@@ -1,21 +1,28 @@
 import { authRepositories } from '../repositories/authRepositories'
 import { bcryptService } from '../generals/bcrypt'
 import { jwtService } from '../generals/jwt'
+import { userRepositories } from '../repositories'
+import { mailerService } from '../generals/nodeMailer'
 
 const register = async (userCreateReq) => {
-  const newPassword = await bcryptService.hash(userCreateReq.password)
+  const { password, email, name } = userCreateReq
+
+  const newPassword = await bcryptService.hash(password)
 
   const newIDStaff = 'DEVPLUS' + userCreateReq.phone
 
   const newUser = {
-    name: userCreateReq.name,
+    name: name,
     phone: userCreateReq.phone,
-    email: userCreateReq.email,
+    email: email,
     password: newPassword,
     IDstaff: newIDStaff,
   }
+
   try {
     const createdUser = await authRepositories.register(newUser)
+
+    mailerService.sendVerifyMail(email, name, password)
 
     return createdUser
   } catch (error) {
@@ -73,10 +80,21 @@ const updateRefreshToken = async (userId, refreshToken) => {
   }
 }
 
+const updatePassword = async (userId, password) => {
+  console.log(password)
+  try {
+    const newPassword = await bcryptService.hash(password)
+    return await userRepositories.updateUser(userId, { password: newPassword, isVerified: true })
+  } catch (error) {
+    throw error
+  }
+}
+
 export const authService = {
   register,
   findByEmail,
   createByGG,
   login,
   updateRefreshToken,
+  updatePassword,
 }

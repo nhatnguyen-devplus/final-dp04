@@ -52,4 +52,9 @@ export default {
     status: '403',
     message: 'FORBIDDEN',
   },
+
+  ISNOTVERIFIED: {
+    status: '422',
+    message: 'IS NOT VERIFIED',
+  },
 }
