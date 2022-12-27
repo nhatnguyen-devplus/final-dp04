@@ -53,7 +53,7 @@ const LoginForm = ({ handleLogin }) => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <Link className="login-form-forgot" to="">
+        <Link className="login-form-forgot" to='/reset-password'>
           Forgot password
         </Link>
       </Form.Item>

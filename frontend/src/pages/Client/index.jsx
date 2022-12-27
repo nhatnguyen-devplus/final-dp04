@@ -6,17 +6,18 @@ import Groups from '@app/components/Groups'
 import DetailsGroups from '@app/components/Groups/details'
 import Layout from '@app/components/Layout/Layout'
 import LogOffForm from '@app/components/LogOff'
+import ChangeRequest from '@app/components/LogOff/change'
+import NotExist from '@app/components/NotFound/NotExist'
 import NotFound from '@app/components/NotFound/NotFound'
+import EditProFile from '@app/components/Profile/edit'
 import DetailsRequest from '@app/components/Requests/DetailsRequest'
 import Requests from '@app/components/Requests/Requests'
-import ChangeRequest from '@app/components/LogOff/change'
 
 // import { checkToken } from '@app/redux/login/services'
 import { getUserByToken } from '@app/redux/login/actions'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import EditProFile from '@app/components/Profile/edit'
 const Index = () => {
   const { isLoggedIn, loading, role } = useSelector((state) => state.login)
   const dispatch = useDispatch()
@@ -44,6 +45,7 @@ const Index = () => {
                 <Route element={<Groups />} path="groups" />
                 <Route element={<DetailsGroups />} path="groups/details/:id" />
                 <Route element={<EditProFile />} path="profile/edit" />
+                <Route element={<NotExist />} path="*" />
               </Routes>
             </Layout>
           ) : (

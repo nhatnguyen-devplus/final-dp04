@@ -22,6 +22,7 @@ import { getUserByToken } from '@app/redux/login/actions'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import NotExist from '@app/components/NotFound/NotExist'
 const Index = () => {
   const { isLoggedIn, loading, role } = useSelector((state) => state.login)
   const dispatch = useDispatch()
@@ -53,6 +54,7 @@ const Index = () => {
                 <Route element={<SlackChannels />} path="broadcast/slack" />
                 <Route element={<GoogleSheet />} path="/sheet" />
                 <Route element={<EditProFile />} path="profile/edit" />
+                <Route element={<NotExist />} path="*" />
               </Routes>
             </Layout>
           ) : (

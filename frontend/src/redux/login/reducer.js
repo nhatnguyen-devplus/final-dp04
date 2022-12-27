@@ -78,6 +78,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
         role: null,
+        response: null,
       }
     }
 

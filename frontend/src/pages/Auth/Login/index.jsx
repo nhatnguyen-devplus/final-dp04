@@ -7,13 +7,18 @@ import './Login.scss'
 import { gapi } from 'gapi-script'
 import { useSelector, useDispatch } from 'react-redux'
 import { getUserLogin, getUserByToken, getUserLoginGoogle } from '@app/redux/login/actions'
+import { useNavigate } from 'react-router-dom'
+import { postNewPassword } from '@app/redux/newPassword/actions'
 
 const LoginPage = () => {
+  const navigate = useNavigate()
   const { isLoggedIn, response } = useSelector((state) => state.login)
   const dispatch = useDispatch()
   const userLogin = useCallback((values) => dispatch(getUserLogin(values)), [dispatch])
   const userLoginGoogle = useCallback((isToken) => dispatch(getUserLoginGoogle(isToken)), [dispatch])
   const userByToken = useCallback(() => dispatch(getUserByToken()), [dispatch])
+  const newPassword = useCallback((values) => dispatch(postNewPassword(values)), [dispatch])
+
   const responseGoogle = (res) => {
     gapi.auth2.getAuthInstance().disconnect()
     userLoginGoogle(res.tokenId)
@@ -29,8 +34,11 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (response) {
-      if (response.status && 400 === response.status) {
+      if (response.status && '401' === response.status) {
         openNotificationWithIcon('error', 'Error: Your email input is incorrect')
+      }
+      if (response.status && '422' === response.status) {
+        navigate('/reset-password')
       }
     }
   }, [response])
@@ -43,6 +51,7 @@ const LoginPage = () => {
       })
     }
     gapi.load('client:auth2', start)
+    newPassword()
   }, [])
   useEffect(() => {
     userByToken()
