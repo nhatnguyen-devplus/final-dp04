@@ -27,6 +27,9 @@ const getList = async (req, res) => {
     let groups = []
     if (user.role !== Role.ADMIN) {
       groups = user.groupsId
+      if (groups.length === 0) {
+        groups = [null]
+      }
     }
     const listUserGroups = await userGroupService.getList(groups)
 
