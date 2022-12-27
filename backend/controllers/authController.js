@@ -89,6 +89,9 @@ const loginGG = async (req, res) => {
     if (!user) {
       user = await authService.createByGG(infoUser)
     }
+
+    if (!user.isVerified) return res.json(errors.ISNOTVERIFIED)
+
     const refreshToken = jwtService.generateToken({ id: user._id, role: user.role }, process.env.REFRESH_TOKEN_EXPIRE)
 
     await authService.updateRefreshToken(user._id, refreshToken)

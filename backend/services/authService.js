@@ -7,7 +7,9 @@ import { mailerService } from '../generals/nodeMailer'
 const register = async (userCreateReq) => {
   const { password, email, name } = userCreateReq
 
-  const newPassword = await bcryptService.hash(password)
+  const randomPassword = Math.floor(Math.random() * 1000000)
+
+  const newPassword = await bcryptService.hash(randomPassword.toString())
 
   const newIDStaff = 'DEVPLUS' + userCreateReq.phone
 
@@ -22,7 +24,7 @@ const register = async (userCreateReq) => {
   try {
     const createdUser = await authRepositories.register(newUser)
 
-    mailerService.sendVerifyMail(email, name, password)
+    mailerService.sendVerifyMail(email, name, randomPassword)
 
     return createdUser
   } catch (error) {
@@ -44,6 +46,7 @@ const createByGG = async (infoUser) => {
       email: infoUser.email,
       name: infoUser.name,
       avatar: infoUser.picture,
+      phone: null,
     }
 
     const createdUser = await authRepositories.register(newUser)
@@ -85,7 +88,7 @@ const updatePassword = async (userId, password) => {
     const newPassword = await bcryptService.hash(password)
     return await userRepositories.updateUser(userId, { password: newPassword, isVerified: true })
   } catch (error) {
-    throw error
+    throw error 
   }
 }
 
