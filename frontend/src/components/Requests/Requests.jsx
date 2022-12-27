@@ -103,7 +103,7 @@ const Requests = () => {
     {
       title: 'Name',
       dataIndex: 'user',
-      render: (text) => <Link to="">{text.name}</Link>,
+      render: (text) => <Link to="">{text?.name}</Link>,
     },
     {
       title: 'Reason',

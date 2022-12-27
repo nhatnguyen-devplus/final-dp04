@@ -81,7 +81,6 @@ const updateRefreshToken = async (userId, refreshToken) => {
 }
 
 const updatePassword = async (userId, password) => {
-  console.log(password)
   try {
     const newPassword = await bcryptService.hash(password)
     return await userRepositories.updateUser(userId, { password: newPassword, isVerified: true })

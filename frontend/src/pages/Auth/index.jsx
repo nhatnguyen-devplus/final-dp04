@@ -1,4 +1,5 @@
 import '@app/App.css'
+import NotExist from '@app/components/NotFound/NotExist'
 import { getUserByToken } from '@app/redux/login/actions'
 import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,6 +25,7 @@ const Auth = () => {
         <Routes>
           <Route element={<LoginPage />} path="login" />
           <Route element={<>Register</>} path="register" />
+          <Route element={<NotExist />} path="*" />
         </Routes>
       )}
     </>

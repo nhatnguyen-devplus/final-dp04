@@ -4,6 +4,7 @@ import groupsReducer from './groups/reducer'
 import historiesReducer from './histories/reducer'
 import loginReducer from './login/reducer'
 import membersReducer from './members/reducer'
+import newPasswordReducer from './newPassword/reducer'
 import notificationsReducer from './notifications/reducer'
 import requestsReducer from './requests/reducer'
 import sheetReducer from './sheet/reducer'
@@ -19,5 +20,6 @@ const rootReducer = combineReducers({
   notifications: notificationsReducer,
   sheet: sheetReducer,
   histories: historiesReducer,
+  newPassword: newPasswordReducer,
 })
 export default rootReducer
