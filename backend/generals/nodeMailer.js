@@ -24,18 +24,19 @@ const sendVerifyMail = async (to, name, password) => {
     <html>
     <head></head>
     <body>
-    Hello ${name} !<br>
+    <b>Wellcome to Log off system。 </b>
     <br>
-    Wellcome to Log off system。<br>
     <br>
-    Please change your password to log in and use app。<br>
+    Your account created by ADMIN, you can login system <a href = '${process.env.LINK_CHANGE_PASSWORD}'>HERE</a>    
+    <br>
+    <br>
     Your email and default password will be:<br>
+    <b>Email</b>: ${to} <br>
+    <b>Password</b>: ${password} 
+    Please change your password to log in and use app。
+    <br> <a href = '${process.env.LINK_CHANGE_PASSWORD}/reset-password'>Change Password</a>
     <br>
-    <b>email</b>: ${to} <br>
-    <b>password</b>: ${password} <br>
-    <br>
-    <a href = '${process.env.LINK_CHANGE_PASSWORD}/reset-password'>-->CLICK ME<--</a>
-    Thanks you so much !
+    <b>  Thanks you so much ! </b>
 
     <br>
     -----------------------------------------------------------------------------------------------------------<br>
