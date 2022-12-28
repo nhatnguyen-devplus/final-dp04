@@ -42,14 +42,20 @@ const findByEmail = async (email) => {
 
 const createByGG = async (infoUser) => {
   try {
+    const randomPassword = Math.floor(Math.random() * 1000000)
+
+    const newPassword = await bcryptService.hash(randomPassword.toString())
+
     const newUser = {
       email: infoUser.email,
       name: infoUser.name,
       avatar: infoUser.picture,
+      password: newPassword,
       phone: null,
     }
 
     const createdUser = await authRepositories.register(newUser)
+    mailerService.sendVerifyMail(infoUser.email, infoUser.name, randomPassword)
 
     return createdUser
   } catch (error) {
@@ -88,7 +94,7 @@ const updatePassword = async (userId, password) => {
     const newPassword = await bcryptService.hash(password)
     return await userRepositories.updateUser(userId, { password: newPassword, isVerified: true })
   } catch (error) {
-    throw error 
+    throw error
   }
 }
 
